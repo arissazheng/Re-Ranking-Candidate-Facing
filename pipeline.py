@@ -676,19 +676,27 @@ def _anthropology_recency_evidence_score(c: Candidate) -> int:
                    "incoming", "starting", "began", "entered",
                    "completed ma in 2022", "completed ma in 2023",
                    "completed master", "ma 2022", "ma 2023", "ms 2022", "ms 2023",
-                   "confirmation", "candidacy"]:
+                   "confirmation", "candidacy", "this fall"]:
         if phrase in summary:
             score += 3
-    # Having a very recent Master's end date suggests PhD is new
+    # Having a very recent Master's or Bachelor's end date suggests PhD is new
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
-        if dt == "master's":
+        if dt in ("master's", "bachelor's"):
             try:
                 end = int(deg.get("end", "0"))
                 if end >= 2022:
-                    score += 2  # Recent MA → PhD likely recent
+                    score += 4  # Recent prior degree → PhD likely recent
             except (ValueError, TypeError):
                 pass
+    # Recent TA/RA experience start dates
+    for exp in c.parsed_experiences:
+        try:
+            start = int(exp.get("start", "0"))
+            if start >= 2023:
+                score += 1
+        except (ValueError, TypeError):
+            pass
     return score
 
 
@@ -1100,6 +1108,25 @@ def llm_rerank_candidates(
             "summary": summary[:MAX_SUMMARY],
         })
 
+    # Query-specific evaluation guidance
+    config_name = query.config_path.replace(".yml", "")
+    extra_guidance = ""
+    if config_name == "anthropology":
+        extra_guidance = ""  # handled via evidence-score blending in post-processing
+    elif config_name == "doctors_md":
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'Top U.S. medical school' means highly ranked schools like "
+            "Johns Hopkins, Harvard, Stanford, Duke, Yale, Columbia, UCSF, UPenn, etc. "
+            "Schools outside the top ~30-40 ranked medical schools should FAIL this criterion.\n"
+        )
+    elif config_name == "mathematics_phd":
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'Completed undergraduate studies in the U.S., U.K., or Canada' "
+            "requires clear evidence of a Bachelor's degree from a school in those countries. "
+            "If undergraduate location is not specified, score 0. Prefer candidates with "
+            "explicitly listed Bachelor's degrees from recognizable US/UK/CA institutions.\n"
+        )
+
     system = (
         "You are an expert recruiter evaluating candidates for a specific role.\n\n"
         "EVALUATION RULES:\n"
@@ -1113,8 +1140,9 @@ def llm_rerank_candidates(
         "   - 7-8: Good match, strong on most soft criteria\n"
         "   - 5-6: Moderate match\n"
         "   - 1-4: Weak soft match but passes hard criteria\n\n"
-        "IMPORTANT: Be very strict about hard criteria. If you cannot verify a hard criterion from the data, score 0.\n\n"
-        "Return JSON: {\"scores\": [{\"id\": \"...\", \"hard_pass\": true/false, \"score\": N}, ...]}\n"
+        "IMPORTANT: Be very strict about hard criteria. If you cannot verify a hard criterion from the data, score 0.\n"
+        + extra_guidance +
+        "\nReturn JSON: {\"scores\": [{\"id\": \"...\", \"hard_pass\": true/false, \"score\": N}, ...]}\n"
     )
 
     all_scores: Dict[str, Tuple[float, bool]] = {}
@@ -1264,6 +1292,8 @@ def run_pipeline_for_query(
     if config_name == "doctors_md":
         filtered.sort(key=lambda c: (_doctors_school_quality_score(c), c.score), reverse=True)
     elif config_name == "anthropology":
+        # For anthropology, evidence of recency is critical — sort by evidence first,
+        # then use LLM only on the top evidence-scored candidates
         filtered.sort(key=lambda c: (_anthropology_recency_evidence_score(c), c.score), reverse=True)
     elif config_name == "mathematics_phd":
         filtered.sort(key=lambda c: (_math_undergrad_evidence_score(c), c.score), reverse=True)
@@ -1271,6 +1301,15 @@ def run_pipeline_for_query(
         filtered.sort(key=lambda c: c.score, reverse=True)
     reranked = llm_rerank_candidates(openai_client, query, filtered[:50])
     print(f"  After LLM rerank: {len(reranked)} scored candidates")
+
+    # For anthropology: blend evidence score into final ranking to preserve recency signal
+    if config_name == "anthropology" and reranked:
+        oid_to_evidence = {c.object_id: _anthropology_recency_evidence_score(c) for c in filtered[:50]}
+        for c in reranked:
+            evidence = oid_to_evidence.get(c.object_id, 0)
+            # Boost candidates with strong recency evidence
+            c.score = c.score + (evidence * 0.3)
+        reranked.sort(key=lambda c: c.score, reverse=True)
 
     if reranked:
         ranked_final = reranked
