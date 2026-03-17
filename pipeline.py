@@ -155,12 +155,15 @@ def retrieve_candidates(
 
     candidates: List[Candidate] = []
     for row in result.rows:
-        row_id = getattr(row, "id", None) or getattr(row, "_id", None) or row.get("_id")
+        # turbopuffer Row objects expose id, score, attributes
+        row_id = getattr(row, "id", None) or getattr(row, "_id", None)
         if not row_id:
             continue
-        score = getattr(row, "score", None) or row.get("score", 0.0)
-        data = row.attributes if hasattr(row, "attributes") else dict(row)
-        candidates.append(Candidate(object_id=str(row_id), score=float(score or 0.0), data=data))
+        score = getattr(row, "score", 0.0)
+        data = getattr(row, "attributes", {}) or {}
+        candidates.append(
+            Candidate(object_id=str(row_id), score=float(score or 0.0), data=data)
+        )
     return candidates
 
 
