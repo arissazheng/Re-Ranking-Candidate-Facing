@@ -1,0 +1,3 @@
+__pycache__/
+test_*.json
+results_v[0-9]*.json
