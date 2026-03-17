@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
@@ -146,12 +147,18 @@ def retrieve_candidates(
 
     tpuf_filters = build_tpuf_filters(structured_filters)
 
-    result = ns.query(
-        rank_by=("vector", "ANN", embeddings),
-        top_k=top_k,
-        include_attributes=True,
-        filters=tpuf_filters,
-    )
+    def _query(filters: Optional[List[Any]]) -> Any:
+        return ns.query(
+            rank_by=("vector", "ANN", embeddings),
+            top_k=top_k,
+            include_attributes=True,
+            filters=filters,
+        )
+
+    result = _query(tpuf_filters)
+    # If filters were too restrictive (or malformed relative to the data), retry without filters.
+    if (not getattr(result, "rows", None)) and tpuf_filters is not None:
+        result = _query(None)
 
     candidates: List[Candidate] = []
     for row in result.rows:
@@ -292,9 +299,23 @@ def call_evaluation_endpoint(
         "Content-Type": "application/json",
         "Authorization": auth_email,
     }
-    resp = requests.post(base_url, headers=headers, json=payload, timeout=60)
-    resp.raise_for_status()
-    return resp.json()
+    last_err: Optional[str] = None
+    for attempt in range(5):
+        try:
+            resp = requests.post(base_url, headers=headers, json=payload, timeout=60)
+            if resp.status_code >= 500:
+                last_err = f"{resp.status_code} {resp.text}"
+                time.sleep(1.5 * (2**attempt))
+                continue
+            resp.raise_for_status()
+            return resp.json()
+        except requests.RequestException as e:
+            last_err = str(e)
+            time.sleep(1.5 * (2**attempt))
+            continue
+    raise RuntimeError(
+        f"Evaluation endpoint failed after retries for config_path={config_path}. Last error: {last_err}"
+    )
 
 
 def run_pipeline_for_query(
@@ -317,17 +338,34 @@ def run_pipeline_for_query(
         voyage_client=voyage_client,
     )
 
+    # First pass: strict hard-criteria filter. If that eliminates everyone,
+    # fall back to using the initial ANN results so we can still submit.
     filtered_candidates = [
         c for c in initial_candidates if passes_hard_criteria_rule_based(c, query, structured_filters)
     ]
+    if not filtered_candidates:
+        filtered_candidates = list(initial_candidates)
 
     reranked = llm_rerank_candidates(openai_client, query, filtered_candidates)
-    top = reranked[:top_k_submit] if reranked else []
+
+    # If reranking somehow returns nothing, fall back to ANN scores.
+    ranked_for_submission: List[Candidate]
+    if reranked:
+        ranked_for_submission = reranked
+    else:
+        ranked_for_submission = sorted(filtered_candidates, key=lambda c: c.score, reverse=True)
+
+    top = ranked_for_submission[:top_k_submit] if ranked_for_submission else []
     top_ids = [c.object_id for c in top]
 
     eval_result: Optional[Dict[str, Any]] = None
+    eval_error: Optional[str] = None
     if submit and auth_email:
-        eval_result = call_evaluation_endpoint(query.config_path, top_ids, auth_email)
+        try:
+            eval_result = call_evaluation_endpoint(query.config_path, top_ids, auth_email)
+        except Exception as e:
+            # Do not crash the full 10-config run on intermittent server errors.
+            eval_error = str(e)
 
     return {
         "query_name": query.name,
@@ -338,6 +376,7 @@ def run_pipeline_for_query(
         "num_after_hard_filter": len(filtered_candidates),
         "top_ids": top_ids,
         "evaluation": eval_result,
+        "evaluation_error": eval_error,
     }
 
 
