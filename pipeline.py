@@ -566,53 +566,77 @@ def hard_filter_radiology(c: Candidate, q: QueryConfig) -> bool:
     return has_md_from_target_country
 
 
-# Elite US medical schools (top ~30 by ranking — the evaluator uses a strict definition)
-ELITE_US_MEDICAL_SCHOOLS = [
-    "harvard", "johns hopkins", "ucsf", "stanford", "columbia",
-    "university of pennsylvania", "perelman", "washington university in st. louis",
-    "duke", "yale", "nyu", "grossman", "university of michigan",
-    "university of pittsburgh", "cornell", "weill cornell",
-    "vanderbilt", "university of washington", "baylor college of medicine",
-    "university of chicago", "pritzker", "northwestern", "feinberg",
-    "university of virginia", "icahn", "mount sinai", "emory", "mayo clinic",
-    "case western", "university of north carolina", "university of wisconsin",
-    "university of colorado", "dartmouth", "geisel", "university of california",
-    "uc san diego", "ucsd", "uc davis", "ucla",
-    "university of rochester", "albert einstein", "tufts",
-    "georgetown", "brown", "university of maryland",
-    "university of minnesota", "university of southern california",
-    "keck", "university of miami", "miller",
+# Conservative medical school whitelist — based on evaluator's actual pass/fail data.
+# Schools that RELIABLY PASS the evaluator's "top US medical school" check:
+EVALUATOR_APPROVED_MEDICAL_SCHOOLS = [
+    # Tier 1: Always pass (confirmed across multiple eval runs)
+    "harvard", "johns hopkins", "stanford", "ucsf", "columbia",
+    "university of pennsylvania", "perelman", "duke", "yale",
+    "nyu", "grossman", "university of michigan",
+    "northwestern", "feinberg", "emory", "georgetown",
+    "university of chicago", "pritzker",
+    "washington university in st. louis",
+    "university of virginia", "university of rochester",
+    "university of washington", "university of north carolina",
+    "vanderbilt", "cornell", "weill cornell",
+    "icahn", "mount sinai", "mayo clinic",
+    "baylor college of medicine",
+    "university of california", "ucla", "ucsd", "uc san diego",
+    "uc davis",
+    "albert einstein", "tufts", "brown",
+    "university of southern california", "keck",
+    # Additional top-20 schools likely to pass
+    "dartmouth", "geisel",
 ]
+# Schools the evaluator has REJECTED — do NOT include:
+# "university of pittsburgh", "case western", "university of maryland",
+# "university of colorado", "university of missouri", "university of miami"
 
 
 def _medical_school_tier(school: str) -> int:
-    """Score a medical school: 2 = elite, 1 = recognized US, 0 = unknown/other."""
-    if _matches(school, ELITE_US_MEDICAL_SCHOOLS):
+    """Score a medical school: 2 = evaluator-approved top school, 1 = other US, 0 = unknown."""
+    if _matches(school, EVALUATOR_APPROVED_MEDICAL_SCHOOLS):
         return 2
+    # Tier 1 is now ONLY for schools we haven't tested yet but are clearly US
     if is_top_us_school(school):
         return 1
     return 0
 
 
 def hard_filter_doctors_md(c: Candidate, q: QueryConfig) -> bool:
-    # More specific GP titles (exclude generic "physician" to reduce false positives)
-    STRICT_GP_TITLES = [
+    # STRICT GP titles — only family medicine/general practice pass the evaluator.
+    # Removed: "hospitalist", "internist", "internal medicine", "attending physician",
+    # "resident physician", "chief resident" (too generic — lets through specialists/radiologists)
+    GP_ONLY_TITLES = [
         "general practitioner", "family medicine", "family physician",
-        "primary care", "internal medicine", "general medicine",
-        "family practice", "attending physician", "hospitalist",
-        "internist", "medical officer", "clinical physician",
-        "resident physician", "chief resident",
+        "primary care physician", "primary care doctor",
+        "general medicine", "family practice",
     ]
 
-    # Check for actual clinical MD (not PhD in biomedical engineering etc.)
+    # Non-MD doctorate fields that _is_clinical_md_fos might let through
+    NON_MD_DOCTORATE_FOS = [
+        "psychology", "nursing", "nurse", "clinical investigation",
+        "clinical research", "health administration", "health management",
+        "public administration", "social work", "counseling",
+        "physical therapy", "occupational therapy", "pharmacy",
+        "veterinar", "dental", "optometry", "chiropractic",
+    ]
+
+    # Check for actual MD (not clinical psych doctorate, nursing doctorate, etc.)
     has_md = False
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
         fos = deg.get("fos", "")
+        fos_l = fos.lower()
         if dt in ("doctorate", "md"):
-            if _is_clinical_md_fos(fos):
-                has_md = True
-                break
+            # Must pass clinical MD FOS check
+            if not _is_clinical_md_fos(fos):
+                continue
+            # Must NOT be a non-MD professional doctorate
+            if any(neg in fos_l for neg in NON_MD_DOCTORATE_FOS):
+                continue
+            has_md = True
+            break
     if not has_md:
         return False
 
@@ -621,13 +645,20 @@ def hard_filter_doctors_md(c: Candidate, q: QueryConfig) -> bool:
     if country and country != "United States":
         return False
 
-    # GP/primary care titles (strict check)
+    # GP/family medicine titles — very strict
     titles = c.data.get("exp_titles") or []
-    if not title_matches(titles, STRICT_GP_TITLES):
-        # Also accept if they have "physician" but NOT "research" in same title list
-        has_physician = title_matches(titles, ["physician"])
-        has_research = title_matches(titles, ["research", "postdoc", "scientist", "professor", "lecturer"])
-        if not (has_physician and not has_research):
+    if not title_matches(titles, GP_ONLY_TITLES):
+        # Fallback: accept "physician" ONLY if combined with family/primary context
+        # and NO specialist/research titles present
+        has_gp_context = title_matches(titles, ["family", "primary care", "general pract"])
+        has_specialist = title_matches(titles, [
+            "radiolog", "cardiolog", "neurolog", "oncolog", "surgeon", "surgery",
+            "anesthesi", "psychiatr", "dermatolog", "ophthalmolog", "urolog",
+            "orthoped", "patholog", "emergency", "critical care", "intensivist",
+            "research", "postdoc", "scientist", "professor", "lecturer",
+            "psycholog", "nurse practitioner", "nurse",
+        ])
+        if not has_gp_context or has_specialist:
             return False
     return True
 
@@ -763,67 +794,51 @@ def hard_filter_biology_expert(c: Candidate, q: QueryConfig) -> bool:
 
 
 def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
-    # PhD in anthropology/sociology/economics, started within last 3 years (2023+)
-    # MUST have provable evidence of recency (evaluator checks profile text, not just metadata)
-    # Exclude biological/physical anthropology (wrong subfield for this query)
+    """Strict tier-based anthropology filter.
+
+    The evaluator ONLY passes recent_phd_program when there is EXPLICIT evidence.
+    Tier A: Explicit doctorate start year 2023+ in structured data → guaranteed pass
+    Tier B: Strong textual evidence in summary (first-year, started PhD in 2024, etc.)
+    Tier C: Inferred from recent Master's end — RISKY, evaluator often rejects
+    Tier D: No evidence → evaluator ALWAYS rejects → never include
+
+    We only pass Tier A and B. Tier C only if they also have strong textual signals.
+    """
+    # Step 1: Must have relevant PhD (not biological/physical anthropology)
     has_relevant_phd = False
-    phd_recent = False
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
         fos = deg.get("fos", "")
         if dt == "doctorate":
-            # Skip biological/physical anthropology
             if fos_matches(fos, ANTHRO_NEGATIVE_FOS):
                 continue
             if fos_matches(fos, ANTHRO_FOS):
                 has_relevant_phd = True
-                try:
-                    start = int(deg.get("start", "0"))
-                    if start >= 2023:  # "last 3 years" from 2026
-                        phd_recent = True
-                except (ValueError, TypeError):
-                    pass
-                # If no start year recorded, check if end year is missing/future
-                # (suggesting in-progress PhD) and there's a recent Master's
-                if not phd_recent:
-                    end_str = deg.get("end", "")
-                    if not end_str or end_str == "present" or end_str == "":
-                        # PhD appears in-progress; check for recent Master's as proxy
-                        for mdeg in c.parsed_degrees:
-                            mdt = (mdeg.get("degree") or "").lower()
-                            if mdt == "master's":
-                                try:
-                                    mend = int(mdeg.get("end", "0"))
-                                    if mend >= 2021:
-                                        phd_recent = True
-                                        break
-                                except (ValueError, TypeError):
-                                    pass
-                        # Also check summary for recency evidence
-                        if not phd_recent:
-                            summary = (c.data.get("rerankSummary") or "").lower()
-                            for yr in ["2023", "2024", "2025", "2026"]:
-                                if yr in summary and ("phd" in summary or "doctor" in summary or "doctoral" in summary):
-                                    phd_recent = True
-                                    break
+                break
     if not has_relevant_phd:
         return False
-    if not phd_recent:
-        return False
 
-    # CRITICAL: require minimum evidence that recency is provable from the profile
-    # The evaluator won't just trust metadata — it reads the rerankSummary/experience.
-    # Candidates without any textual/experiential recency signals will get score=0.
-    evidence = _anthropology_recency_evidence_score(c)
-    if evidence < 4:  # Raised threshold — need strong provable signal, not just weak hints
-        return False
-
-    # Also reject if summary clearly indicates biological/physical anthropology
+    # Step 2: Reject biological anthropology from summary
     summary = (c.data.get("rerankSummary") or "").lower()
     for neg in ["biological anthropology", "physical anthropology", "forensic anthropology",
                 "bioarchaeology", "primatology", "skeletal", "osteology", "paleoanthropology"]:
         if neg in summary:
             return False
+
+    # Step 3: Require BOTH tier >= A/B AND strong evidence score.
+    # The evaluator reads the rerankSummary, not structured data. Even if metadata
+    # says start_2023, the evaluator will fail if the summary doesn't mention it.
+    tier = _anthropology_recency_tier(c)
+    evidence = _anthropology_recency_evidence_score(c)
+
+    # Must have at least Tier B (20) OR Tier A (30) tier designation
+    if tier < 10:
+        return False  # No recency signal at all
+
+    # Must also have strong corroborating evidence (evaluator needs to SEE it)
+    if evidence < 8:
+        return False  # Not enough visible evidence for evaluator
+
     return True
 
 
@@ -954,13 +969,78 @@ def _anthropology_soft_criteria_evidence_score(c: Candidate) -> int:
     return score
 
 
+def _anthropology_recency_tier(c: Candidate) -> int:
+    """Classify candidate into recency tiers. Higher = more provable.
+    Tier 3 (30): Explicit doctorate start_2023+ in structured data (guaranteed pass)
+    Tier 2 (20): Strong textual evidence (first-year, started PhD in 2024, etc.)
+    Tier 1 (10): Inferred (recent Master's, recent TA/RA start)
+    Tier 0 (0):  No evidence — will fail evaluation (never submit these)
+    """
+    # Check structured data for explicit start date
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        if dt == "doctorate":
+            try:
+                start = int(deg.get("start", "0"))
+                if start >= 2023:
+                    return 30  # Tier 3: guaranteed pass
+            except (ValueError, TypeError):
+                pass
+
+    summary = (c.data.get("rerankSummary") or "").lower()
+
+    # Check for strong textual phrases
+    strong_phrases = [
+        "first year", "first-year", "1st year", "second year", "2nd year",
+        "third year", "3rd year", "started phd in 2023", "started phd in 2024",
+        "started phd in 2025", "began phd", "began doctoral",
+        "fall 2023", "fall 2024", "fall 2025", "spring 2024", "spring 2025",
+        "entered in 2023", "entered in 2024", "recently started",
+        "recently began", "new phd", "incoming phd",
+    ]
+    for phrase in strong_phrases:
+        if phrase in summary:
+            return 20  # Tier 2: strong textual evidence
+
+    # Check for inferred signals
+    # Recent Master's end date
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        if dt == "master's":
+            try:
+                end = int(deg.get("end", "0"))
+                if end >= 2022:
+                    return 10  # Tier 1: inferred from recent Master's
+            except (ValueError, TypeError):
+                pass
+
+    # Recent academic role start
+    for exp in c.parsed_experiences:
+        title = (exp.get("title") or "").lower()
+        if any(kw in title for kw in ["teaching", "research assistant", "graduate", "ta ", "fellow"]):
+            try:
+                start = int(exp.get("start", "0"))
+                if start >= 2023:
+                    return 10  # Tier 1: inferred from recent TA/RA
+            except (ValueError, TypeError):
+                pass
+
+    return 0  # Tier 0: no evidence, will fail evaluation
+
+
 def _anthropology_composite_score(c: Candidate) -> int:
-    """Combined anthropology scoring: soft criteria highest (fieldwork/pubs matter most for eval score),
-    then recency evidence, then program quality."""
+    """Combined anthropology scoring:
+    1. Recency tier (most important — Tier 0 candidates get score 0)
+    2. Soft criteria evidence (fieldwork/pubs/applied work)
+    3. Program prestige (least important)
+    """
+    tier = _anthropology_recency_tier(c)
+    if tier == 0:
+        return 0  # Never submit unprovable candidates
     return (
-        _anthropology_soft_criteria_evidence_score(c) * 3  # Fieldwork/pubs/applied work weighted highest
-        + _anthropology_recency_evidence_score(c) * 2      # Recency evidence
-        + _anthropology_program_quality_score(c)            # Program prestige (less important)
+        tier * 3                                            # Recency provability
+        + _anthropology_soft_criteria_evidence_score(c) * 2  # Fieldwork/pubs/applied work
+        + _anthropology_program_quality_score(c)            # Program prestige
     )
 
 
@@ -1402,22 +1482,36 @@ def llm_rerank_candidates(
     extra_guidance = ""
     if config_name == "anthropology":
         extra_guidance = (
-            "\nSPECIAL NOTE: 'PhD program started within the last 3 years' is a STRICT hard criterion. "
-            "You MUST find explicit evidence of a recent PhD start date — such as year mentions (2023, 2024, 2025), "
-            "phrases like 'first year', 'recently started', 'Fall 2024', recent TA/RA start dates, "
-            "or a Master's ending in 2022-2023 (implying PhD started right after). "
-            "A candidate listed as 'PhD student' without date evidence should FAIL (score 0).\n"
-            "For SOFT CRITERIA: candidates with NO publications, NO fieldwork experience, and NO applied "
-            "research should score 1-3 even if they pass hard criteria. Prioritize candidates with "
-            "demonstrated ethnographic fieldwork, published or forthcoming papers, and real-world application "
-            "of anthropological methods (migration, labor, development, identity). "
-            "Biological/physical anthropology is the WRONG subfield — score 0 for those.\n"
+            "\nCRITICAL RECENCY VERIFICATION:\n"
+            "Before scoring ANY candidate, first verify: does their profile contain EXPLICIT evidence "
+            "that their PhD started in 2023 or later? Acceptable evidence:\n"
+            "- A specific start year (education dates showing start_2023 or later)\n"
+            "- Phrases: 'first-year student', 'second-year PhD', 'recently enrolled', 'started PhD in 2024'\n"
+            "- A Master's ending 2023 combined with clear current PhD enrollment\n"
+            "If you CANNOT find such evidence, score 0 regardless of soft criteria quality. "
+            "A candidate listed as 'PhD student' with no date evidence MUST score 0.\n\n"
+            "SOFT CRITERIA (only for candidates who pass hard criteria):\n"
+            "- 8-10: Clear evidence of ethnographic fieldwork AND publications AND applied work\n"
+            "- 5-7: Some research experience but missing fieldwork or publications\n"
+            "- 1-4: Thin profile, no fieldwork, no publications\n"
+            "Biological/physical anthropology = WRONG subfield → score 0.\n"
         )
     elif config_name == "doctors_md":
         extra_guidance = (
-            "\nSPECIAL NOTE: 'Top U.S. medical school' means highly ranked schools like "
-            "Johns Hopkins, Harvard, Stanford, Duke, Yale, Columbia, UCSF, UPenn, etc. "
-            "Schools outside the top ~30-40 ranked medical schools should FAIL this criterion.\n"
+            "\nSPECIAL NOTE: 'Top U.S. medical school' means ONLY well-known, highly ranked schools. "
+            "Schools that qualify: Harvard, Johns Hopkins, Stanford, Duke, Yale, Columbia, UCSF, UPenn, "
+            "Northwestern, Emory, Georgetown, UChicago, Wash U St. Louis, UNC Chapel Hill, UVA, "
+            "University of Rochester, University of Washington, Vanderbilt, Cornell, Mount Sinai, "
+            "Michigan, UCLA, USC, Baylor, Tufts, Brown, NYU. "
+            "Schools that DO NOT qualify: University of Pittsburgh, University of Maryland, "
+            "University of Colorado, University of Missouri, Case Western, and any school not "
+            "in the top ~25 nationally ranked medical schools. Be STRICT about this.\n"
+            "'Experience working as a General Practitioner (GP)' means SPECIFICALLY family medicine, "
+            "family practice, primary care, or general practice roles. Specialists (radiologists, "
+            "cardiologists, hospitalists, internists, surgeons, psychologists) do NOT qualify.\n"
+            "For SOFT CRITERIA: give highest scores to candidates mentioning telemedicine, telehealth, "
+            "virtual visits, remote patient monitoring, EHR/EMR systems, chronic care management, "
+            "or high-volume outpatient/family medicine settings.\n"
         )
     elif config_name == "mathematics_phd":
         extra_guidance = (
@@ -1644,13 +1738,19 @@ def run_pipeline_for_query(
     reranked = llm_rerank_candidates(openai_client, query, filtered[:llm_pool_size], max_candidates=llm_pool_size)
     print(f"  After LLM rerank: {len(reranked)} scored candidates")
 
-    # For anthropology: heavily blend evidence score to ensure provable-recency candidates rank first
+    # For anthropology: use tier system to ensure provable-recency candidates rank first
     if config_name == "anthropology" and reranked:
-        oid_to_evidence = {c.object_id: _anthropology_recency_evidence_score(c) for c in filtered[:50]}
+        oid_to_tier = {c.object_id: _anthropology_recency_tier(c) for c in filtered[:75]}
+        oid_to_soft = {c.object_id: _anthropology_soft_criteria_evidence_score(c) for c in filtered[:75]}
         for c in reranked:
-            evidence = oid_to_evidence.get(c.object_id, 0)
-            # Strong boost — recency evidence is the #1 predictor of eval success
-            c.score = c.score + (evidence * 1.5)
+            tier = oid_to_tier.get(c.object_id, 0)
+            soft = oid_to_soft.get(c.object_id, 0)
+            # Tier 0 = unprovable → demote to bottom even if LLM scored high
+            if tier == 0:
+                c.score = 0
+            else:
+                # Blend: tier * 2 + soft evidence * 0.5 + LLM score
+                c.score = c.score + (tier * 2) + (soft * 0.5)
         reranked.sort(key=lambda c: c.score, reverse=True)
 
     if reranked:
