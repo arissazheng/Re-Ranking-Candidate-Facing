@@ -295,6 +295,13 @@ ANTHRO_FOS = [
     "international development", "public policy",
 ]
 
+# Subfields that match ANTHRO_FOS but are wrong for this query (biological not cultural/social)
+ANTHRO_NEGATIVE_FOS = [
+    "biological anthropology", "physical anthropology",
+    "forensic anthropology", "bioarchaeology", "primatology",
+    "skeletal biology", "osteology", "paleoanthropology",
+]
+
 # Top programs for anthropology / sociology / social sciences (US + global elite)
 TOP_ANTHRO_PROGRAMS = [
     # US elite anthropology/sociology departments
@@ -741,33 +748,33 @@ def hard_filter_biology_expert(c: Candidate, q: QueryConfig) -> bool:
     if not has_bio_phd_us:
         return False
 
-    # Undergrad in US/UK/CA
-    has_undergrad = False
+    # Undergrad in US/UK/CA — STRICT check, no relaxed fallback.
+    # The evaluator will FAIL candidates whose undergrad location is unspecified
+    # or from outside US/UK/CA (Mexico, New Zealand, etc.).
+    has_confirmed_undergrad = False
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
         school = deg.get("school", "")
-        if dt == "bachelor's" and is_us_uk_ca_school(school):
-            has_undergrad = True
-            break
-    if not has_undergrad:
-        # Relaxed: any degree from US/UK/CA (some profiles may not list bachelor's explicitly)
-        for deg in c.parsed_degrees:
-            school = deg.get("school", "")
+        if dt == "bachelor's":
             if is_us_uk_ca_school(school):
-                has_undergrad = True
-                break
-    return has_undergrad
+                has_confirmed_undergrad = True
+            break  # Found bachelor's — decision made either way
+    return has_confirmed_undergrad
 
 
 def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
     # PhD in anthropology/sociology/economics, started within last 3 years (2023+)
     # MUST have provable evidence of recency (evaluator checks profile text, not just metadata)
+    # Exclude biological/physical anthropology (wrong subfield for this query)
     has_relevant_phd = False
     phd_recent = False
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
         fos = deg.get("fos", "")
         if dt == "doctorate":
+            # Skip biological/physical anthropology
+            if fos_matches(fos, ANTHRO_NEGATIVE_FOS):
+                continue
             if fos_matches(fos, ANTHRO_FOS):
                 has_relevant_phd = True
                 try:
@@ -808,8 +815,15 @@ def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
     # The evaluator won't just trust metadata — it reads the rerankSummary/experience.
     # Candidates without any textual/experiential recency signals will get score=0.
     evidence = _anthropology_recency_evidence_score(c)
-    if evidence < 2:
+    if evidence < 4:  # Raised threshold — need strong provable signal, not just weak hints
         return False
+
+    # Also reject if summary clearly indicates biological/physical anthropology
+    summary = (c.data.get("rerankSummary") or "").lower()
+    for neg in ["biological anthropology", "physical anthropology", "forensic anthropology",
+                "bioarchaeology", "primatology", "skeletal", "osteology", "paleoanthropology"]:
+        if neg in summary:
+            return False
     return True
 
 
@@ -941,11 +955,12 @@ def _anthropology_soft_criteria_evidence_score(c: Candidate) -> int:
 
 
 def _anthropology_composite_score(c: Candidate) -> int:
-    """Combined anthropology scoring: program quality + recency + soft criteria signals."""
+    """Combined anthropology scoring: soft criteria highest (fieldwork/pubs matter most for eval score),
+    then recency evidence, then program quality."""
     return (
-        _anthropology_program_quality_score(c) * 3   # Program prestige weighted highest
-        + _anthropology_recency_evidence_score(c) * 2  # Recency evidence
-        + _anthropology_soft_criteria_evidence_score(c)  # Soft criteria signals
+        _anthropology_soft_criteria_evidence_score(c) * 3  # Fieldwork/pubs/applied work weighted highest
+        + _anthropology_recency_evidence_score(c) * 2      # Recency evidence
+        + _anthropology_program_quality_score(c)            # Program prestige (less important)
     )
 
 
@@ -1132,8 +1147,9 @@ def get_retrieval_strategy(query: QueryConfig) -> RetrievalStrategy:
                 "PhD student in anthropology at top US university, focused on labor migration and cultural identity, ethnographic fieldwork, qualitative research methods, published papers on sociological and anthropological topics",
                 "Doctoral researcher in anthropology sociology or economics with recent PhD enrollment started 2023 2024 2025, expertise in ethnographic methods fieldwork cultural social economic systems, academic publications",
                 "First-year or second-year PhD student in sociology anthropology economics, recently started doctoral program, teaching assistant research assistant, ethnographic fieldwork cultural studies",
-                "Early-career PhD candidate in social sciences at distinguished university, research on development economics political economy human geography, mixed methods qualitative fieldwork participant observation",
-                "Anthropology PhD student researching migration labor culture identity at leading research university, dissertation fieldwork ethnography qualitative interviews case studies, conference papers journal articles",
+                "PhD researcher studying labor migration ethnographic fieldwork published peer-reviewed papers qualitative interviews participant observation mixed methods",
+                "Sociology doctoral candidate researching cultural identity globalization qualitative methods ethnography community-based fieldwork conference presentations journal articles",
+                "Migration studies researcher with ethnographic fieldwork peer-reviewed publications applied anthropological theory development economics political economy",
             ],
             tpuf_filters_strict=["And", [
                 ["deg_degrees", "ContainsAny", ["Doctorate"]],
@@ -1388,9 +1404,14 @@ def llm_rerank_candidates(
         extra_guidance = (
             "\nSPECIAL NOTE: 'PhD program started within the last 3 years' is a STRICT hard criterion. "
             "You MUST find explicit evidence of a recent PhD start date — such as year mentions (2023, 2024, 2025), "
-            "phrases like 'first year', 'recently started', 'Fall 2024', or very recent TA/RA start dates. "
-            "If you cannot find clear proof that the PhD started in 2023 or later, FAIL this criterion (score 0). "
-            "A candidate simply listed as 'PhD student' without date evidence should FAIL.\n"
+            "phrases like 'first year', 'recently started', 'Fall 2024', recent TA/RA start dates, "
+            "or a Master's ending in 2022-2023 (implying PhD started right after). "
+            "A candidate listed as 'PhD student' without date evidence should FAIL (score 0).\n"
+            "For SOFT CRITERIA: candidates with NO publications, NO fieldwork experience, and NO applied "
+            "research should score 1-3 even if they pass hard criteria. Prioritize candidates with "
+            "demonstrated ethnographic fieldwork, published or forthcoming papers, and real-world application "
+            "of anthropological methods (migration, labor, development, identity). "
+            "Biological/physical anthropology is the WRONG subfield — score 0 for those.\n"
         )
     elif config_name == "doctors_md":
         extra_guidance = (
@@ -1407,9 +1428,13 @@ def llm_rerank_candidates(
         )
     elif config_name == "biology_expert":
         extra_guidance = (
-            "\nSPECIAL NOTE: 'PhD in Biology from a top U.S. university' means highly ranked "
-            "research universities (Ivy League, MIT, Stanford, UC Berkeley, UCSF, etc.). "
-            "Schools outside the top ~50 US research universities should FAIL this criterion.\n"
+            "\nSPECIAL NOTE: 'Completed undergraduate studies in the U.S., U.K., or Canada' requires "
+            "a Bachelor's degree from a school clearly located in those countries. Schools in Mexico, "
+            "New Zealand, India, China, etc. do NOT qualify. If the undergrad location is unspecified, FAIL.\n"
+            "'PhD in Biology from a top U.S. university' means highly ranked research universities "
+            "(Ivy League, MIT, Stanford, UC Berkeley, UCSF, etc.). Schools outside the top ~50 should FAIL.\n"
+            "For soft criteria, give extra weight to candidates with teaching/mentoring experience "
+            "(TA, course instruction, student mentorship) as this is specifically evaluated.\n"
         )
     elif config_name == "junior_corporate_lawyer":
         extra_guidance = (
