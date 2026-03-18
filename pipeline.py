@@ -825,21 +825,21 @@ def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
         if neg in summary:
             return False
 
-    # Step 3: Require BOTH tier >= A/B AND strong evidence score.
-    # The evaluator reads the rerankSummary, not structured data. Even if metadata
-    # says start_2023, the evaluator will fail if the summary doesn't mention it.
+    # Step 3: STRICT recency check.
+    # The evaluator reads the rerankSummary. If there's no EXPLICIT evidence of a
+    # recent PhD start, the candidate gets zeroed. Indirect inference (recent Master's,
+    # recent TA roles) almost never convinces the evaluator.
+    #
+    # Only pass candidates with:
+    # - Tier A (30): Explicit doctorate start_2023+ in structured data, OR
+    # - Tier B (20): Strong textual evidence ("first-year", "started PhD in 2024")
+    # Tier C (10) and D (0) are rejected — they always fail the evaluator.
     tier = _anthropology_recency_tier(c)
-    evidence = _anthropology_recency_evidence_score(c)
+    if tier >= 20:
+        return True  # Tier A or B — provable recency
 
-    # Must have at least Tier B (20) OR Tier A (30) tier designation
-    if tier < 10:
-        return False  # No recency signal at all
-
-    # Must also have strong corroborating evidence (evaluator needs to SEE it)
-    if evidence < 8:
-        return False  # Not enough visible evidence for evaluator
-
-    return True
+    # Tier C/D — evaluator rejects these. Don't waste a submission slot.
+    return False
 
 
 def _anthropology_program_quality_score(c: Candidate) -> int:
@@ -1535,11 +1535,37 @@ def llm_rerank_candidates(
             "\nSPECIAL NOTE: 'Reputed law school' means top-ranked law schools in the USA, "
             "Europe, or Canada. Examples: Harvard, Yale, Columbia, Georgetown, Oxford, McGill, "
             "Sciences Po, etc. Lower-ranked or unaccredited schools should FAIL.\n"
+            "'2-4 years of experience' must be specifically in corporate law at a recognizable law firm "
+            "or in-house at a major organization. Litigation-only experience does NOT count.\n"
+            "For soft criteria, strongly prefer candidates with actual contract drafting and negotiation "
+            "experience. Candidates without any M&A or contract work should score low on soft criteria.\n"
         )
     elif config_name == "bankers":
         extra_guidance = (
             "\nSPECIAL NOTE: Strongly prefer candidates with HEALTHCARE-focused banking/finance "
             "experience. The role is specifically for healthcare investment banking.\n"
+        )
+    elif config_name == "tax_lawyer":
+        extra_guidance = (
+            "\nSPECIAL NOTE: For soft criteria, heavily weight IRS AUDIT experience. Candidates who "
+            "have handled IRS audits, tax disputes, tax controversy, or regulatory inquiries should "
+            "score 8-10. Corporate tax structuring lawyers WITHOUT audit/dispute experience should "
+            "score lower (5-7) on the IRS audit criterion. Also weight legal writing — candidates who "
+            "have authored tax opinions, filed tax court briefs, or published on tax law should score higher.\n"
+        )
+    elif config_name == "radiology":
+        extra_guidance = (
+            "\nSPECIAL NOTE: For soft criteria, strongly prefer candidates with BOARD CERTIFICATION "
+            "in radiology (ABR, FRCR, diplomate, board certified). Candidates without any mention of "
+            "board certification or equivalent credential should score lower on that criterion. "
+            "Also prioritize candidates with specific expertise in CT, MRI, and AI-assisted imaging.\n"
+        )
+    elif config_name == "quantitative_finance":
+        extra_guidance = (
+            "\nSPECIAL NOTE: For soft criteria, strongly prefer candidates who specifically mention "
+            "Python programming, QuantLib, pandas, NumPy, or similar quantitative libraries. "
+            "Candidates with only Excel/VBA experience should score lower on the Python criterion. "
+            "Also emphasize high-stakes trading floor or investment firm experience over pure academia.\n"
         )
 
     system = (
