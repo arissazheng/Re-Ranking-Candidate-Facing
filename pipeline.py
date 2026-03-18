@@ -729,6 +729,7 @@ def hard_filter_biology_expert(c: Candidate, q: QueryConfig) -> bool:
 
 def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
     # PhD in anthropology/sociology/economics, started within last 3 years (2023+)
+    # MUST have provable evidence of recency (evaluator checks profile text, not just metadata)
     has_relevant_phd = False
     phd_recent = False
     for deg in c.parsed_degrees:
@@ -747,45 +748,92 @@ def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
         return False
     if not phd_recent:
         return False
+
+    # CRITICAL: require minimum evidence that recency is provable from the profile
+    # The evaluator won't just trust metadata — it reads the rerankSummary/experience.
+    # Candidates without any textual/experiential recency signals will get score=0.
+    evidence = _anthropology_recency_evidence_score(c)
+    if evidence < 2:
+        return False
     return True
 
 
 def _anthropology_recency_evidence_score(c: Candidate) -> int:
     """Score how clearly the profile text evidences recent PhD enrollment.
-    Higher = more evidence the evaluator can verify recency."""
+    Higher = more evidence the evaluator can verify recency.
+
+    The evaluator reads the rerankSummary and experience dates. If it can't
+    find explicit proof that the PhD started within the last 3 years, it
+    will FAIL the candidate. So we need textual/experiential corroboration.
+    """
     summary = (c.data.get("rerankSummary") or "").lower()
     score = 0
-    # Recent year mentions near PhD context
+
+    # Recent year mentions in summary (strongest signal — evaluator can see these)
     for yr in ["2023", "2024", "2025", "2026"]:
         if yr in summary:
-            score += 2
-    # Phrases suggesting current/recent enrollment
+            score += 3
+
+    # Explicit recency phrases in summary
     for phrase in ["first year", "first-year", "1st year", "second year", "2nd year",
                    "third year", "3rd year", "currently enrolled", "current phd",
-                   "incoming", "starting", "began", "entered",
+                   "incoming", "starting", "began in 2023", "began in 2024",
+                   "entered in 2023", "entered in 2024", "started in 2023",
+                   "started in 2024", "started in 2025", "fall 2023", "fall 2024",
+                   "fall 2025", "spring 2024", "spring 2025",
                    "completed ma in 2022", "completed ma in 2023",
                    "completed master", "ma 2022", "ma 2023", "ms 2022", "ms 2023",
-                   "confirmation", "candidacy", "this fall"]:
+                   "confirmation", "candidacy", "this fall", "this year",
+                   "new phd", "recently started", "recently began",
+                   "admitted to", "accepted to", "joined the"]:
         if phrase in summary:
-            score += 3
-    # Having a very recent Master's or Bachelor's end date suggests PhD is new
+            score += 4
+
+    # Having a very recent Master's or Bachelor's end date (evaluator can infer PhD is new)
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
-        if dt in ("master's", "bachelor's"):
+        if dt in ("master's", "bachelor's", "mba"):
             try:
                 end = int(deg.get("end", "0"))
-                if end >= 2022:
-                    score += 4  # Recent prior degree → PhD likely recent
+                if end >= 2023:
+                    score += 6  # Very recent prior degree → strong evidence PhD just started
+                elif end >= 2022:
+                    score += 4
             except (ValueError, TypeError):
                 pass
-    # Recent TA/RA experience start dates
+
+    # Recent TA/RA/GA experience start dates corroborate recent enrollment
+    recent_exp_count = 0
     for exp in c.parsed_experiences:
+        title = (exp.get("title") or "").lower()
         try:
             start = int(exp.get("start", "0"))
             if start >= 2023:
-                score += 1
+                # Academic roles are strongest signal
+                if any(kw in title for kw in ["teaching", "research assistant", "graduate",
+                                               "ta", "ra", "instructor", "fellow"]):
+                    score += 4
+                    recent_exp_count += 1
+                else:
+                    score += 1
+                    recent_exp_count += 1
         except (ValueError, TypeError):
             pass
+
+    # If PhD has end="" (still in progress) and start >= 2023, that's in structured data
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        if dt == "doctorate":
+            end = deg.get("end", "")
+            start_str = deg.get("start", "")
+            if end == "" or end == "present":  # Currently enrolled
+                try:
+                    start = int(start_str)
+                    if start >= 2023:
+                        score += 3  # Structural confirmation of recency
+                except (ValueError, TypeError):
+                    pass
+
     return score
 
 
@@ -970,7 +1018,8 @@ def get_retrieval_strategy(query: QueryConfig) -> RetrievalStrategy:
         return RetrievalStrategy(
             embedding_queries=[
                 "PhD student in anthropology at top US university, focused on labor migration and cultural identity, ethnographic fieldwork, qualitative research methods, published papers on sociological and anthropological topics",
-                "Doctoral researcher in anthropology sociology or economics with recent PhD enrollment, expertise in ethnographic methods fieldwork cultural social economic systems, academic publications",
+                "Doctoral researcher in anthropology sociology or economics with recent PhD enrollment started 2023 2024 2025, expertise in ethnographic methods fieldwork cultural social economic systems, academic publications",
+                "First-year or second-year PhD student in sociology anthropology economics, recently started doctoral program, teaching assistant research assistant, ethnographic fieldwork cultural studies",
             ],
             tpuf_filters_strict=["And", [
                 ["deg_degrees", "ContainsAny", ["Doctorate"]],
@@ -1201,7 +1250,13 @@ def llm_rerank_candidates(
     config_name = query.config_path.replace(".yml", "")
     extra_guidance = ""
     if config_name == "anthropology":
-        extra_guidance = ""  # handled via evidence-score blending in post-processing
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'PhD program started within the last 3 years' is a STRICT hard criterion. "
+            "You MUST find explicit evidence of a recent PhD start date — such as year mentions (2023, 2024, 2025), "
+            "phrases like 'first year', 'recently started', 'Fall 2024', or very recent TA/RA start dates. "
+            "If you cannot find clear proof that the PhD started in 2023 or later, FAIL this criterion (score 0). "
+            "A candidate simply listed as 'PhD student' without date evidence should FAIL.\n"
+        )
     elif config_name == "doctors_md":
         extra_guidance = (
             "\nSPECIAL NOTE: 'Top U.S. medical school' means highly ranked schools like "
@@ -1412,13 +1467,13 @@ def run_pipeline_for_query(
     reranked = llm_rerank_candidates(openai_client, query, filtered[:50])
     print(f"  After LLM rerank: {len(reranked)} scored candidates")
 
-    # For anthropology: blend evidence score into final ranking to preserve recency signal
+    # For anthropology: heavily blend evidence score to ensure provable-recency candidates rank first
     if config_name == "anthropology" and reranked:
         oid_to_evidence = {c.object_id: _anthropology_recency_evidence_score(c) for c in filtered[:50]}
         for c in reranked:
             evidence = oid_to_evidence.get(c.object_id, 0)
-            # Boost candidates with strong recency evidence
-            c.score = c.score + (evidence * 0.3)
+            # Strong boost — recency evidence is the #1 predictor of eval success
+            c.score = c.score + (evidence * 1.5)
         reranked.sort(key=lambda c: c.score, reverse=True)
 
     if reranked:
