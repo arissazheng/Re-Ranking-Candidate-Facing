@@ -1,3 +1,8 @@
 __pycache__/
+*.pyc
+
+# Development artifacts — intermediate test/result files
 test_*.json
 results_v[0-9]*.json
+results_dry_run*.json
+results_with_eval*.json
