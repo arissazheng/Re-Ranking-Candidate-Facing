@@ -68,37 +68,6 @@ Best scores achieved across runs (baseline → final):
 | Doctors (MD) | 8.0 | 76.5 |
 | Anthropology | 8.3 | 60.3 |
 
-## Setup
-
-```bash
-pip install -r requirements.txt
-```
-
-Set environment variables:
-```bash
-export TURBOPUFFER_API_KEY="..."
-export VOYAGE_API_KEY="..."
-export OAI_KEY="..."
-export MERCOR_EVAL_EMAIL="your-email@example.com"
-```
-
-## Usage
-
-Run all 10 configs and submit to evaluation:
-```bash
-python pipeline.py --submit --output results.json
-```
-
-Run a single config:
-```bash
-python pipeline.py --query tax_lawyer --submit --output results_tax.json
-```
-
-Dry run (no submission):
-```bash
-python pipeline.py --output results_dry.json
-```
-
 ## Files
 
 - `pipeline.py` — Main pipeline: retrieval, filtering, re-ranking, evaluation
