@@ -638,6 +638,95 @@ def _doctors_school_quality_score(c: Candidate) -> int:
     return best
 
 
+# Top-tier universities for PhD quality (broader than medical, used for biology/math/law)
+ELITE_US_UNIVERSITIES = [
+    "harvard", "stanford", "mit", "massachusetts institute",
+    "yale", "princeton", "columbia", "university of chicago",
+    "caltech", "california institute", "carnegie mellon",
+    "johns hopkins", "duke", "northwestern", "cornell",
+    "university of pennsylvania", "upenn",
+    "university of california", "uc berkeley", "berkeley",
+    "ucla", "ucsd", "ucsf", "uc davis", "uc santa",
+    "university of michigan", "university of washington",
+    "university of wisconsin", "university of illinois",
+    "university of texas", "georgia tech",
+    "university of north carolina", "university of virginia",
+    "vanderbilt", "emory", "rice", "brown", "dartmouth",
+    "washington university in st. louis", "wustl",
+    "nyu", "new york university", "university of southern california",
+    "boston university", "tufts", "university of minnesota",
+    "university of colorado", "university of pittsburgh",
+    "ohio state", "penn state", "purdue", "university of florida",
+    "university of maryland", "university of rochester",
+]
+
+ELITE_LAW_SCHOOLS = [
+    "harvard", "yale", "stanford", "columbia", "university of chicago",
+    "nyu", "new york university", "university of pennsylvania",
+    "duke", "northwestern", "cornell", "georgetown",
+    "university of michigan", "university of virginia",
+    "university of california", "berkeley", "ucla",
+    "university of texas", "vanderbilt", "washington university",
+    "boston university", "boston college", "notre dame",
+    "emory", "university of minnesota", "george washington",
+    "university of southern california", "fordham",
+    "university of north carolina", "university of wisconsin",
+    "university of iowa", "william & mary", "wake forest",
+    # European/Canadian elite
+    "oxford", "cambridge", "london school of economics", "lse",
+    "mcgill", "toronto", "ubc", "university of british columbia",
+    "sorbonne", "sciences po", "leiden", "amsterdam", "leuven",
+    "heidelberg", "humboldt", "king's college", "edinburgh",
+]
+
+
+def _law_school_quality(c: Candidate) -> int:
+    """Score law school quality: 2=elite, 1=recognized, 0=other."""
+    best = 0
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        fos = deg.get("fos", "")
+        school = deg.get("school", "")
+        if dt == "jd" or fos_matches(fos, LAW_FOS):
+            if _matches(school, ELITE_LAW_SCHOOLS):
+                best = max(best, 2)
+            elif is_reputed_law_school(school):
+                best = max(best, 1)
+    return best
+
+
+def _biology_school_quality(c: Candidate) -> int:
+    """Score PhD institution quality for biology: 2=elite, 1=recognized, 0=other."""
+    best = 0
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        fos = deg.get("fos", "")
+        school = deg.get("school", "")
+        if dt == "doctorate" and fos_matches(fos, BIOLOGY_FOS):
+            if _matches(school, ELITE_US_UNIVERSITIES):
+                best = max(best, 2)
+            elif is_top_us_school(school):
+                best = max(best, 1)
+    return best
+
+
+def _banker_healthcare_score(c: Candidate) -> int:
+    """Score how relevant a banker's experience is to healthcare."""
+    summary = (c.data.get("rerankSummary") or "").lower()
+    score = 0
+    for kw in ["healthcare", "health care", "biotech", "pharma", "medical",
+               "hospital", "life science", "drug", "clinical", "patient",
+               "provider", "digital health", "medtech", "healthtech"]:
+        if kw in summary:
+            score += 2
+    titles = c.data.get("exp_titles") or []
+    for t in titles:
+        t_l = t.lower()
+        if any(kw in t_l for kw in ["healthcare", "health", "pharma", "biotech", "medical"]):
+            score += 3
+    return score
+
+
 def hard_filter_biology_expert(c: Candidate, q: QueryConfig) -> bool:
     # PhD in biology from top US university
     has_bio_phd_us = False
@@ -745,19 +834,27 @@ def _anthropology_recency_evidence_score(c: Candidate) -> int:
                    "incoming", "starting", "began", "entered",
                    "completed ma in 2022", "completed ma in 2023",
                    "completed master", "ma 2022", "ma 2023", "ms 2022", "ms 2023",
-                   "confirmation", "candidacy"]:
+                   "confirmation", "candidacy", "this fall"]:
         if phrase in summary:
             score += 3
-    # Having a very recent Master's end date suggests PhD is new
+    # Having a very recent Master's or Bachelor's end date suggests PhD is new
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
-        if dt == "master's":
+        if dt in ("master's", "bachelor's"):
             try:
                 end = int(deg.get("end", "0"))
                 if end >= 2022:
-                    score += 2  # Recent MA → PhD likely recent
+                    score += 4  # Recent prior degree → PhD likely recent
             except (ValueError, TypeError):
                 pass
+    # Recent TA/RA experience start dates
+    for exp in c.parsed_experiences:
+        try:
+            start = int(exp.get("start", "0"))
+            if start >= 2023:
+                score += 1
+        except (ValueError, TypeError):
+            pass
     return score
 
 
@@ -1236,7 +1333,42 @@ def llm_rerank_candidates(
             "summary": summary[:MAX_SUMMARY],
         })
 
-    role_instructions = _get_role_specific_llm_instructions(query.name)
+    # Query-specific evaluation guidance
+    config_name = query.config_path.replace(".yml", "")
+    extra_guidance = ""
+    if config_name == "anthropology":
+        extra_guidance = ""  # handled via evidence-score blending in post-processing
+    elif config_name == "doctors_md":
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'Top U.S. medical school' means highly ranked schools like "
+            "Johns Hopkins, Harvard, Stanford, Duke, Yale, Columbia, UCSF, UPenn, etc. "
+            "Schools outside the top ~30-40 ranked medical schools should FAIL this criterion.\n"
+        )
+    elif config_name == "mathematics_phd":
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'Completed undergraduate studies in the U.S., U.K., or Canada' "
+            "requires clear evidence of a Bachelor's degree from a school in those countries. "
+            "If undergraduate location is not specified, score 0. Prefer candidates with "
+            "explicitly listed Bachelor's degrees from recognizable US/UK/CA institutions.\n"
+        )
+    elif config_name == "biology_expert":
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'PhD in Biology from a top U.S. university' means highly ranked "
+            "research universities (Ivy League, MIT, Stanford, UC Berkeley, UCSF, etc.). "
+            "Schools outside the top ~50 US research universities should FAIL this criterion.\n"
+        )
+    elif config_name == "junior_corporate_lawyer":
+        extra_guidance = (
+            "\nSPECIAL NOTE: 'Reputed law school' means top-ranked law schools in the USA, "
+            "Europe, or Canada. Examples: Harvard, Yale, Columbia, Georgetown, Oxford, McGill, "
+            "Sciences Po, etc. Lower-ranked or unaccredited schools should FAIL.\n"
+        )
+    elif config_name == "bankers":
+        extra_guidance = (
+            "\nSPECIAL NOTE: Strongly prefer candidates with HEALTHCARE-focused banking/finance "
+            "experience. The role is specifically for healthcare investment banking.\n"
+        )
+
     system = (
         "You are an expert recruiter evaluating candidates for a specific role.\n\n"
         "EVALUATION RULES:\n"
@@ -1251,9 +1383,9 @@ def llm_rerank_candidates(
         "   - 7-8: Good match, strong on most soft criteria\n"
         "   - 5-6: Moderate match\n"
         "   - 1-4: Weak soft match but passes hard criteria\n\n"
-        "IMPORTANT: Be strict about hard criteria but do not penalize candidates for missing data when context suggests they qualify.\n\n"
-        f"{role_instructions}"
-        "Return JSON: {\"scores\": [{\"id\": \"...\", \"hard_pass\": true/false, \"score\": N}, ...]}\n"
+        "IMPORTANT: Be very strict about hard criteria. If you cannot verify a hard criterion from the data, score 0.\n"
+        + extra_guidance +
+        "\nReturn JSON: {\"scores\": [{\"id\": \"...\", \"hard_pass\": true/false, \"score\": N}, ...]}\n"
     )
 
     all_scores: Dict[str, Tuple[float, bool]] = {}
@@ -1420,12 +1552,27 @@ def run_pipeline_for_query(
         filtered.sort(key=lambda c: (_anthropology_composite_score(c), c.score), reverse=True)
     elif config_name == "mathematics_phd":
         filtered.sort(key=lambda c: (_math_undergrad_evidence_score(c), c.score), reverse=True)
+    elif config_name == "junior_corporate_lawyer":
+        filtered.sort(key=lambda c: (_law_school_quality(c), c.score), reverse=True)
+    elif config_name == "biology_expert":
+        filtered.sort(key=lambda c: (_biology_school_quality(c), c.score), reverse=True)
+    elif config_name == "bankers":
+        filtered.sort(key=lambda c: (_banker_healthcare_score(c), c.score), reverse=True)
     else:
         filtered.sort(key=lambda c: c.score, reverse=True)
     # Send more candidates for roles with small hard-filter pools
     llm_pool_size = 75 if config_name == "anthropology" else 50
     reranked = llm_rerank_candidates(openai_client, query, filtered[:llm_pool_size], max_candidates=llm_pool_size)
     print(f"  After LLM rerank: {len(reranked)} scored candidates")
+
+    # For anthropology: blend evidence score into final ranking to preserve recency signal
+    if config_name == "anthropology" and reranked:
+        oid_to_evidence = {c.object_id: _anthropology_recency_evidence_score(c) for c in filtered[:50]}
+        for c in reranked:
+            evidence = oid_to_evidence.get(c.object_id, 0)
+            # Boost candidates with strong recency evidence
+            c.score = c.score + (evidence * 0.3)
+        reranked.sort(key=lambda c: c.score, reverse=True)
 
     if reranked:
         ranked_final = reranked
