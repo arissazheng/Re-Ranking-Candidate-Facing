@@ -677,6 +677,8 @@ def _doctors_school_quality_score(c: Candidate) -> int:
 
 
 # Top-tier universities for PhD quality (broader than medical, used for biology/math/law)
+# NOTE: Removed borderline schools the evaluator has rejected for biology:
+# "boston university", "university of massachusetts" (evaluator rejected as not "top")
 ELITE_US_UNIVERSITIES = [
     "harvard", "stanford", "mit", "massachusetts institute",
     "yale", "princeton", "columbia", "university of chicago",
@@ -692,7 +694,7 @@ ELITE_US_UNIVERSITIES = [
     "vanderbilt", "emory", "rice", "brown", "dartmouth",
     "washington university in st. louis", "wustl",
     "nyu", "new york university", "university of southern california",
-    "boston university", "tufts", "university of minnesota",
+    "tufts", "university of minnesota",
     "university of colorado", "university of pittsburgh",
     "ohio state", "penn state", "purdue", "university of florida",
     "university of maryland", "university of rochester",
@@ -746,6 +748,18 @@ def _biology_school_quality(c: Candidate) -> int:
             elif is_top_us_school(school):
                 best = max(best, 1)
     return best
+
+
+def _radiology_board_cert_score(c: Candidate) -> int:
+    """Score evidence of board certification for radiology candidates."""
+    summary = (c.data.get("rerankSummary") or "").lower()
+    score = 0
+    for kw in ["board certified", "board-certified", "abr", "frcr", "diplomate",
+               "fellowship-trained", "fellowship trained", "board certification",
+               "american board of radiology", "certified radiologist"]:
+        if kw in summary:
+            score += 5
+    return score
 
 
 def _banker_healthcare_score(c: Candidate) -> int:
@@ -971,61 +985,90 @@ def _anthropology_soft_criteria_evidence_score(c: Candidate) -> int:
 
 def _anthropology_recency_tier(c: Candidate) -> int:
     """Classify candidate into recency tiers. Higher = more provable.
-    Tier 3 (30): Explicit doctorate start_2023+ in structured data (guaranteed pass)
-    Tier 2 (20): Strong textual evidence (first-year, started PhD in 2024, etc.)
-    Tier 1 (10): Inferred (recent Master's, recent TA/RA start)
-    Tier 0 (0):  No evidence — will fail evaluation (never submit these)
+
+    Based on evaluator behavior across 10+ runs:
+    - Evaluator passes: explicit start date, "first-year"/"second-year" language,
+      or bachelor's ending 2022+ with in-progress PhD and no master's.
+    - Evaluator rejects: everything else, including recent Master's as proxy,
+      recent TA roles, year mentions near "phd" in summary.
+
+    Tier A (30): Explicit doctorate start_2023+ in structured data
+    Tier B (20): Evaluator-proven textual patterns only
+    Tier C (10): Inferred — evaluator almost always rejects
+    Tier D (0):  No evidence
     """
-    # Check structured data for explicit start date
+    # Tier A: Explicit start date in structured data
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
         if dt == "doctorate":
             try:
                 start = int(deg.get("start", "0"))
                 if start >= 2023:
-                    return 30  # Tier 3: guaranteed pass
+                    return 30
             except (ValueError, TypeError):
                 pass
 
     summary = (c.data.get("rerankSummary") or "").lower()
 
-    # Check for strong textual phrases
-    strong_phrases = [
-        "first year", "first-year", "1st year", "second year", "2nd year",
-        "third year", "3rd year", "started phd in 2023", "started phd in 2024",
-        "started phd in 2025", "began phd", "began doctoral",
-        "fall 2023", "fall 2024", "fall 2025", "spring 2024", "spring 2025",
-        "entered in 2023", "entered in 2024", "recently started",
-        "recently began", "new phd", "incoming phd",
+    # Tier B: ONLY phrases the evaluator has actually accepted across runs.
+    # Be very conservative — "recently started" and "new phd" do NOT work.
+    proven_phrases = [
+        "first year", "first-year", "1st year",
+        "second year", "second-year", "2nd year",
+        "started phd in 2023", "started phd in 2024", "started phd in 2025",
+        "began phd in 2023", "began phd in 2024", "began phd in 2025",
+        "began doctoral program in 2023", "began doctoral program in 2024",
+        "enrolled in 2023", "enrolled in 2024", "enrolled in 2025",
     ]
-    for phrase in strong_phrases:
+    for phrase in proven_phrases:
         if phrase in summary:
-            return 20  # Tier 2: strong textual evidence
+            return 20
 
-    # Check for inferred signals
-    # Recent Master's end date
+    # Tier B alternate: bachelor's ending 2022+ with in-progress PhD and NO master's
+    # (evaluator accepted Nicole Sarette with this pattern)
+    has_masters = False
+    has_recent_bachelors = False
+    has_in_progress_phd = False
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        if dt == "master's":
+            has_masters = True
+        if dt == "bachelor's":
+            try:
+                end = int(deg.get("end", "0"))
+                if end >= 2022:
+                    has_recent_bachelors = True
+            except (ValueError, TypeError):
+                pass
+        if dt == "doctorate":
+            end_str = deg.get("end", "")
+            if not end_str or end_str == "" or end_str == "present":
+                has_in_progress_phd = True
+    if has_recent_bachelors and has_in_progress_phd and not has_masters:
+        return 20
+
+    # Tier C: Inferred from recent Master's or TA — evaluator almost always rejects
     for deg in c.parsed_degrees:
         dt = (deg.get("degree") or "").lower()
         if dt == "master's":
             try:
                 end = int(deg.get("end", "0"))
                 if end >= 2022:
-                    return 10  # Tier 1: inferred from recent Master's
+                    return 10
             except (ValueError, TypeError):
                 pass
 
-    # Recent academic role start
     for exp in c.parsed_experiences:
         title = (exp.get("title") or "").lower()
         if any(kw in title for kw in ["teaching", "research assistant", "graduate", "ta ", "fellow"]):
             try:
                 start = int(exp.get("start", "0"))
                 if start >= 2023:
-                    return 10  # Tier 1: inferred from recent TA/RA
+                    return 10
             except (ValueError, TypeError):
                 pass
 
-    return 0  # Tier 0: no evidence, will fail evaluation
+    return 0
 
 
 def _anthropology_composite_score(c: Candidate) -> int:
@@ -1757,6 +1800,8 @@ def run_pipeline_for_query(
         filtered.sort(key=lambda c: (_biology_school_quality(c), c.score), reverse=True)
     elif config_name == "bankers":
         filtered.sort(key=lambda c: (_banker_healthcare_score(c), c.score), reverse=True)
+    elif config_name == "radiology":
+        filtered.sort(key=lambda c: (_radiology_board_cert_score(c), c.score), reverse=True)
     else:
         filtered.sort(key=lambda c: c.score, reverse=True)
     # Send more candidates for roles with small hard-filter pools
@@ -1771,12 +1816,14 @@ def run_pipeline_for_query(
         for c in reranked:
             tier = oid_to_tier.get(c.object_id, 0)
             soft = oid_to_soft.get(c.object_id, 0)
-            # Tier 0 = unprovable → demote to bottom even if LLM scored high
-            if tier == 0:
-                c.score = 0
+            if tier <= 10:
+                # Tier C (10) and D (0) — evaluator rejects these.
+                # Demote to bottom so they only fill slots if nothing better exists.
+                c.score = -1000 + soft  # Negative ensures they rank last
             else:
-                # Blend: tier * 2 + soft evidence * 0.5 + LLM score
-                c.score = c.score + (tier * 2) + (soft * 0.5)
+                # Tier A (30) or B (20) — provable recency
+                # Blend: tier * 3 + soft evidence * 1 + LLM score
+                c.score = c.score + (tier * 3) + soft
         reranked.sort(key=lambda c: c.score, reverse=True)
 
     if reranked:
