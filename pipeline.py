@@ -762,6 +762,41 @@ def _radiology_board_cert_score(c: Candidate) -> int:
     return score
 
 
+def _radiology_board_cert_score(c: Candidate) -> int:
+    """Score evidence of board certification in radiology from summary text."""
+    summary = (c.data.get("rerankSummary") or "").lower()
+    score = 0
+    for kw in ["board certified", "board-certified", "abr", "frcr",
+               "diplomate", "fellowship-trained", "fellowship trained",
+               "board certification", "certified radiolog"]:
+        if kw in summary:
+            score += 5
+    # Also check titles for radiology specialization signals
+    titles = c.data.get("exp_titles") or []
+    for t in titles:
+        t_l = t.lower()
+        if any(kw in t_l for kw in ["radiolog", "diagnostic imaging"]):
+            score += 3
+    return score
+
+
+def _biology_teaching_score(c: Candidate) -> int:
+    """Score evidence of teaching/mentoring for biology candidates."""
+    summary = (c.data.get("rerankSummary") or "").lower()
+    score = 0
+    for kw in ["teaching assistant", "taught", "instructor", "mentoring",
+               "mentored", "course", "tutoring", "ta ", "undergraduate course",
+               "graduate course", "lab instructor", "student mentor"]:
+        if kw in summary:
+            score += 3
+    titles = c.data.get("exp_titles") or []
+    for t in titles:
+        t_l = t.lower()
+        if any(kw in t_l for kw in ["teaching", "instructor", "tutor", "mentor"]):
+            score += 3
+    return score
+
+
 def _banker_healthcare_score(c: Candidate) -> int:
     """Score how relevant a banker's experience is to healthcare."""
     summary = (c.data.get("rerankSummary") or "").lower()
@@ -1144,9 +1179,9 @@ def _anthropology_composite_score(c: Candidate) -> int:
     if tier == 0:
         return 0  # Never submit unprovable candidates
     return (
-        tier * 3                                            # Recency provability
-        + _anthropology_soft_criteria_evidence_score(c) * 2  # Fieldwork/pubs/applied work
-        + _anthropology_program_quality_score(c)            # Program prestige
+        _anthropology_soft_criteria_evidence_score(c) * 3  # Fieldwork/pubs/applied work (highest weight)
+        + tier * 2                                          # Recency provability
+        + _anthropology_program_quality_score(c)            # Program prestige (lowest weight)
     )
 
 
@@ -1859,8 +1894,12 @@ def run_pipeline_for_query(
         filtered.sort(key=lambda c: (_math_undergrad_evidence_score(c), c.score), reverse=True)
     elif config_name == "junior_corporate_lawyer":
         filtered.sort(key=lambda c: (_law_school_quality(c), c.score), reverse=True)
+    elif config_name == "radiology":
+        # Prioritize candidates with board certification evidence
+        filtered.sort(key=lambda c: (_radiology_board_cert_score(c), c.score), reverse=True)
     elif config_name == "biology_expert":
-        filtered.sort(key=lambda c: (_biology_school_quality(c), c.score), reverse=True)
+        # Prioritize both school quality AND teaching experience
+        filtered.sort(key=lambda c: (_biology_school_quality(c) * 10 + _biology_teaching_score(c), c.score), reverse=True)
     elif config_name == "bankers":
         filtered.sort(key=lambda c: (_banker_healthcare_score(c), c.score), reverse=True)
     elif config_name == "radiology":
