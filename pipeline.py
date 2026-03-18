@@ -295,6 +295,38 @@ ANTHRO_FOS = [
     "international development", "public policy",
 ]
 
+# Top programs for anthropology / sociology / social sciences (US + global elite)
+TOP_ANTHRO_PROGRAMS = [
+    # US elite anthropology/sociology departments
+    "harvard", "stanford", "princeton", "yale", "columbia",
+    "university of chicago", "uc berkeley", "berkeley",
+    "university of michigan", "university of pennsylvania", "upenn",
+    "ucla", "duke", "cornell", "northwestern",
+    "johns hopkins", "nyu", "new york university",
+    "university of virginia", "university of north carolina",
+    "university of wisconsin", "university of texas",
+    "university of washington", "brown", "emory",
+    "university of california", "ucsd", "uc davis", "uc santa",
+    "university of illinois", "university of minnesota",
+    "university of pittsburgh", "rutgers", "indiana university",
+    "university of arizona", "university of colorado",
+    "university of oregon", "university of iowa",
+    "georgetown", "george washington", "american university",
+    "boston university", "tufts", "brandeis",
+    "washington university", "wustl",
+    "university of massachusetts", "massachusetts institute",
+    # UK elite
+    "oxford", "cambridge", "lse", "london school of economics",
+    "ucl", "university college london", "soas",
+    "school of oriental", "edinburgh", "manchester",
+    # EU elite
+    "sciences po", "sorbonne", "leiden", "amsterdam",
+    "humboldt", "heidelberg", "lmu", "eth zurich",
+    "copenhagen", "stockholm", "helsinki",
+    # Canada elite
+    "toronto", "mcgill", "ubc", "university of british columbia",
+]
+
 MEDICINE_FOS = [
     "medicine", "medical", "surgery", "clinical",
     "pathology", "pharmacology", "anatomy", "physiology",
@@ -744,6 +776,29 @@ def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
                         phd_recent = True
                 except (ValueError, TypeError):
                     pass
+                # If no start year recorded, check if end year is missing/future
+                # (suggesting in-progress PhD) and there's a recent Master's
+                if not phd_recent:
+                    end_str = deg.get("end", "")
+                    if not end_str or end_str == "present" or end_str == "":
+                        # PhD appears in-progress; check for recent Master's as proxy
+                        for mdeg in c.parsed_degrees:
+                            mdt = (mdeg.get("degree") or "").lower()
+                            if mdt == "master's":
+                                try:
+                                    mend = int(mdeg.get("end", "0"))
+                                    if mend >= 2021:
+                                        phd_recent = True
+                                        break
+                                except (ValueError, TypeError):
+                                    pass
+                        # Also check summary for recency evidence
+                        if not phd_recent:
+                            summary = (c.data.get("rerankSummary") or "").lower()
+                            for yr in ["2023", "2024", "2025", "2026"]:
+                                if yr in summary and ("phd" in summary or "doctor" in summary or "doctoral" in summary):
+                                    phd_recent = True
+                                    break
     if not has_relevant_phd:
         return False
     if not phd_recent:
@@ -756,6 +811,20 @@ def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
     if evidence < 2:
         return False
     return True
+
+
+def _anthropology_program_quality_score(c: Candidate) -> int:
+    """Score the quality/prestige of the candidate's PhD program.
+    Higher = more distinguished program."""
+    score = 0
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        if dt == "doctorate" and fos_matches(deg.get("fos", ""), ANTHRO_FOS):
+            school = (deg.get("school") or "").lower()
+            if any(p in school for p in TOP_ANTHRO_PROGRAMS):
+                score += 10  # Distinguished program
+            break
+    return score
 
 
 def _anthropology_recency_evidence_score(c: Candidate) -> int:
@@ -835,6 +904,49 @@ def _anthropology_recency_evidence_score(c: Candidate) -> int:
                     pass
 
     return score
+
+
+def _anthropology_soft_criteria_evidence_score(c: Candidate) -> int:
+    """Score textual evidence of soft criteria: ethnographic methods, fieldwork,
+    publications, and applied anthropological work."""
+    summary = (c.data.get("rerankSummary") or "").lower()
+    score = 0
+    # Ethnographic methods and fieldwork
+    for phrase in ["ethnograph", "fieldwork", "field work", "field research",
+                   "participant observation", "qualitative research", "qualitative method",
+                   "case study", "interview-based", "in-depth interview",
+                   "mixed method", "grounded theory"]:
+        if phrase in summary:
+            score += 3
+    # Publications and academic output
+    for phrase in ["published", "publication", "peer-reviewed", "peer reviewed",
+                   "journal", "conference paper", "conference presentation",
+                   "working paper", "book chapter", "dissertation",
+                   "thesis", "manuscript"]:
+        if phrase in summary:
+            score += 2
+    # Applied / interdisciplinary anthropology
+    for phrase in ["migration", "labor", "labour", "development",
+                   "economic anthropology", "political economy", "identity",
+                   "cultural identity", "social justice", "human rights",
+                   "policy", "community-based", "ngo", "non-governmental",
+                   "interdisciplinary"]:
+        if phrase in summary:
+            score += 1
+    # Teaching / mentoring (weaker signal but positive)
+    for phrase in ["teaching assistant", "instructor", "mentoring", "tutoring"]:
+        if phrase in summary:
+            score += 1
+    return score
+
+
+def _anthropology_composite_score(c: Candidate) -> int:
+    """Combined anthropology scoring: program quality + recency + soft criteria signals."""
+    return (
+        _anthropology_program_quality_score(c) * 3   # Program prestige weighted highest
+        + _anthropology_recency_evidence_score(c) * 2  # Recency evidence
+        + _anthropology_soft_criteria_evidence_score(c)  # Soft criteria signals
+    )
 
 
 def _math_undergrad_evidence_score(c: Candidate) -> int:
@@ -1020,6 +1132,8 @@ def get_retrieval_strategy(query: QueryConfig) -> RetrievalStrategy:
                 "PhD student in anthropology at top US university, focused on labor migration and cultural identity, ethnographic fieldwork, qualitative research methods, published papers on sociological and anthropological topics",
                 "Doctoral researcher in anthropology sociology or economics with recent PhD enrollment started 2023 2024 2025, expertise in ethnographic methods fieldwork cultural social economic systems, academic publications",
                 "First-year or second-year PhD student in sociology anthropology economics, recently started doctoral program, teaching assistant research assistant, ethnographic fieldwork cultural studies",
+                "Early-career PhD candidate in social sciences at distinguished university, research on development economics political economy human geography, mixed methods qualitative fieldwork participant observation",
+                "Anthropology PhD student researching migration labor culture identity at leading research university, dissertation fieldwork ethnography qualitative interviews case studies, conference papers journal articles",
             ],
             tpuf_filters_strict=["And", [
                 ["deg_degrees", "ContainsAny", ["Doctorate"]],
@@ -1190,6 +1304,27 @@ def retrieve_candidates_multi(
 # LLM Re-ranking (GPT-4o with structured data)
 # ═══════════════════════════════════════════════════════════════════════
 
+def _get_role_specific_llm_instructions(query_name: str) -> str:
+    """Return role-specific LLM instructions to improve scoring precision."""
+    if query_name == "Anthropology":
+        return (
+            "\n\nROLE-SPECIFIC GUIDANCE FOR ANTHROPOLOGY:\n"
+            "- 'Distinguished program' means a well-known, research-intensive university with a strong social sciences department. "
+            "Top US universities (Harvard, Stanford, Columbia, Chicago, Berkeley, Michigan, UCLA, Princeton, Yale, Duke, Cornell, Northwestern, NYU, UPenn, etc.), "
+            "top UK universities (Oxford, Cambridge, LSE, UCL, SOAS, Edinburgh), "
+            "and top EU/Canadian universities (Sciences Po, Leiden, McGill, Toronto, UBC) all qualify.\n"
+            "- 'PhD started within the last 3 years' means the PhD must have started in 2023 or later. "
+            "If the PhD has no end date (in progress) and they have a recent Master's (ended 2021+), treat as likely recent.\n"
+            "- For soft criteria, strongly prefer candidates who explicitly mention: ethnographic fieldwork, "
+            "participant observation, qualitative methods, published/presented research, and applied work on migration/labor/development/identity.\n"
+            "- A candidate with clear evidence of fieldwork AND publications should score 8-10.\n"
+            "- A candidate at a top program with some research but no explicit fieldwork/publications should score 5-7.\n"
+            "- Be generous about what counts as 'anthropological theory applied to real-world contexts' — "
+            "migration studies, labor economics with qualitative methods, development studies, political economy all count.\n"
+        )
+    return ""
+
+
 def llm_rerank_candidates(
     client: OpenAI,
     query: QueryConfig,
@@ -1204,7 +1339,7 @@ def llm_rerank_candidates(
     # Build rich profiles — cap education/experience lists to avoid oversized payloads
     MAX_EDU = 5
     MAX_EXP = 8
-    MAX_SUMMARY = 600
+    MAX_SUMMARY = 800  # increased from 600 to capture more fieldwork/publication details
 
     items = []
     for idx, c in enumerate(cands):
@@ -1296,6 +1431,7 @@ def llm_rerank_candidates(
         "   - Pay attention to: specific degree types, school quality/location, years of experience, job titles/roles.\n"
         "   - For degree requirements: check the actual degree field, field of study, and school name.\n"
         "   - For experience requirements: check job titles, companies, and duration.\n"
+        "   - If a hard criterion CANNOT be verified but there is reasonable indirect evidence (e.g., in-progress PhD with no end date and a recent Master's), give the benefit of the doubt and pass the candidate.\n"
         "2. For candidates passing ALL hard criteria, score 1-10 based on soft criteria:\n"
         "   - 9-10: Exceptional match, strong on all soft criteria\n"
         "   - 7-8: Good match, strong on most soft criteria\n"
@@ -1423,6 +1559,7 @@ def run_pipeline_for_query(
     print(f"{'='*60}")
 
     strategy = get_retrieval_strategy(query)
+    config_name = query.config_path.replace(".yml", "")
 
     # Step 1: Multi-pass retrieval
     candidates = retrieve_candidates_multi(query, strategy, tpuf_client, voyage_client)
@@ -1437,23 +1574,36 @@ def run_pipeline_for_query(
 
     # Step 3: Handle edge cases
     if len(filtered) < 10:
-        print(f"  Warning: only {len(filtered)} pass hard filter. Supplementing with best ANN matches.")
+        print(f"  Warning: only {len(filtered)} pass hard filter. Supplementing with relaxed matches.")
         filtered_ids = {c.object_id for c in filtered}
-        remaining = sorted(
-            [c for c in candidates if c.object_id not in filtered_ids],
-            key=lambda c: c.score,
-            reverse=True,
-        )
-        # Add more candidates but mark them as supplements
-        filtered.extend(remaining[:max(50 - len(filtered), 0)])
+        # For anthropology, supplement with candidates who have a relevant doctorate
+        # (even if recency is uncertain) rather than random ANN matches
+        if config_name == "anthropology":
+            relaxed = []
+            for c in candidates:
+                if c.object_id in filtered_ids:
+                    continue
+                for deg in c.parsed_degrees:
+                    dt = (deg.get("degree") or "").lower()
+                    if dt == "doctorate" and fos_matches(deg.get("fos", ""), ANTHRO_FOS):
+                        relaxed.append(c)
+                        break
+            relaxed.sort(key=lambda c: (_anthropology_composite_score(c), c.score), reverse=True)
+            filtered.extend(relaxed[:max(50 - len(filtered), 0)])
+        else:
+            remaining = sorted(
+                [c for c in candidates if c.object_id not in filtered_ids],
+                key=lambda c: c.score,
+                reverse=True,
+            )
+            filtered.extend(remaining[:max(50 - len(filtered), 0)])
 
     # Step 4: LLM re-ranking with GPT-4o
     # Query-specific pre-sort to prioritize candidates most likely to pass eval
-    config_name = query.config_path.replace(".yml", "")
     if config_name == "doctors_md":
         filtered.sort(key=lambda c: (_doctors_school_quality_score(c), c.score), reverse=True)
     elif config_name == "anthropology":
-        filtered.sort(key=lambda c: (_anthropology_recency_evidence_score(c), c.score), reverse=True)
+        filtered.sort(key=lambda c: (_anthropology_composite_score(c), c.score), reverse=True)
     elif config_name == "mathematics_phd":
         filtered.sort(key=lambda c: (_math_undergrad_evidence_score(c), c.score), reverse=True)
     elif config_name == "junior_corporate_lawyer":
@@ -1464,7 +1614,9 @@ def run_pipeline_for_query(
         filtered.sort(key=lambda c: (_banker_healthcare_score(c), c.score), reverse=True)
     else:
         filtered.sort(key=lambda c: c.score, reverse=True)
-    reranked = llm_rerank_candidates(openai_client, query, filtered[:50])
+    # Send more candidates for roles with small hard-filter pools
+    llm_pool_size = 75 if config_name == "anthropology" else 50
+    reranked = llm_rerank_candidates(openai_client, query, filtered[:llm_pool_size], max_candidates=llm_pool_size)
     print(f"  After LLM rerank: {len(reranked)} scored candidates")
 
     # For anthropology: heavily blend evidence score to ensure provable-recency candidates rank first

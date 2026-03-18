@@ -1,0 +1,322 @@
+[
+  {
+    "query_name": "Tax Lawyer",
+    "config_path": "tax_lawyer.yml",
+    "num_retrieved": 485,
+    "num_after_hard_filter": 425,
+    "top_ids": [
+      "6796cca073bf14921fbb5795",
+      "67959f8b52a365d116821923",
+      "679556be3eff0c142a7dcadb",
+      "679604c5a1a09a48feb45b4c",
+      "6795e1130db3e792567cc159",
+      "6796c6740db3e79256854164",
+      "6795479c8d90554e6069aaef",
+      "679583bf73bf14921faf6300",
+      "6796555e8d90554e6073646e",
+      "6795d0c10db3e792567c3498"
+    ],
+    "top_names": [
+      "Victor Hollender",
+      "Barbara Olson",
+      "Jennifer Graff",
+      "Eric Johnson",
+      "Heather Johnson",
+      "Scott Schiefelbein",
+      "Jais Woolf",
+      "Max Yoshimura--Int'l Business & Tax Lawyer",
+      "Daniel C. White",
+      "Mitchell B. Weiss"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Junior Corporate Lawyer",
+    "config_path": "junior_corporate_lawyer.yml",
+    "num_retrieved": 400,
+    "num_after_hard_filter": 352,
+    "top_ids": [
+      "6795ca8f3eff0c142a8198d9",
+      "679593c88a14699f1607ad3a",
+      "67975d973eff0c142a8f92db",
+      "6795e38c3eff0c142a828955",
+      "6795b26ff9f986ea7fbc7def",
+      "6796970fa1a09a48feba0d26",
+      "679707b53e76d5b58736aa02",
+      "6796ff50a1a09a48febd7fc9",
+      "67950e687e0084c5fa718db9",
+      "679554838d90554e606a227a"
+    ],
+    "top_names": [
+      "Allison Schten",
+      "Nicholas Backman",
+      "Leela Mookerjee",
+      "Delaney Fisher",
+      "Jerry Carlson",
+      "Jeff Levy",
+      "Shaun Darby",
+      "Brian Hedlund",
+      "Alyson Galusha",
+      "Darren Kerstien"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Radiology",
+    "config_path": "radiology.yml",
+    "num_retrieved": 856,
+    "num_after_hard_filter": 69,
+    "top_ids": [
+      "67951c333eff0c142a7beab3",
+      "6796f5d93eff0c142a8c6ae2",
+      "6795700b52a365d11680605f",
+      "6795ad667e0084c5fa77b7d2",
+      "67949f4673bf14921fa62fa8",
+      "6795413b73bf14921fac358d",
+      "6794dd547e0084c5fa6fcdcd",
+      "6795b82a3eff0c142a80f1ff",
+      "6795ebae8a14699f160abcb8",
+      "6795b2083e76d5b5872aa7a3"
+    ],
+    "top_names": [
+      "Christopher Sherman",
+      "Andrew Smith, MD PhD",
+      "Dr. Amit Kumar",
+      "Anna Lillis",
+      "Ricky Tong",
+      "Michael Yu",
+      "Ravi Jain",
+      "Beth Ripley",
+      "Veljko Popov",
+      "Jason Samii"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Doctors (MD)",
+    "config_path": "doctors_md.yml",
+    "num_retrieved": 1988,
+    "num_after_hard_filter": 523,
+    "top_ids": [
+      "6796ad953e76d5b58733a87d",
+      "67954be88a14699f16052856",
+      "679690333eff0c142a88dc9f",
+      "67958eb852a365d116817a8c",
+      "67957d893e76d5b58728aa10",
+      "6794930e3eff0c142a77b142",
+      "6794969e0db3e79256707f8d",
+      "6796ff6b3e76d5b58736551e",
+      "679558998a14699f16058edb",
+      "6794b41673bf14921fa6e2c2"
+    ],
+    "top_names": [
+      "Lisa Brone",
+      "Shannon Baker",
+      "Rose Weld",
+      "David Beckmann",
+      "Allen Skidmore M.D.",
+      "Heather-john Montero",
+      "Chad Wagoner",
+      "Mona Sinno",
+      "Yusuke Kobayashi",
+      "Carol Bridges"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Biology Expert",
+    "config_path": "biology_expert.yml",
+    "num_retrieved": 881,
+    "num_after_hard_filter": 432,
+    "top_ids": [
+      "6795e43a3eff0c142a828c3c",
+      "6795a04d52a365d11682202b",
+      "67964f8e8d90554e60733059",
+      "679629d2f9f986ea7fc0a41d",
+      "6796f8580db3e792568728b2",
+      "67970d8d8d90554e607a34e4",
+      "6796fecca1a09a48febd79e9",
+      "6796152752a365d1168658bf",
+      "67949eb60db3e7925670d44c",
+      "6795bedea1a09a48feb1be8e"
+    ],
+    "top_names": [
+      "Laura Donohue",
+      "Kevin D.",
+      "Alex Moran-Rohacek",
+      "Augusto Berrocal",
+      "Susannah Rankin",
+      "Chris Thomas",
+      "Matt Krause",
+      "Rodrigo Guillen",
+      "James Chamness",
+      "Sandra V. Vergara"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Anthropology",
+    "config_path": "anthropology.yml",
+    "num_retrieved": 1888,
+    "num_after_hard_filter": 234,
+    "top_ids": [
+      "6794a6728a14699f16ff7389",
+      "679619480db3e792567ed76b",
+      "67949a618d90554e60633901",
+      "6796e08f7e0084c5fa82cc6b",
+      "6794a36252a365d11678bf1c",
+      "6794a2f7a1a09a48fea6f991",
+      "6795fe1452a365d116859b13",
+      "679521e40db3e7925675a4f0",
+      "679502990db3e7925674629a",
+      "6796ecb20db3e7925686bd46"
+    ],
+    "top_names": [
+      "Keshav K.",
+      "Mohammad Javaid",
+      "Sasha Kramer",
+      "Yasmine Adams",
+      "Eleonore Guy",
+      "Evan Tims",
+      "Shania Kuo",
+      "Sreemoyee Paul",
+      "Anqi Yan",
+      "Sara Hosseini"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Mathematics PhD",
+    "config_path": "mathematics_phd.yml",
+    "num_retrieved": 887,
+    "num_after_hard_filter": 422,
+    "top_ids": [
+      "6796a7a63e76d5b587336a07",
+      "6796dcb63eff0c142a8bbdac",
+      "679703cb3eff0c142a8cd06f",
+      "679513b13eff0c142a7b9f26",
+      "67968f9f8a14699f161054a5",
+      "67953d338a14699f16049d9a",
+      "6794f3d98a14699f1602322c",
+      "67955a840db3e7925677b428",
+      "6794eed473bf14921fa93e39",
+      "67956d0773bf14921fade187"
+    ],
+    "top_names": [
+      "Timothy Hanson",
+      "Bryon A.",
+      "Tyler Skorczewski",
+      "Tatiana Yarmola",
+      "Yves Thibaudeau",
+      "Harry Crane",
+      "Will Kleiber",
+      "Richard Groenewald",
+      "Harrison Chen",
+      "Sona Akopian"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Quantitative Finance",
+    "config_path": "quantitative_finance.yml",
+    "num_retrieved": 646,
+    "num_after_hard_filter": 101,
+    "top_ids": [
+      "6794fe243e76d5b587246594",
+      "6796ee7c3e76d5b58735b306",
+      "6794ac83a1a09a48fea751a9",
+      "6794c4037e0084c5fa6edf1f",
+      "679685468d90554e60753261",
+      "6795f6008a14699f160b1942",
+      "679503713eff0c142a7b1bc6",
+      "679671448a14699f160f37fc",
+      "6794c5903e76d5b587225faa",
+      "679683b78d90554e6075262f"
+    ],
+    "top_names": [
+      "Hiren Parikh",
+      "Neeraj Bhatia",
+      "Aniruddha Deshpande",
+      "Christopher E.",
+      "Muraari Vasudevan",
+      "Evgeny Alperovich",
+      "Anirban Majumdar",
+      "Yiwen Zhu",
+      "Vic Malla",
+      "Le Yan"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Bankers",
+    "config_path": "bankers.yml",
+    "num_retrieved": 646,
+    "num_after_hard_filter": 610,
+    "top_ids": [
+      "679665163e76d5b58730eb8e",
+      "67961abca1a09a48feb52217",
+      "67967e2b3eff0c142a881f1f",
+      "679663c33eff0c142a87678b",
+      "6796b1943eff0c142a8a0b23",
+      "6795f3f13e76d5b5872cf934",
+      "6795c9cfa1a09a48feb22dd3",
+      "679524510db3e7925675bb50",
+      "679679128a14699f160f8440",
+      "6795752d7e0084c5fa757649"
+    ],
+    "top_names": [
+      "Faaiz Hasan",
+      "David K.",
+      "Kari O'Brien",
+      "Soon Hyouk Lee",
+      "Sumner Anderson",
+      "Lisa Perlmutter",
+      "Chad Elliott",
+      "Craig B.",
+      "Shantha Ozgen",
+      "Nilas Noe Munck"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  },
+  {
+    "query_name": "Mechanical Engineers",
+    "config_path": "mechanical_engineers.yml",
+    "num_retrieved": 506,
+    "num_after_hard_filter": 377,
+    "top_ids": [
+      "67967c8e3e76d5b58731cc4b",
+      "67961666f9f986ea7fc00f04",
+      "6794cc5b52a365d1167a7ea5",
+      "679642528a14699f160d9be1",
+      "67950bdf7e0084c5fa717ea4",
+      "6796b588a1a09a48febafb2a",
+      "6796f63c8d90554e60795c0e",
+      "679512f28d90554e6067bece",
+      "6794e1340db3e79256730ff0",
+      "67966ddf3e76d5b587313a5b"
+    ],
+    "top_names": [
+      "Rolf De Swardt",
+      "Anton Meiris",
+      "Hamid Khakpour",
+      "Rui Paulo",
+      "Mehrnaz Rouhi Youssefi",
+      "Ran Zhou",
+      "Younes Shabany",
+      "E. Lemma",
+      "Aisa Biria",
+      "Mohammad Malekian"
+    ],
+    "evaluation": null,
+    "evaluation_error": null
+  }
+]
