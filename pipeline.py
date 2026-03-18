@@ -839,20 +839,83 @@ def hard_filter_anthropology(c: Candidate, q: QueryConfig) -> bool:
         if neg in summary:
             return False
 
-    # Step 3: STRICT recency check.
-    # The evaluator reads the rerankSummary. If there's no EXPLICIT evidence of a
-    # recent PhD start, the candidate gets zeroed. Indirect inference (recent Master's,
-    # recent TA roles) almost never convinces the evaluator.
+    # Step 3: DUAL-GATE recency check.
+    # Critical insight: the evaluator is an LLM that reads the rerankSummary/profile text.
+    # It does NOT parse structured degree metadata. So even if start_2023 is in the
+    # degrees field, the evaluator will FAIL the candidate if the summary doesn't mention it.
     #
-    # Only pass candidates with:
-    # - Tier A (30): Explicit doctorate start_2023+ in structured data, OR
-    # - Tier B (20): Strong textual evidence ("first-year", "started PhD in 2024")
-    # Tier C (10) and D (0) are rejected — they always fail the evaluator.
-    tier = _anthropology_recency_tier(c)
-    if tier >= 20:
-        return True  # Tier A or B — provable recency
+    # GATE 1: Structured data must show start >= 2023 for doctorate
+    # GATE 2: Summary text must contain evaluator-visible recency evidence
+    # Both gates must pass.
 
-    # Tier C/D — evaluator rejects these. Don't waste a submission slot.
+    # Gate 1: Structured data check
+    has_recent_start_in_data = False
+    for deg in c.parsed_degrees:
+        dt = (deg.get("degree") or "").lower()
+        if dt == "doctorate":
+            try:
+                start = int(deg.get("start", "0"))
+                if start >= 2023:
+                    has_recent_start_in_data = True
+            except (ValueError, TypeError):
+                pass
+
+    # Gate 2: Summary text must contain evaluator-visible evidence
+    summary = (c.data.get("rerankSummary") or "").lower()
+    has_text_evidence = False
+
+    # Strongest signals (evaluator has accepted these)
+    proven_text_patterns = [
+        "first year", "first-year", "1st year",
+        "second year", "second-year", "2nd year",
+        "third year", "third-year", "3rd year",
+        "started phd", "began phd", "began doctoral",
+        "enrolled in 2023", "enrolled in 2024", "enrolled in 2025",
+        "started in 2023", "started in 2024", "started in 2025",
+        "admitted in 2023", "admitted in 2024",
+    ]
+    for phrase in proven_text_patterns:
+        if phrase in summary:
+            has_text_evidence = True
+            break
+
+    # Year near PhD context (e.g., "PhD... 2024" or "doctoral program... started 2023")
+    if not has_text_evidence:
+        for yr in ["2023", "2024", "2025"]:
+            if yr in summary:
+                # Check if the year appears near PhD-related context
+                idx = summary.find(yr)
+                context_window = summary[max(0, idx - 80):idx + 80]
+                if any(kw in context_window for kw in ["phd", "doctoral", "doctorate",
+                                                         "started", "began", "enrolled",
+                                                         "admitted", "program"]):
+                    has_text_evidence = True
+                    break
+
+    # Bachelor's ending 2022+ with no master's (direct-to-PhD, evaluator accepted this)
+    if not has_text_evidence:
+        has_masters = any((deg.get("degree") or "").lower() == "master's" for deg in c.parsed_degrees)
+        if not has_masters:
+            for deg in c.parsed_degrees:
+                dt = (deg.get("degree") or "").lower()
+                if dt == "bachelor's":
+                    try:
+                        end = int(deg.get("end", "0"))
+                        if end >= 2022:
+                            has_text_evidence = True
+                    except (ValueError, TypeError):
+                        pass
+
+    # Both gates must pass
+    if has_recent_start_in_data and has_text_evidence:
+        return True
+
+    # Fallback: Tier B textual evidence alone (no structured data needed)
+    # For candidates whose structured data doesn't have start_2023 but summary is clear
+    tier = _anthropology_recency_tier(c)
+    if tier >= 20 and has_text_evidence:
+        return True
+
     return False
 
 
