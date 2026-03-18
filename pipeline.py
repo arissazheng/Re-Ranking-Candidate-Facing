@@ -751,18 +751,6 @@ def _biology_school_quality(c: Candidate) -> int:
 
 
 def _radiology_board_cert_score(c: Candidate) -> int:
-    """Score evidence of board certification for radiology candidates."""
-    summary = (c.data.get("rerankSummary") or "").lower()
-    score = 0
-    for kw in ["board certified", "board-certified", "abr", "frcr", "diplomate",
-               "fellowship-trained", "fellowship trained", "board certification",
-               "american board of radiology", "certified radiologist"]:
-        if kw in summary:
-            score += 5
-    return score
-
-
-def _radiology_board_cert_score(c: Candidate) -> int:
     """Score evidence of board certification in radiology from summary text."""
     summary = (c.data.get("rerankSummary") or "").lower()
     score = 0
@@ -1435,12 +1423,139 @@ def get_retrieval_strategy(query: QueryConfig) -> RetrievalStrategy:
         )
 
     else:
+        # GENERIC FALLBACK for private/unseen queries.
+        # Use the query description + hard/soft criteria to build a reasonable strategy.
+        # This ensures private queries get the same quality pipeline as public ones.
         return RetrievalStrategy(
-            embedding_queries=[query.description],
+            embedding_queries=[
+                query.description,
+                # Also try a version that emphasizes hard criteria
+                f"{query.description}. Key requirements: {query.hard_criteria}",
+            ],
             tpuf_filters_strict=None,
             tpuf_filters_broad=None,
             top_k=300,
+            hard_filter_fn=None,  # Will use LLM-based generic filter
         )
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Generic query analysis for private/unseen queries
+# ═══════════════════════════════════════════════════════════════════════
+
+def llm_extract_filters_for_generic_query(
+    client: OpenAI, query: QueryConfig,
+) -> Tuple[Optional[List[Any]], Callable]:
+    """For unseen/private queries, use LLM to extract structured filters and build a hard filter.
+
+    Returns (tpuf_filters, hard_filter_fn) that can be used by the pipeline.
+    """
+    system = (
+        "You analyze job search queries to extract structured filters for a candidate database.\n"
+        "Given a role description with hard and soft criteria, extract:\n"
+        "1. required_degrees: list of degree types needed. Valid: 'JD', 'MBA', 'Doctorate', \"Master's\", \"Bachelor's\"\n"
+        "2. required_fos_keywords: list of field-of-study keywords (e.g. ['engineering', 'computer science'])\n"
+        "3. required_country: country the candidate should be in (e.g. 'United States') or null\n"
+        "4. min_experience_bucket: minimum experience bucket ('1','3','5','10') or null\n"
+        "5. required_title_keywords: list of job title keywords the candidate should have\n"
+        "6. ideal_candidate_bio: a 2-3 sentence ideal candidate bio for embedding search\n\n"
+        "Return strict JSON with these keys. Only include things clearly required by HARD criteria.\n"
+    )
+    user = json.dumps({
+        "role_name": query.name,
+        "description": query.description,
+        "hard_criteria": query.hard_criteria,
+        "soft_criteria": query.soft_criteria,
+    })
+
+    try:
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            temperature=0.1,
+        )
+        content = resp.choices[0].message.content
+        if not content:
+            return None, lambda c, q: True
+        filters = json.loads(content)
+    except Exception as e:
+        print(f"  Warning: LLM filter extraction failed ({e}), using no filters")
+        return None, lambda c, q: True
+
+    # Build Turbopuffer filter from extracted data
+    clauses = []
+    required_degrees = filters.get("required_degrees") or []
+    if required_degrees:
+        clauses.append(["deg_degrees", "ContainsAny", required_degrees])
+
+    country = filters.get("required_country")
+    if country:
+        clauses.append(["country", "In", [country]])
+
+    min_exp = filters.get("min_experience_bucket")
+    if min_exp:
+        buckets = [str(b) for b in range(int(min_exp), 11) if b in (1, 3, 5, 10)]
+        if buckets:
+            clauses.append(["exp_years", "ContainsAny", buckets])
+
+    tpuf_filters = None
+    if len(clauses) == 1:
+        tpuf_filters = clauses[0]
+    elif len(clauses) > 1:
+        tpuf_filters = ["And", clauses]
+
+    # Build a rule-based hard filter from extracted fields
+    fos_keywords = [k.lower() for k in (filters.get("required_fos_keywords") or [])]
+    title_keywords = [k.lower() for k in (filters.get("required_title_keywords") or [])]
+    req_degrees_lower = [d.lower() for d in required_degrees]
+    req_country = country
+
+    def generic_hard_filter(c: Candidate, q: QueryConfig) -> bool:
+        # Degree check
+        if req_degrees_lower:
+            degs = {d.lower() for d in (c.data.get("deg_degrees") or [])}
+            if not any(rd in degs for rd in req_degrees_lower):
+                return False
+
+        # Country check
+        if req_country:
+            c_country = (c.data.get("country") or "").strip()
+            if c_country and c_country != req_country:
+                return False
+
+        # FOS check (at least one degree must match)
+        if fos_keywords:
+            has_fos = False
+            for deg in c.parsed_degrees:
+                fos = (deg.get("fos") or "").lower()
+                if any(kw in fos for kw in fos_keywords):
+                    has_fos = True
+                    break
+            if not has_fos:
+                return False
+
+        # Title check
+        if title_keywords:
+            titles = c.data.get("exp_titles") or []
+            if not title_matches(titles, title_keywords):
+                return False
+
+        # Experience check
+        if min_exp:
+            try:
+                min_val = int(min_exp)
+                if max_exp_bucket(c) < min_val:
+                    return False
+            except (ValueError, TypeError):
+                pass
+
+        return True
+
+    return tpuf_filters, generic_hard_filter
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -1709,6 +1824,20 @@ def llm_rerank_candidates(
             "Also emphasize high-stakes trading floor or investment firm experience over pure academia.\n"
         )
 
+    # GENERIC FALLBACK for private/unseen configs
+    if not extra_guidance:
+        extra_guidance = (
+            "\nGENERAL GUIDANCE:\n"
+            "- Carefully read each hard criterion and verify it against the candidate's education and experience.\n"
+            "- For degree requirements: check specific degree types, fields of study, school names and locations.\n"
+            "- For experience requirements: check job titles, companies, years of experience, and relevant domains.\n"
+            "- For school quality requirements (e.g., 'top university', 'prestigious school'): only well-known, "
+            "highly ranked institutions should pass. If the school is not recognizable as prestigious, FAIL.\n"
+            "- For location requirements (e.g., 'in the U.S.'): verify from the education/experience data.\n"
+            "- If a hard criterion cannot be confirmed from the available data, FAIL the candidate (score 0).\n"
+            "- For soft criteria, use the full 1-10 range. Score 8-10 only for exceptional matches.\n"
+        )
+
     system = (
         "You are an expert recruiter evaluating candidates for a specific role.\n\n"
         "EVALUATION RULES:\n"
@@ -1847,6 +1976,20 @@ def run_pipeline_for_query(
     strategy = get_retrieval_strategy(query)
     config_name = query.config_path.replace(".yml", "")
 
+    # For unknown/private configs: use LLM to dynamically extract filters
+    is_known_config = config_name in (
+        "tax_lawyer", "junior_corporate_lawyer", "radiology", "doctors_md",
+        "biology_expert", "anthropology", "mathematics_phd",
+        "quantitative_finance", "bankers", "mechanical_engineers",
+    )
+    if not is_known_config and strategy.hard_filter_fn is None:
+        print(f"  Unknown config '{config_name}' — using LLM-based filter extraction")
+        tpuf_filters, generic_filter = llm_extract_filters_for_generic_query(openai_client, query)
+        # Update strategy with extracted filters
+        if tpuf_filters:
+            strategy.tpuf_filters_strict = tpuf_filters
+        strategy.hard_filter_fn = generic_filter
+
     # Step 1: Multi-pass retrieval
     candidates = retrieve_candidates_multi(query, strategy, tpuf_client, voyage_client)
 
@@ -1902,8 +2045,6 @@ def run_pipeline_for_query(
         filtered.sort(key=lambda c: (_biology_school_quality(c) * 10 + _biology_teaching_score(c), c.score), reverse=True)
     elif config_name == "bankers":
         filtered.sort(key=lambda c: (_banker_healthcare_score(c), c.score), reverse=True)
-    elif config_name == "radiology":
-        filtered.sort(key=lambda c: (_radiology_board_cert_score(c), c.score), reverse=True)
     else:
         filtered.sort(key=lambda c: c.score, reverse=True)
     # Send more candidates for roles with small hard-filter pools

@@ -5,48 +5,48 @@
     "num_retrieved": 485,
     "num_after_hard_filter": 426,
     "top_ids": [
-      "6797200f3eff0c142a8dc16e",
       "6797472a8a14699f1616edb9",
       "679604c5a1a09a48feb45b4c",
-      "679583bf73bf14921faf6300",
-      "6795d0c10db3e792567c3498",
+      "6797200f3eff0c142a8dc16e",
       "67950fcf7e0084c5fa7198ce",
       "6794b01af9f986ea7fb344b9",
       "6794bcd68a14699f16003629",
       "67968e438d90554e60758150",
-      "6795b9160db3e792567b3be7"
+      "6795b9160db3e792567b3be7",
+      "6795ff893e76d5b5872d639b",
+      "6796c6740db3e79256854164"
     ],
     "top_names": [
-      "Daniel Heller",
       "Kevin Johnson",
       "Eric Johnson",
-      "Max Yoshimura--Int'l Business & Tax Lawyer",
-      "Mitchell B. Weiss",
+      "Daniel Heller",
       "Eric Ryan",
       "Mark Astling",
       "Tennille Francis",
       "Justin Du Mouchel",
-      "Judith Kranjc"
+      "Judith Kranjc",
+      "Stephanie D. Beran JD",
+      "Scott Schiefelbein"
     ],
     "evaluation": {
       "config_name": "tax_lawyer",
       "num_candidates": 10,
-      "average_final_score": 77.0,
+      "average_final_score": 83.33333333333334,
       "average_soft_scores": [
         {
           "criteria_name": "legal_writing_expertise",
           "reasoning": null,
-          "average_score": 7.7
+          "average_score": 8.1
         },
         {
           "criteria_name": "corporate_transaction_experience",
           "reasoning": null,
-          "average_score": 7.7
+          "average_score": 7.6
         },
         {
           "criteria_name": "irs_audit_experience",
           "reasoning": null,
-          "average_score": 7.7
+          "average_score": 9.3
         }
       ],
       "average_hard_scores": [
@@ -62,45 +62,6 @@
         }
       ],
       "individual_results": [
-        {
-          "candidate_name": "Daniel Heller",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/danielheller",
-          "soft_scores": [
-            {
-              "criteria_name": "corporate_transaction_experience",
-              "reasoning": "The candidate's experience details focus primarily on tax disputes, IRS audits, collection matters, and tax litigation. There is no specific mention of advising clients on tax implications of corporate or financial transactions, indicating limited or no direct experience in this area.",
-              "score": 2.0
-            },
-            {
-              "criteria_name": "irs_audit_experience",
-              "reasoning": "Candidate has extensive experience with IRS-related issues, including IRS audits, collection cases, and has acted as a partner in a firm handling such cases. This demonstrates strong and relevant experience handling IRS audits and related disputes.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "legal_writing_expertise",
-              "reasoning": "The candidate has authored articles on tax law, assisted in writing and publishing a tax law book, drafted case analyses, and prepared motions and judicial opinions during clerkship. This shows a high level of legal writing expertise in tax compliance and related matters.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "has_jd_degree",
-              "reasoning": "Candidate holds a JD from Widener University School of Law, an accredited U.S. law school.",
-              "passes": true
-            },
-            {
-              "criteria_name": "three_plus_years_experience",
-              "reasoning": "Candidate currently is a partner at a law firm and has multiple prior legal roles including attorney and law clerk, indicating well over three years of legal practice experience.",
-              "passes": true
-            }
-          ],
-          "final_score": 63.33333333333334,
-          "raw_data": {
-            "_id": "6797200f3eff0c142a8dc16e",
-            "name": "Daniel Heller",
-            "linkedinId": "danielheller"
-          }
-        },
         {
           "candidate_name": "Kevin Johnson",
           "candidate_linkedin_url": "https://www.linkedin.com/in/kevinjohnson4",
@@ -180,81 +141,42 @@
           }
         },
         {
-          "candidate_name": "Max Yoshimura--Int'l Business & Tax Lawyer",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/yoshimura",
+          "candidate_name": "Daniel Heller",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/danielheller",
           "soft_scores": [
             {
               "criteria_name": "corporate_transaction_experience",
-              "reasoning": "The candidate has extensive experience advising multinational clients on mergers, acquisitions, corporate reorganizations, and tax implications related to taxable and nontaxable acquisitions, transfers, and reorganizations. This indicates strong experience in corporate transactions with tax considerations.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "irs_audit_experience",
-              "reasoning": "While the candidate has extensive tax law experience and consulting roles, there is no explicit mention of representing clients in IRS audits, disputes, or regulatory inquiries.",
+              "reasoning": "The candidate's experience details focus primarily on tax disputes, IRS audits, collection matters, and tax litigation. There is no specific mention of advising clients on tax implications of corporate or financial transactions, indicating limited or no direct experience in this area.",
               "score": 2.0
             },
             {
+              "criteria_name": "irs_audit_experience",
+              "reasoning": "Candidate has extensive experience with IRS-related issues, including IRS audits, collection cases, and has acted as a partner in a firm handling such cases. This demonstrates strong and relevant experience handling IRS audits and related disputes.",
+              "score": 9.0
+            },
+            {
               "criteria_name": "legal_writing_expertise",
-              "reasoning": "The candidate has experience authoring legal opinions related to federal income taxation and tax treaties as indicated by specialties in federal income taxation and tax law consulting services, consistent with drafting legal opinions and filings.",
+              "reasoning": "The candidate has authored articles on tax law, assisted in writing and publishing a tax law book, drafted case analyses, and prepared motions and judicial opinions during clerkship. This shows a high level of legal writing expertise in tax compliance and related matters.",
               "score": 8.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "has_jd_degree",
-              "reasoning": "The candidate holds a JD degree from University of Wisconsin Law School, an accredited U.S. law school.",
+              "reasoning": "Candidate holds a JD from Widener University School of Law, an accredited U.S. law school.",
               "passes": true
             },
             {
               "criteria_name": "three_plus_years_experience",
-              "reasoning": "The candidate has multiple years of experience as an attorney in various law firms and as managing member of a law group since before 2026, clearly exceeding three years of legal practice.",
+              "reasoning": "Candidate currently is a partner at a law firm and has multiple prior legal roles including attorney and law clerk, indicating well over three years of legal practice experience.",
               "passes": true
             }
           ],
           "final_score": 63.33333333333334,
           "raw_data": {
-            "_id": "679583bf73bf14921faf6300",
-            "name": "Max Yoshimura--Int'l Business & Tax Lawyer",
-            "linkedinId": "yoshimura"
-          }
-        },
-        {
-          "candidate_name": "Mitchell B. Weiss",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/mitchell-b-weiss-94b51214",
-          "soft_scores": [
-            {
-              "criteria_name": "corporate_transaction_experience",
-              "reasoning": "The candidate has extensive experience advising on tax implications in corporate transactions, including cross-border acquisitions, expansions, and other tax-advantaged corporate structures, indicating strong expertise in this area.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "irs_audit_experience",
-              "reasoning": "There is no specific mention of handling IRS audits, disputes, or regulatory inquiries in the candidate's summary or experience, so this experience is not clearly demonstrated.",
-              "score": 1.0
-            },
-            {
-              "criteria_name": "legal_writing_expertise",
-              "reasoning": "Though the candidate has authored legal opinions related to tax, there is no explicit mention of drafting legal opinions or filings specifically related to federal and state tax compliance. However, being an advisor on tax matters and an adjunct professor suggests some level of expertise in legal writing.",
-              "score": 6.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "has_jd_degree",
-              "reasoning": "Candidate holds a JD from University Of Chicago Law School, a top accredited U.S. law school.",
-              "passes": true
-            },
-            {
-              "criteria_name": "three_plus_years_experience",
-              "reasoning": "Candidate's experience history spans multiple companies and roles over many years, well exceeding 3 years of legal practice.",
-              "passes": true
-            }
-          ],
-          "final_score": 53.333333333333336,
-          "raw_data": {
-            "_id": "6795d0c10db3e792567c3498",
-            "name": "Mitchell B. Weiss",
-            "linkedinId": "mitchell-b-weiss-94b51214"
+            "_id": "6797200f3eff0c142a8dc16e",
+            "name": "Daniel Heller",
+            "linkedinId": "danielheller"
           }
         },
         {
@@ -451,6 +373,84 @@
             "name": "Judith Kranjc",
             "linkedinId": "judith-kranjc-b5755aa0"
           }
+        },
+        {
+          "candidate_name": "Stephanie D. Beran JD",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/stephanieberanjdcfecpa",
+          "soft_scores": [
+            {
+              "criteria_name": "corporate_transaction_experience",
+              "reasoning": "Candidate has experience working in roles involving corporate tax consulting and advising on legal and tax positions related to corporate clients, including defending corporate audits worth over $10 million and preparing legal documents relevant to business and corporate matters.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "irs_audit_experience",
+              "reasoning": "Candidate has extensive experience handling IRS audits, including responding to IRS audit requests, resolving federal tax controversy matters, and managing IRS Low Income Tax Clinic work. This includes direct IRS negotiations and audit defense work.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "legal_writing_expertise",
+              "reasoning": "Candidate has drafted a wide range of legal documents including memoranda on tax positions, legal filings, complaints, and legal opinions related to federal tax code matters. Also prepared memoranda and grant applications, showing strong legal writing skills.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "has_jd_degree",
+              "reasoning": "Candidate holds a JD from Pepperdine Law, an accredited U.S. law school.",
+              "passes": true
+            },
+            {
+              "criteria_name": "three_plus_years_experience",
+              "reasoning": "Candidate has over three years of relevant legal experience in multiple roles since at least 1999, including practicing law as a staff attorney and tax attorney, as well as significant tax consulting roles.",
+              "passes": true
+            }
+          ],
+          "final_score": 86.66666666666667,
+          "raw_data": {
+            "_id": "6795ff893e76d5b5872d639b",
+            "name": "Stephanie D. Beran JD",
+            "linkedinId": "stephanieberanjdcfecpa"
+          }
+        },
+        {
+          "candidate_name": "Scott Schiefelbein",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/scott-schiefelbein-0766ba7",
+          "soft_scores": [
+            {
+              "criteria_name": "corporate_transaction_experience",
+              "reasoning": "Candidate has represented clients in various tax and business issues including mergers and acquisitions, business restructurings, and transfers of intellectual property rights, indicating strong experience advising on tax implications of corporate transactions.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "irs_audit_experience",
+              "reasoning": "Candidate has represented clients in disputes with the Internal Revenue Service and state taxing agencies, including controversy work and tax disputes, demonstrating high experience handling IRS audits and related matters.",
+              "score": 10.0
+            },
+            {
+              "criteria_name": "legal_writing_expertise",
+              "reasoning": "Candidate has drafted legislative updates and legal opinions, and regularly authors articles and speaks on federal income tax issues, showing excellent legal writing expertise related to tax compliance.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "has_jd_degree",
+              "reasoning": "Candidate holds a JD from Duke University School of Law, a top accredited U.S. law school.",
+              "passes": true
+            },
+            {
+              "criteria_name": "three_plus_years_experience",
+              "reasoning": "Candidate has over 25 years of experience practicing as a tax attorney, exceeding the 3 years requirement.",
+              "passes": true
+            }
+          ],
+          "final_score": 93.33333333333333,
+          "raw_data": {
+            "_id": "6796c6740db3e79256854164",
+            "name": "Scott Schiefelbein",
+            "linkedinId": "scott-schiefelbein-0766ba7"
+          }
         }
       ]
     },
@@ -463,47 +463,47 @@
     "num_after_hard_filter": 351,
     "top_ids": [
       "6795ca8f3eff0c142a8198d9",
-      "6794da4e8d90554e6065c02b",
       "679593c88a14699f1607ad3a",
+      "6796bb097e0084c5fa817787",
+      "67967b8f3e76d5b58731c28e",
+      "6794da4e8d90554e6065c02b",
       "67975d973eff0c142a8f92db",
       "6795e38c3eff0c142a828955",
       "6796970fa1a09a48feba0d26",
       "679707b53e76d5b58736aa02",
-      "6796ff50a1a09a48febd7fc9",
-      "6794fb080db3e7925674194e",
-      "679555a13e76d5b587272b2b"
+      "6796ff50a1a09a48febd7fc9"
     ],
     "top_names": [
       "Allison Schten",
-      "Charles Layton",
       "Nicholas Backman",
+      "Philip Webb",
+      "Heather Giannandrea",
+      "Charles Layton",
       "Leela Mookerjee",
       "Delaney Fisher",
       "Jeff Levy",
       "Shaun Darby",
-      "Brian Hedlund",
-      "Ian Edwards",
-      "Daniela Ivascanu MA"
+      "Brian Hedlund"
     ],
     "evaluation": {
       "config_name": "junior_corporate_lawyer",
       "num_candidates": 10,
-      "average_final_score": 68.66666666666667,
+      "average_final_score": 79.33333333333334,
       "average_soft_scores": [
         {
           "criteria_name": "contract_negotiation_skills",
           "reasoning": null,
-          "average_score": 7.5
+          "average_score": 7.7
         },
         {
           "criteria_name": "international_law_familiarity",
           "reasoning": null,
-          "average_score": 8.0
+          "average_score": 8.3
         },
         {
           "criteria_name": "ma_transaction_experience",
           "reasoning": null,
-          "average_score": 7.0
+          "average_score": 7.8
         }
       ],
       "average_hard_scores": [
@@ -515,7 +515,7 @@
         {
           "criteria_name": "appropriate_experience_level",
           "reasoning": null,
-          "pass_rate": 0.9
+          "pass_rate": 1.0
         }
       ],
       "individual_results": [
@@ -559,45 +559,6 @@
           }
         },
         {
-          "candidate_name": "Charles Layton",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/charles-layton-18a2242b",
-          "soft_scores": [
-            {
-              "criteria_name": "ma_transaction_experience",
-              "reasoning": "Candidate has significant experience supporting M&A transactions, including structuring, negotiating, closing, and integrating acquisitions as part of the legal support for software companies portfolio and M&A teams.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "contract_negotiation_skills",
-              "reasoning": "Candidate is skilled in drafting and negotiating commercial agreements and complex contracts in commercial, corporate, and regulatory law contexts over fifteen years of experience.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "international_law_familiarity",
-              "reasoning": "Candidate has experience with international regulatory compliance, working with companies across Canada, USA, UK, Austria, Germany, and Switzerland, indicating strong familiarity with international business law and cross-jurisdictional regulatory requirements.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "appropriate_experience_level",
-              "reasoning": "Candidate has 15 years of relevant experience including over two years at top-tier international law firms (e.g., Blake, Cassels & Graydon LLP and Freshfields Bruckhaus Deringer) and senior in-house roles at major global organizations, exceeding the 2-4 year experience requirement.",
-              "passes": true
-            },
-            {
-              "criteria_name": "reputed_law_school",
-              "reasoning": "Candidate holds a JD from University of Toronto, a reputed Canadian law school, fulfilling the graduation requirement from a reputed institution in Canada.",
-              "passes": true
-            }
-          ],
-          "final_score": 86.66666666666667,
-          "raw_data": {
-            "_id": "6794da4e8d90554e6065c02b",
-            "name": "Charles Layton",
-            "linkedinId": "charles-layton-18a2242b"
-          }
-        },
-        {
           "candidate_name": "Nicholas Backman",
           "candidate_linkedin_url": "https://www.linkedin.com/in/nicholas-backman",
           "soft_scores": [
@@ -634,6 +595,123 @@
             "_id": "679593c88a14699f1607ad3a",
             "name": "Nicholas Backman",
             "linkedinId": "nicholas-backman"
+          }
+        },
+        {
+          "candidate_name": "Philip Webb",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/philip-webb-63a426",
+          "soft_scores": [
+            {
+              "criteria_name": "ma_transaction_experience",
+              "reasoning": "Candidate has extensive experience leading M&A and complex transactions for international corporate clients, including Fortune 100 companies. Roles include M&A counsel positions and in-house counsel advising on strategic transactions and due diligence phases.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "contract_negotiation_skills",
+              "reasoning": "Candidate has demonstrated exceptional drafting and negotiation skills, managing legal teams and supervising due diligence, including negotiating documentation for complex cross-border transactions.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "international_law_familiarity",
+              "reasoning": "Candidate shows strong familiarity with international business law and regulatory requirements, with experience advising multinational companies, involvement in cross-border deals, and drafting relevant documentation.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "appropriate_experience_level",
+              "reasoning": "Candidate has several years of experience as Associate at leading international law firms (Debevoise & Plimpton, White & Case, Chadbourne & Parke LLP) and in-house counsel roles, meeting the requirement for 2-4 years experience at top-tier firms or major organizations.",
+              "passes": true
+            },
+            {
+              "criteria_name": "reputed_law_school",
+              "reasoning": "Candidate holds a JD from Columbia Law School, which is a highly reputed law school in the USA.",
+              "passes": true
+            }
+          ],
+          "final_score": 90.0,
+          "raw_data": {
+            "_id": "6796bb097e0084c5fa817787",
+            "name": "Philip Webb",
+            "linkedinId": "philip-webb-63a426"
+          }
+        },
+        {
+          "candidate_name": "Heather Giannandrea",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/heather-giannandrea",
+          "soft_scores": [
+            {
+              "criteria_name": "ma_transaction_experience",
+              "reasoning": "Candidate has more than 10 years of experience in M&A practice groups at leading international law firms and in-house roles, including complex cross-border transactions and due diligence support, which is highly relevant.",
+              "score": 10.0
+            },
+            {
+              "criteria_name": "contract_negotiation_skills",
+              "reasoning": "Candidate lists contract negotiation and commercial contract experience explicitly, with a background in drafting and negotiating complex agreements in multiple jurisdictions.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "international_law_familiarity",
+              "reasoning": "Extensive experience working in the US and Europe, handling multi-jurisdictional carve-out transactions and private international law, demonstrating strong familiarity with international regulatory compliance.",
+              "score": 10.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "appropriate_experience_level",
+              "reasoning": "Candidate has over 10 years of experience at leading international law firms and in-house roles, well beyond the required 2-4 years.",
+              "passes": true
+            },
+            {
+              "criteria_name": "reputed_law_school",
+              "reasoning": "Candidate holds a JD from University of Toronto, a well-regarded Canadian law school.",
+              "passes": true
+            }
+          ],
+          "final_score": 96.66666666666667,
+          "raw_data": {
+            "_id": "67967b8f3e76d5b58731c28e",
+            "name": "Heather Giannandrea",
+            "linkedinId": "heather-giannandrea"
+          }
+        },
+        {
+          "candidate_name": "Charles Layton",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/charles-layton-18a2242b",
+          "soft_scores": [
+            {
+              "criteria_name": "ma_transaction_experience",
+              "reasoning": "Candidate has significant experience supporting M&A transactions, including structuring, negotiating, closing, and integrating acquisitions as part of the legal support for software companies portfolio and M&A teams.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "contract_negotiation_skills",
+              "reasoning": "Candidate is skilled in drafting and negotiating commercial agreements and complex contracts in commercial, corporate, and regulatory law contexts over fifteen years of experience.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "international_law_familiarity",
+              "reasoning": "Candidate has experience with international regulatory compliance, working with companies across Canada, USA, UK, Austria, Germany, and Switzerland, indicating strong familiarity with international business law and cross-jurisdictional regulatory requirements.",
+              "score": 8.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "appropriate_experience_level",
+              "reasoning": "Candidate has 15 years of relevant experience including over two years at top-tier international law firms (e.g., Blake, Cassels & Graydon LLP and Freshfields Bruckhaus Deringer) and senior in-house roles at major global organizations, exceeding the 2-4 year experience requirement.",
+              "passes": true
+            },
+            {
+              "criteria_name": "reputed_law_school",
+              "reasoning": "Candidate holds a JD from University of Toronto, a reputed Canadian law school, fulfilling the graduation requirement from a reputed institution in Canada.",
+              "passes": true
+            }
+          ],
+          "final_score": 86.66666666666667,
+          "raw_data": {
+            "_id": "6794da4e8d90554e6065c02b",
+            "name": "Charles Layton",
+            "linkedinId": "charles-layton-18a2242b"
           }
         },
         {
@@ -830,84 +908,6 @@
             "name": "Brian Hedlund",
             "linkedinId": "brian-hedlund-56aaa610"
           }
-        },
-        {
-          "candidate_name": "Ian Edwards",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/ian-edwards-2376b37a",
-          "soft_scores": [
-            {
-              "criteria_name": "ma_transaction_experience",
-              "reasoning": "Candidate has experience at Goodwin and K&L Gates involving mergers, acquisitions, due diligence coordination, and transaction documentation. This shows good involvement in corporate M&A transactions.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "contract_negotiation_skills",
-              "reasoning": "Candidate has drafted and negotiated multiple transaction documents including purchase agreements, manager agreements, confidentiality agreements, and legal opinions at Goodwin and K&L Gates, indicating strong contract negotiation experience.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "international_law_familiarity",
-              "reasoning": "Worked on cross-border transactions with publicly traded German and Swedish companies and advised on compliance involving international jurisdictions. Also trained in International and Comparative Law at Duke Law School and drafted memoranda on US and European Anti-Bribery laws. Demonstrates strong familiarity with international business law.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "appropriate_experience_level",
-              "reasoning": "Candidate has associate roles at Goodwin and K&L Gates with several years of experience in corporate law working on M&A and corporate matters. This fits the 2-4 years experience at leading law firms requirement.",
-              "passes": true
-            },
-            {
-              "criteria_name": "reputed_law_school",
-              "reasoning": "Candidate graduated JD from Duke University School of Law, a reputed law school in the USA.",
-              "passes": true
-            }
-          ],
-          "final_score": 80.00000000000001,
-          "raw_data": {
-            "_id": "6794fb080db3e7925674194e",
-            "name": "Ian Edwards",
-            "linkedinId": "ian-edwards-2376b37a"
-          }
-        },
-        {
-          "candidate_name": "Daniela Ivascanu MA",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/daniela-ivascanu-ma-jd-crm-9742a9",
-          "soft_scores": [
-            {
-              "criteria_name": "ma_transaction_experience",
-              "reasoning": "The candidate has extensive legal experience including regulatory law, contract drafting, and negotiations but there is no explicit mention of supporting Corporate M&A transactions, due diligence, or related documentation specific to M&A.",
-              "score": 3.0
-            },
-            {
-              "criteria_name": "contract_negotiation_skills",
-              "reasoning": "The candidate has experience in contract drafting, negotiations, and management as indicated in their specialties, suggesting solid skills in this area.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "international_law_familiarity",
-              "reasoning": "The candidate has a strong background in international trade law, international regulatory compliance, and cross-cultural communication, indicating above average familiarity with international business law and regulatory requirements across jurisdictions.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "appropriate_experience_level",
-              "reasoning": "The candidate has 20 years of combined experience in business, regulatory, and legal roles, with varied government legal counsel positions but no specific mention of employment as a Corporate Lawyer at a leading law firm or major global organization with 2-4 years experience.",
-              "passes": false
-            },
-            {
-              "criteria_name": "reputed_law_school",
-              "reasoning": "Candidate graduated with a JD from The University Of British Columbia, which is a reputed law school in Canada.",
-              "passes": true
-            }
-          ],
-          "final_score": 0.0,
-          "raw_data": {
-            "_id": "679555a13e76d5b587272b2b",
-            "name": "Daniela Ivascanu MA",
-            "linkedinId": "daniela-ivascanu-ma-jd-crm-9742a9"
-          }
         }
       ]
     },
@@ -922,40 +922,40 @@
       "6794d0563eff0c142a79b708",
       "679707537e0084c5fa845ea5",
       "6796f5d93eff0c142a8c6ae2",
-      "679662097e0084c5fa7db577",
       "6796d2b03e76d5b58734ac23",
       "6795700b52a365d11680605f",
       "67963ee73eff0c142a860e87",
       "679706568a14699f161483ff",
       "67971de58a14699f16156649",
-      "67951c333eff0c142a7beab3"
+      "67951c333eff0c142a7beab3",
+      "6795ebae8a14699f160abcb8"
     ],
     "top_names": [
       "Haiwei Henry Guo",
       "Richard Clark",
       "Andrew Smith, MD PhD",
-      "Jared Allen",
       "Iris Bonilla-Yoon",
       "Dr. Amit Kumar",
       "Richard G Barr",
       "Kay Dattani",
       "Dr Jerin Kuruvilla",
-      "Christopher Sherman"
+      "Christopher Sherman",
+      "Veljko Popov"
     ],
     "evaluation": {
       "config_name": "radiology",
       "num_candidates": 10,
-      "average_final_score": 75.0,
+      "average_final_score": 78.66666666666667,
       "average_soft_scores": [
         {
           "criteria_name": "board_certification",
           "reasoning": null,
-          "average_score": 5.7
+          "average_score": 6.6
         },
         {
           "criteria_name": "radiology_expertise",
           "reasoning": null,
-          "average_score": 7.9
+          "average_score": 8.1
         },
         {
           "criteria_name": "diagnostic_imaging_expertise",
@@ -1071,40 +1071,6 @@
             "_id": "6796f5d93eff0c142a8c6ae2",
             "name": "Andrew Smith, MD PhD",
             "linkedinId": "andrewsmithmdphd"
-          }
-        },
-        {
-          "candidate_name": "Jared Allen",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/jared-allen-73182875",
-          "soft_scores": [
-            {
-              "criteria_name": "board_certification",
-              "reasoning": "No explicit mention of board certification (ABR, FRCR, or equivalent) is provided in the candidate's information.",
-              "score": 0.0
-            },
-            {
-              "criteria_name": "diagnostic_imaging_expertise",
-              "reasoning": "The candidate has several years of experience working as a radiologist in multiple organizations, including specialized fellowship training in Body MRI and residency in diagnostic radiology, indicating significant experience interpreting CT, MRI, and other imaging modalities.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "radiology_expertise",
-              "reasoning": "The candidate has held roles as a radiologist and fellow in diagnostic radiology with experience in specialized imaging (Body MRI), indicating good expertise in radiology reporting and diagnostic protocols. Although AI applications are not explicitly mentioned, the bioengineering background may contribute to familiarity with AI-assisted image analysis.",
-              "score": 7.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "has_md_degree",
-              "reasoning": "The candidate holds an MD degree from a U.S. medical school, David Geffen School Of Medicine At UCLA, which satisfies this requirement.",
-              "passes": true
-            }
-          ],
-          "final_score": 50.0,
-          "raw_data": {
-            "_id": "679662097e0084c5fa7db577",
-            "name": "Jared Allen",
-            "linkedinId": "jared-allen-73182875"
           }
         },
         {
@@ -1310,6 +1276,40 @@
             "name": "Christopher Sherman",
             "linkedinId": "christopher-sherman-m-d-ph-d-35ab74b6"
           }
+        },
+        {
+          "candidate_name": "Veljko Popov",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/veljko-popov-b9220916",
+          "soft_scores": [
+            {
+              "criteria_name": "board_certification",
+              "reasoning": "Candidate holds prominent positions such as Fellowship Program Director and Assistant Professor at reputable institutions, implying board certification or equivalent credential in Radiology.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "diagnostic_imaging_expertise",
+              "reasoning": "Candidate has several years of experience in Diagnostic and Interventional Radiology, including clinical experience with CT and MRI through interventional and diagnostic radiology roles and a 6-month MRI mini-fellowship.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "radiology_expertise",
+              "reasoning": "Candidate demonstrates expertise in radiology reporting, diagnostic workflows, protocol development, and research including automated segmentation and AI-assisted imaging analysis.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "has_md_degree",
+              "reasoning": "Candidate has an MD from Dartmouth Medical School, United States, fulfilling the requirement of an MD degree from a U.S. medical school.",
+              "passes": true
+            }
+          ],
+          "final_score": 86.66666666666667,
+          "raw_data": {
+            "_id": "6795ebae8a14699f160abcb8",
+            "name": "Veljko Popov",
+            "linkedinId": "veljko-popov-b9220916"
+          }
         }
       ]
     },
@@ -1318,46 +1318,46 @@
   {
     "query_name": "Doctors (MD)",
     "config_path": "doctors_md.yml",
-    "num_retrieved": 1987,
-    "num_after_hard_filter": 376,
+    "num_retrieved": 1988,
+    "num_after_hard_filter": 375,
     "top_ids": [
       "6796f4de8a14699f1613e8ae",
-      "6794bb78a1a09a48fea7dcb8",
       "6795070c73bf14921faa0be5",
       "679558998a14699f16058edb",
-      "67954be88a14699f16052856",
-      "6795cdfd8d90554e606ea390",
       "67958eb852a365d116817a8c",
-      "67957d893e76d5b58728aa10",
       "6794930e3eff0c142a77b142",
-      "6796c2818a14699f16122afc"
+      "6796ff6b3e76d5b58736551e",
+      "6794f3f83e76d5b587241551",
+      "67956e398a14699f16064740",
+      "6795cea2f9f986ea7fbd941c",
+      "6794aa308a14699f16ff94a9"
     ],
     "top_names": [
       "Elizabeth Williams",
-      "Allison Valentine",
       "Audra Williams",
       "Yusuke Kobayashi",
-      "Shannon Baker",
-      "Joseph S.",
       "David Beckmann",
-      "Allen Skidmore M.D.",
       "Heather-john Montero",
-      "Yvonne Luyando Simon"
+      "Mona Sinno",
+      "Christine Mulligan",
+      "Oscar Gantes",
+      "Stacie Johns",
+      "Brandon Lynch"
     ],
     "evaluation": {
       "config_name": "doctors_md",
       "num_candidates": 10,
-      "average_final_score": 65.5,
+      "average_final_score": 74.0,
       "average_soft_scores": [
         {
           "criteria_name": "ehr_systems_familiarity",
           "reasoning": null,
-          "average_score": 7.8
+          "average_score": 7.6
         },
         {
           "criteria_name": "telemedicine_comfort",
           "reasoning": null,
-          "average_score": 7.1
+          "average_score": 7.2
         }
       ],
       "average_hard_scores": [
@@ -1369,7 +1369,7 @@
         {
           "criteria_name": "top_us_md_degree",
           "reasoning": null,
-          "pass_rate": 0.9
+          "pass_rate": 1.0
         },
         {
           "criteria_name": "general_practitioner_experience",
@@ -1415,45 +1415,6 @@
             "_id": "6796f4de8a14699f1613e8ae",
             "name": "Elizabeth Williams",
             "linkedinId": "elizabethwilliamsmd"
-          }
-        },
-        {
-          "candidate_name": "Allison Valentine",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/allison-valentine-8664174",
-          "soft_scores": [
-            {
-              "criteria_name": "ehr_systems_familiarity",
-              "reasoning": "The candidate has extensive experience in multiple telemedicine roles and traditional primary care settings, likely involving EHR systems for managing patient records, especially in outpatient and family medicine contexts. Though not explicitly stated, familiarity with EHR systems is strongly implied by their roles as a primary care physician and telemedicine physician handling multiple patients and practices.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "telemedicine_comfort",
-              "reasoning": "Candidate works full-time as a telemedicine physician on synchronous and asynchronous platforms, owns a telemedicine practice, and manages multiple patient conditions remotely. She is clearly very comfortable with telemedicine consultations, patient triage, and interdisciplinary coordination within telemedicine environments.",
-              "score": 10.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "top_us_md_degree",
-              "reasoning": "The candidate earned an MD from University Of North Carolina At Chapel Hill School Of Medicine, which is a well-regarded US medical school but not generally ranked in the very top tier such as Harvard, Johns Hopkins, or Stanford. Hence, it does not clearly qualify as a top US medical school degree under typical strict definitions.",
-              "passes": false
-            },
-            {
-              "criteria_name": "two_plus_years_clinical",
-              "reasoning": "The candidate has multiple years of clinical experience including residency at Fairfax Family Medicine, primary care physician roles, medical director roles, and ongoing telemedicine practice since residency. This clearly exceeds two years of clinical practice.",
-              "passes": true
-            },
-            {
-              "criteria_name": "general_practitioner_experience",
-              "reasoning": "The candidate has served as a family physician, primary care physician, and resident physician in family medicine settings. This aligns with the definition of general practitioner experience.",
-              "passes": true
-            }
-          ],
-          "final_score": 0.0,
-          "raw_data": {
-            "_id": "6794bb78a1a09a48fea7dcb8",
-            "name": "Allison Valentine",
-            "linkedinId": "allison-valentine-8664174"
           }
         },
         {
@@ -1535,84 +1496,6 @@
           }
         },
         {
-          "candidate_name": "Shannon Baker",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/shannon-baker-aa928372",
-          "soft_scores": [
-            {
-              "criteria_name": "ehr_systems_familiarity",
-              "reasoning": "The candidate has experience working as a Family Physician in outpatient settings such as InstaCare and USMD, which typically involve the use of EHR systems and managing high patient volumes. This suggests good familiarity.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "telemedicine_comfort",
-              "reasoning": "There is no explicit mention of telemedicine experience or comfort, but given recent family physician roles which often include telemedicine especially post-pandemic, it is reasonable to infer some comfort. However, without direct evidence, this is rated moderately.",
-              "score": 6.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "top_us_md_degree",
-              "reasoning": "The candidate holds an MD degree from the University of North Carolina at Chapel Hill, which is considered a highly reputable U.S. medical school, often ranked among the top programs nationally.",
-              "passes": true
-            },
-            {
-              "criteria_name": "two_plus_years_clinical",
-              "reasoning": "The candidate has worked at Intermountain Healthcare and USMD, Inc as a Family Physician. The listing of multiple sites and positions strongly suggests at least two years of clinical practice experience in the U.S.",
-              "passes": true
-            },
-            {
-              "criteria_name": "general_practitioner_experience",
-              "reasoning": "The candidate has worked as a Family Physician, which is equivalent to a General Practitioner in the U.S. This directly meets the criterion.",
-              "passes": true
-            }
-          ],
-          "final_score": 70.0,
-          "raw_data": {
-            "_id": "67954be88a14699f16052856",
-            "name": "Shannon Baker",
-            "linkedinId": "shannon-baker-aa928372"
-          }
-        },
-        {
-          "candidate_name": "Joseph S.",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/doctorjosephschwartz",
-          "soft_scores": [
-            {
-              "criteria_name": "ehr_systems_familiarity",
-              "reasoning": "The candidate has practiced family medicine at a leading multi-specialty medical group for over 20 years, likely involving familiarity with EHR systems and managing high patient volumes in outpatient and family medicine settings.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "telemedicine_comfort",
-              "reasoning": "The resume does not explicitly mention telemedicine experience or comfort, so a moderate score is given for possible related skills in patient management and interdisciplinary coordination.",
-              "score": 5.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "top_us_md_degree",
-              "reasoning": "The candidate holds an MD from Emory University School Of Medicine, which is recognized as a top U.S. medical school.",
-              "passes": true
-            },
-            {
-              "criteria_name": "two_plus_years_clinical",
-              "reasoning": "The candidate has over 20 years of clinical practice in family medicine in the U.S.",
-              "passes": true
-            },
-            {
-              "criteria_name": "general_practitioner_experience",
-              "reasoning": "The candidate has extensive experience as a Family Medicine MD, fulfilling the role of a general practitioner.",
-              "passes": true
-            }
-          ],
-          "final_score": 65.0,
-          "raw_data": {
-            "_id": "6795cdfd8d90554e606ea390",
-            "name": "Joseph S.",
-            "linkedinId": "doctorjosephschwartz"
-          }
-        },
-        {
           "candidate_name": "David Beckmann",
           "candidate_linkedin_url": "https://www.linkedin.com/in/david-beckmann-b667a22b",
           "soft_scores": [
@@ -1649,45 +1532,6 @@
             "_id": "67958eb852a365d116817a8c",
             "name": "David Beckmann",
             "linkedinId": "david-beckmann-b667a22b"
-          }
-        },
-        {
-          "candidate_name": "Allen Skidmore M.D.",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/allen-skidmore-m-d-352bb422",
-          "soft_scores": [
-            {
-              "criteria_name": "ehr_systems_familiarity",
-              "reasoning": "The candidate has extensive experience working in family medicine and hospital settings with a high patient volume, including outpatient care and various primary care services. This implies familiarity with standard EHR systems used in outpatient and family medicine settings, though EHR specifically is not explicitly stated.",
-              "score": 7.0
-            },
-            {
-              "criteria_name": "telemedicine_comfort",
-              "reasoning": "There is no explicit mention of telemedicine experience or comfort with telemedicine consultations in the candidate's information. The candidate has strong general primary care and hospital practice experience but without stated telemedicine skills.",
-              "score": 3.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "top_us_md_degree",
-              "reasoning": "The candidate holds an MD degree from University of Washington School of Medicine, which is considered a top U.S. medical school.",
-              "passes": true
-            },
-            {
-              "criteria_name": "two_plus_years_clinical",
-              "reasoning": "The candidate has four years of service as a Family Physician at Shaw Air Force Base plus experience at Providence Family Medicine, clearly exceeding two years clinical practice in the U.S.",
-              "passes": true
-            },
-            {
-              "criteria_name": "general_practitioner_experience",
-              "reasoning": "The candidate is described as a Family Physician and Primary Care specialist with extensive experience treating patients of all ages including newborn care, adult primary care, chronic diseases, which aligns with general practitioner experience.",
-              "passes": true
-            }
-          ],
-          "final_score": 50.0,
-          "raw_data": {
-            "_id": "67957d893e76d5b58728aa10",
-            "name": "Allen Skidmore M.D.",
-            "linkedinId": "allen-skidmore-m-d-352bb422"
           }
         },
         {
@@ -1730,42 +1574,198 @@
           }
         },
         {
-          "candidate_name": "Yvonne Luyando Simon",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/yvonne-luyando-simon-9b865a103",
+          "candidate_name": "Mona Sinno",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/mona-sinno-a3004745",
           "soft_scores": [
             {
               "criteria_name": "ehr_systems_familiarity",
-              "reasoning": "Candidate has held multiple positions in family medicine and medical director roles at well-established institutions like Kaiser Permanente and UNC Primary Care, which likely use EHR systems extensively and manage high patient volumes.",
+              "reasoning": "The candidate has extensive experience working in various outpatient and family medicine settings, including VA, military, and clinics. These roles typically require familiarity with EHR systems and managing high patient volumes, so a score of 8 is warranted.",
               "score": 8.0
             },
             {
               "criteria_name": "telemedicine_comfort",
-              "reasoning": "The candidate's summary indicates skills in telemedicine and patient education, and leadership roles imply interdisciplinary coordination experience.",
+              "reasoning": "While telemedicine is not specifically mentioned, the candidate's broad experience in outpatient care, interdisciplinary settings, and patient education suggests a good comfort level with telemedicine practices and patient triage.",
+              "score": 7.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "top_us_md_degree",
+              "reasoning": "The MD degree is from University of North Carolina at Chapel Hill, which is generally ranked among the top U.S. medical schools, supporting a PASS decision.",
+              "passes": true
+            },
+            {
+              "criteria_name": "two_plus_years_clinical",
+              "reasoning": "The candidate has 10+ years of clinical experience, clearly exceeding two years.",
+              "passes": true
+            },
+            {
+              "criteria_name": "general_practitioner_experience",
+              "reasoning": "The candidate's roles as family practice physician and primary care physician indicate experience working as a general practitioner.",
+              "passes": true
+            }
+          ],
+          "final_score": 75.0,
+          "raw_data": {
+            "_id": "6796ff6b3e76d5b58736551e",
+            "name": "Mona Sinno",
+            "linkedinId": "mona-sinno-a3004745"
+          }
+        },
+        {
+          "candidate_name": "Christine Mulligan",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/christine-mulligan-283533b0",
+          "soft_scores": [
+            {
+              "criteria_name": "ehr_systems_familiarity",
+              "reasoning": "As a Family Physician working at multiple established healthcare systems including Mass General Brigham and Hallmark Health, it is reasonable to infer familiarity with EHR systems and managing outpatient settings with high patient volumes.",
+              "score": 7.0
+            },
+            {
+              "criteria_name": "telemedicine_comfort",
+              "reasoning": "The summary indicates skills in telemedicine and patient education, demonstrating comfort with telemedicine consultations and interdisciplinary coordination.",
               "score": 8.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "top_us_md_degree",
-              "reasoning": "Candidate holds an MD from Columbia University College of Physicians and Surgeons, a top U.S. medical school.",
+              "reasoning": "The candidate has an MD from Tufts University School Of Medicine, which is considered a reputable U.S. medical school though not among the absolute top tier (e.g., Harvard, Johns Hopkins). However, given common recruitment practice, Tufts MD is generally acceptable as a top U.S. MD degree.",
               "passes": true
             },
             {
               "criteria_name": "two_plus_years_clinical",
-              "reasoning": "Multiple professional roles as family physician and medical director indicate more than two years of U.S clinical practice experience.",
+              "reasoning": "The candidate has multiple years of clinical practice experience as a Family Physician and Resident, which clearly exceeds two years.",
               "passes": true
             },
             {
               "criteria_name": "general_practitioner_experience",
-              "reasoning": "Held roles as family physician, which is equivalent to general practitioner experience.",
+              "reasoning": "The role of Family Physician matches the general practitioner experience requirement.",
               "passes": true
             }
           ],
-          "final_score": 80.0,
+          "final_score": 75.0,
           "raw_data": {
-            "_id": "6796c2818a14699f16122afc",
-            "name": "Yvonne Luyando Simon",
-            "linkedinId": "yvonne-luyando-simon-9b865a103"
+            "_id": "6794f3f83e76d5b587241551",
+            "name": "Christine Mulligan",
+            "linkedinId": "christine-mulligan-283533b0"
+          }
+        },
+        {
+          "candidate_name": "Oscar Gantes",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/oscar-gantes-md-88b76534",
+          "soft_scores": [
+            {
+              "criteria_name": "ehr_systems_familiarity",
+              "reasoning": "Candidate has worked in multiple family medicine and outpatient settings including Salud Para La Gente, Salinas Valley Memorial Healthcare System, and Optum, which typically use EHR systems and manage high patient volumes. Skills like Quality Assurance and experience with Medical Facilities support familiarity.",
+              "score": 7.0
+            },
+            {
+              "criteria_name": "telemedicine_comfort",
+              "reasoning": "No explicit mention of telemedicine experience or skills in the profile; however, working at Optum and multiple outpatient roles likely involved patient triage and coordination. Without direct evidence, score is moderately average.",
+              "score": 5.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "top_us_md_degree",
+              "reasoning": "Candidate holds an MD from University of Southern California, which is considered a top U.S. medical school. PASS.",
+              "passes": true
+            },
+            {
+              "criteria_name": "two_plus_years_clinical",
+              "reasoning": "Multiple roles including Resident Physician and years at family medicine positions imply more than two years of clinical practice experience in the U.S. PASS.",
+              "passes": true
+            },
+            {
+              "criteria_name": "general_practitioner_experience",
+              "reasoning": "Candidate is described as a Family Medicine Physician, which is equivalent to a General Practitioner role. PASS.",
+              "passes": true
+            }
+          ],
+          "final_score": 60.0,
+          "raw_data": {
+            "_id": "67956e398a14699f16064740",
+            "name": "Oscar Gantes",
+            "linkedinId": "oscar-gantes-md-88b76534"
+          }
+        },
+        {
+          "candidate_name": "Brandon Lynch",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/brandon-lynch-4a45139a",
+          "soft_scores": [
+            {
+              "criteria_name": "ehr_systems_familiarity",
+              "reasoning": "The candidate has extensive leadership roles in ambulatory systems, quality, and education within medical organizations, indicating strong familiarity with EHR systems and managing high patient volumes in such settings.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "telemedicine_comfort",
+              "reasoning": "Multiple roles in diverse healthcare settings including outpatient care and positions involving education and quality imply comfort with telemedicine and interdisciplinary coordination. However, direct mention of telemedicine is not explicit.",
+              "score": 7.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "top_us_md_degree",
+              "reasoning": "The candidate has an MD from The Johns Hopkins University School Of Medicine, which is recognized as a top U.S. medical school.",
+              "passes": true
+            },
+            {
+              "criteria_name": "two_plus_years_clinical",
+              "reasoning": "The candidate has held multiple clinical roles including Pain Management Physician and Family Physician over several years, clearly exceeding two years of clinical practice experience in the U.S.",
+              "passes": true
+            },
+            {
+              "criteria_name": "general_practitioner_experience",
+              "reasoning": "The candidate served as a Family Physician and Medical Director of Ambulatory Systems and Family Physician, which qualifies as experience working as a General Practitioner.",
+              "passes": true
+            }
+          ],
+          "final_score": 75.0,
+          "raw_data": {
+            "_id": "6794aa308a14699f16ff94a9",
+            "name": "Brandon Lynch",
+            "linkedinId": "brandon-lynch-4a45139a"
+          }
+        },
+        {
+          "candidate_name": "Stacie Johns",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/stacie-johns-992961b8",
+          "soft_scores": [
+            {
+              "criteria_name": "ehr_systems_familiarity",
+              "reasoning": "Candidate has worked in multiple family medicine and outpatient practice settings, including Colorado Permanente Medical Group, which likely uses EHR systems to manage high patient volumes typical of outpatient care.",
+              "score": 7.0
+            },
+            {
+              "criteria_name": "telemedicine_comfort",
+              "reasoning": "No explicit mention of telemedicine experience is provided in the summary, though being skilled in patient education and outpatient care could indirectly suggest some telemedicine comfort. Given no direct evidence, a cautious above-average score is appropriate.",
+              "score": 6.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "top_us_md_degree",
+              "reasoning": "Candidate holds an MD from University of North Carolina at Chapel Hill, which is consistently ranked among the top medical schools in the U.S.",
+              "passes": true
+            },
+            {
+              "criteria_name": "two_plus_years_clinical",
+              "reasoning": "Candidate has held multiple family physician roles post-residency in established organizations, indicating well over two years of clinical practice experience in the U.S.",
+              "passes": true
+            },
+            {
+              "criteria_name": "general_practitioner_experience",
+              "reasoning": "Roles held include Family Physician and Family Practice Physician, which are equivalent to General Practitioner roles in the U.S. system.",
+              "passes": true
+            }
+          ],
+          "final_score": 64.99999999999999,
+          "raw_data": {
+            "_id": "6795cea2f9f986ea7fbd941c",
+            "name": "Stacie Johns",
+            "linkedinId": "stacie-johns-992961b8"
           }
         }
       ]
@@ -1784,10 +1784,10 @@
       "67965d553eff0c142a871d7d",
       "67970bd38a14699f1614bae3",
       "6796457f0db3e79256806d2b",
-      "67967b9e3eff0c142a880beb",
       "67963f47f9f986ea7fc18322",
-      "679551c552a365d1167f17da",
-      "6795cace3eff0c142a819966"
+      "67959f63f9f986ea7fbbca9e",
+      "6795cace3eff0c142a819966",
+      "67967b9e3eff0c142a880beb"
     ],
     "top_names": [
       "Kevin D.",
@@ -1796,25 +1796,25 @@
       "Kevin Shen",
       "Kevin P.",
       "Kevin Jin",
-      "Ninning Liu",
       "Amanda Amodeo",
-      "Juliet Girard",
-      "Iris V. H."
+      "Anne Sapiro",
+      "Iris V. H.",
+      "Ninning Liu"
     ],
     "evaluation": {
       "config_name": "biology_expert",
       "num_candidates": 10,
-      "average_final_score": 86.0,
+      "average_final_score": 85.00000000000001,
       "average_soft_scores": [
         {
           "criteria_name": "experimental_design_skills",
           "reasoning": null,
-          "average_score": 8.0
+          "average_score": 7.9
         },
         {
           "criteria_name": "teaching_mentoring_experience",
           "reasoning": null,
-          "average_score": 8.8
+          "average_score": 8.6
         },
         {
           "criteria_name": "molecular_biology_research",
@@ -2070,45 +2070,6 @@
           }
         },
         {
-          "candidate_name": "Ninning Liu",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/ninning-liu-6635b166",
-          "soft_scores": [
-            {
-              "criteria_name": "molecular_biology_research",
-              "reasoning": "Candidate has extensive and diverse research experience in molecular biology, gene expression, protein biochemistry, and DNA nanotechnology. Conducted postdoctoral work and PhD research related to molecular and cell biology with participation in national conferences, indicating publication-quality work.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "experimental_design_skills",
-              "reasoning": "Experienced in advanced experimental techniques including single-molecule optical trapping, microscopy/immunofluorescence, protein biochemistry, and designing DNA-based probes and scaffolds. Familiarity with lab techniques such as imaging, data analysis, and programming demonstrated. CRISPR or sequencing specifically not mentioned but strong experimental design evident.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "teaching_mentoring_experience",
-              "reasoning": "Has mentored undergraduate researchers, served as a graduate student instructor preparing lesson plans and teaching biochemistry courses, and collaborated in interdisciplinary research environments. Demonstrated consistent mentoring and teaching roles.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "undergraduate_location",
-              "reasoning": "Completed undergraduate degree at University of Washington, which is in the United States.",
-              "passes": true
-            },
-            {
-              "criteria_name": "phd_from_top_us_university",
-              "reasoning": "PhD earned from University of California, Berkeley, widely recognized as a top U.S. university in biology and related fields.",
-              "passes": true
-            }
-          ],
-          "final_score": 83.33333333333334,
-          "raw_data": {
-            "_id": "67967b9e3eff0c142a880beb",
-            "name": "Ninning Liu",
-            "linkedinId": "ninning-liu-6635b166"
-          }
-        },
-        {
           "candidate_name": "Amanda Amodeo",
           "candidate_linkedin_url": "https://www.linkedin.com/in/amanda-amodeo-82987290",
           "soft_scores": [
@@ -2148,42 +2109,42 @@
           }
         },
         {
-          "candidate_name": "Juliet Girard",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/juliet-girard-8474361bb",
+          "candidate_name": "Anne Sapiro",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/annesapiro",
           "soft_scores": [
             {
               "criteria_name": "molecular_biology_research",
-              "reasoning": "The candidate has extensive research experience in molecular biology, including gene expression, hematopoiesis, and use of genetics and molecular techniques. The candidate is an assistant professor and has a long record of research productivity and grant writing, indicating likely publications in peer-reviewed journals.",
+              "reasoning": "The candidate has 14 years of experience in molecular biology, genetics, and genomics research, including transcriptomics and genetic screening. Numerous research projects conducted at Stanford University and UCSF indicate strong expertise and likely publications in peer-reviewed journals.",
               "score": 9.0
             },
             {
               "criteria_name": "experimental_design_skills",
-              "reasoning": "The candidate has familiarity with many lab techniques such as RNA sequencing (ensemble and single cell), qPCR, flow cytometry, immunofluorescence, confocal microscopy, yeast genetics, recombinant protein expression, protein purification, enzyme kinetics, and binding assays, which indicates strong experimental design and data analysis skills.",
-              "score": 9.0
+              "reasoning": "Experience includes developing novel RNA-seq-based strategies, transcriptomics methodologies, and genetic screens. Familiarity with RNA editing and sequencing techniques suggests strong experimental design and technical laboratory skills.",
+              "score": 8.0
             },
             {
               "criteria_name": "teaching_mentoring_experience",
-              "reasoning": "The candidate has substantial experience teaching, mentoring, and advising undergraduates and graduate students, including high school teaching supported by Harvard outreach fellowship, showing strong teaching and mentoring experience.",
-              "score": 9.0
+              "reasoning": "Has experience mentoring undergraduate biology students at The Tech Museum and as a Writing Fellow improving essay writing for students. Although formal teaching at university level is not mentioned, outreach and mentorship experience is clear.",
+              "score": 7.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "undergraduate_location",
-              "reasoning": "The candidate completed undergraduate studies at Harvard University, which is in the U.S.",
+              "reasoning": "Completed undergraduate degree at University of Wisconsin-Madison, which is located in the U.S.",
               "passes": true
             },
             {
               "criteria_name": "phd_from_top_us_university",
-              "reasoning": "The candidate obtained a PhD from the University of California, San Francisco, which is considered a top U.S. university, especially in Biochemistry and Molecular Biology.",
+              "reasoning": "PhD earned from Stanford University School of Medicine, which is a top U.S. university.",
               "passes": true
             }
           ],
-          "final_score": 90.0,
+          "final_score": 80.00000000000001,
           "raw_data": {
-            "_id": "679551c552a365d1167f17da",
-            "name": "Juliet Girard",
-            "linkedinId": "juliet-girard-8474361bb"
+            "_id": "67959f63f9f986ea7fbbca9e",
+            "name": "Anne Sapiro",
+            "linkedinId": "annesapiro"
           }
         },
         {
@@ -2224,6 +2185,45 @@
             "name": "Iris V. H.",
             "linkedinId": "iris-v-h-1bb27722"
           }
+        },
+        {
+          "candidate_name": "Ninning Liu",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/ninning-liu-6635b166",
+          "soft_scores": [
+            {
+              "criteria_name": "molecular_biology_research",
+              "reasoning": "Candidate has extensive and diverse research experience in molecular biology, gene expression, protein biochemistry, and DNA nanotechnology. Conducted postdoctoral work and PhD research related to molecular and cell biology with participation in national conferences, indicating publication-quality work.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "experimental_design_skills",
+              "reasoning": "Experienced in advanced experimental techniques including single-molecule optical trapping, microscopy/immunofluorescence, protein biochemistry, and designing DNA-based probes and scaffolds. Familiarity with lab techniques such as imaging, data analysis, and programming demonstrated. CRISPR or sequencing specifically not mentioned but strong experimental design evident.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "teaching_mentoring_experience",
+              "reasoning": "Has mentored undergraduate researchers, served as a graduate student instructor preparing lesson plans and teaching biochemistry courses, and collaborated in interdisciplinary research environments. Demonstrated consistent mentoring and teaching roles.",
+              "score": 8.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "undergraduate_location",
+              "reasoning": "Completed undergraduate degree at University of Washington, which is in the United States.",
+              "passes": true
+            },
+            {
+              "criteria_name": "phd_from_top_us_university",
+              "reasoning": "PhD earned from University of California, Berkeley, widely recognized as a top U.S. university in biology and related fields.",
+              "passes": true
+            }
+          ],
+          "final_score": 83.33333333333334,
+          "raw_data": {
+            "_id": "67967b9e3eff0c142a880beb",
+            "name": "Ninning Liu",
+            "linkedinId": "ninning-liu-6635b166"
+          }
         }
       ]
     },
@@ -2232,7 +2232,7 @@
   {
     "query_name": "Anthropology",
     "config_path": "anthropology.yml",
-    "num_retrieved": 2550,
+    "num_retrieved": 2549,
     "num_after_hard_filter": 96,
     "top_ids": [
       "679605e9a1a09a48feb46627",
@@ -2240,11 +2240,11 @@
       "679619480db3e792567ed76b",
       "679695d152a365d1168af2a8",
       "6796ecb20db3e7925686bd46",
-      "6794a3d08d90554e606392e6",
       "6795fe1452a365d116859b13",
-      "67974f8b3eff0c142a8f080b",
+      "6794a3d08d90554e606392e6",
       "67953bf88d90554e6069438a",
-      "6796a90e8d90554e607682f3"
+      "6796a90e8d90554e607682f3",
+      "6794a2fd0db3e79256710146"
     ],
     "top_names": [
       "Nicole Sarette",
@@ -2252,38 +2252,38 @@
       "Mohammad Javaid",
       "Sophia Costa",
       "Sara Hosseini",
-      "Fanmei Xia",
       "Shania Kuo",
-      "Nayun Eom",
+      "Fanmei Xia",
       "Jacqueline Watt",
-      "Adriana Scanteianu"
+      "Adriana Scanteianu",
+      "Thelma Nyarhi"
     ],
     "evaluation": {
       "config_name": "anthropology",
       "num_candidates": 10,
-      "average_final_score": 53.0,
+      "average_final_score": 48.33333333333333,
       "average_soft_scores": [
         {
           "criteria_name": "academic_output_quality",
           "reasoning": null,
-          "average_score": 5.9
+          "average_score": 6.05
         },
         {
           "criteria_name": "ethnographic_methods_expertise",
           "reasoning": null,
-          "average_score": 6.65
+          "average_score": 6.95
         },
         {
           "criteria_name": "applied_anthropology_experience",
           "reasoning": null,
-          "average_score": 7.45
+          "average_score": 7.65
         }
       ],
       "average_hard_scores": [
         {
           "criteria_name": "recent_phd_program",
           "reasoning": null,
-          "pass_rate": 0.8
+          "pass_rate": 0.7
         },
         {
           "criteria_name": "phd_in_relevant_field",
@@ -2488,45 +2488,6 @@
           }
         },
         {
-          "candidate_name": "Fanmei Xia",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/fanmei-xia",
-          "soft_scores": [
-            {
-              "criteria_name": "ethnographic_methods_expertise",
-              "reasoning": "Candidate has conducted research involving migration, education, and identity formation using computational methods and modeling rather than explicit ethnographic fieldwork or case studies. Early research on migrant children in Beijing involved document analysis and interviews, indicating some qualitative research experience relevant to ethnography, but no strong evidence of substantial ethnographic fieldwork.",
-              "score": 6.0
-            },
-            {
-              "criteria_name": "academic_output_quality",
-              "reasoning": "No explicit mention of published papers, working papers, or conference presentations is made. However, the candidate is a PhD scholar at Yale focusing on relevant sociological topics, and research activities include report writing and scholarly research. Lack of concrete evidence for strong academic output limits higher scoring.",
-              "score": 5.0
-            },
-            {
-              "criteria_name": "applied_anthropology_experience",
-              "reasoning": "Candidate has extensive applied research and professional experience related to migration, labor, policy, identity formation, and social justice across multiple interdisciplinary contexts including public policy, UN agricultural mechanization, and teaching immigrants and refugees. This indicates good applied anthropology experience with both conceptual and practical relevance.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "phd_in_relevant_field",
-              "reasoning": "Candidate is a PhD scholar at Yale University in Sociology, which is a relevant field and a distinguished program.",
-              "passes": true
-            },
-            {
-              "criteria_name": "recent_phd_program",
-              "reasoning": "No exact start date of the PhD program is given, but the candidate is currently a PhD scholar and the information implies ongoing PhD work. Assuming current enrollment starts within last 3 years is reasonable given present information.",
-              "passes": true
-            }
-          ],
-          "final_score": 63.33333333333334,
-          "raw_data": {
-            "_id": "6794a3d08d90554e606392e6",
-            "name": "Fanmei Xia",
-            "linkedinId": "fanmei-xia"
-          }
-        },
-        {
           "candidate_name": "Shania Kuo",
           "candidate_linkedin_url": "https://www.linkedin.com/in/shaniakuo",
           "soft_scores": [
@@ -2566,42 +2527,42 @@
           }
         },
         {
-          "candidate_name": "Nayun Eom",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/eomnayun",
+          "candidate_name": "Fanmei Xia",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/fanmei-xia",
           "soft_scores": [
             {
               "criteria_name": "ethnographic_methods_expertise",
-              "reasoning": "The candidate's profile does not specifically mention ethnographic methods or extensive fieldwork. Their focus is on sociological analysis of AI, labor, and inequality rather than direct ethnographic research involving cultural or social systems in the anthropological sense.",
-              "score": 3.0
+              "reasoning": "Candidate has conducted research involving migration, education, and identity formation using computational methods and modeling rather than explicit ethnographic fieldwork or case studies. Early research on migrant children in Beijing involved document analysis and interviews, indicating some qualitative research experience relevant to ethnography, but no strong evidence of substantial ethnographic fieldwork.",
+              "score": 6.0
             },
             {
               "criteria_name": "academic_output_quality",
-              "reasoning": "There is no explicit mention of published papers, working papers, or conference presentations in anthropology or sociology. The candidate is a PhD student at a top program and clearly involved in research and academic activities, but specific academic outputs are not described.",
+              "reasoning": "No explicit mention of published papers, working papers, or conference presentations is made. However, the candidate is a PhD scholar at Yale focusing on relevant sociological topics, and research activities include report writing and scholarly research. Lack of concrete evidence for strong academic output limits higher scoring.",
               "score": 5.0
             },
             {
               "criteria_name": "applied_anthropology_experience",
-              "reasoning": "The candidate applies sociological theory to understand AI, labor, and inequality, which relates to applied social science. Their involvement with interdisciplinary think tanks and research advocacy shows practical relevance. However, their focus is sociology not anthropology, and migration or cultural identity is not prominently indicated.",
-              "score": 6.0
+              "reasoning": "Candidate has extensive applied research and professional experience related to migration, labor, policy, identity formation, and social justice across multiple interdisciplinary contexts including public policy, UN agricultural mechanization, and teaching immigrants and refugees. This indicates good applied anthropology experience with both conceptual and practical relevance.",
+              "score": 8.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "phd_in_relevant_field",
-              "reasoning": "The candidate is a sociology PhD student at Harvard University, which is a distinguished program and directly relevant.",
+              "reasoning": "Candidate is a PhD scholar at Yale University in Sociology, which is a relevant field and a distinguished program.",
               "passes": true
             },
             {
               "criteria_name": "recent_phd_program",
-              "reasoning": "The candidate's exact PhD start date is not provided, but given current student status and no indication of a long duration, it is reasonable to assume the program was started within the last 3 years.",
+              "reasoning": "No exact start date of the PhD program is given, but the candidate is currently a PhD scholar and the information implies ongoing PhD work. Assuming current enrollment starts within last 3 years is reasonable given present information.",
               "passes": true
             }
           ],
-          "final_score": 46.666666666666664,
+          "final_score": 63.33333333333334,
           "raw_data": {
-            "_id": "67974f8b3eff0c142a8f080b",
-            "name": "Nayun Eom",
-            "linkedinId": "eomnayun"
+            "_id": "6794a3d08d90554e606392e6",
+            "name": "Fanmei Xia",
+            "linkedinId": "fanmei-xia"
           }
         },
         {
@@ -2681,6 +2642,45 @@
             "name": "Adriana Scanteianu",
             "linkedinId": "adriana-scanteianu-82a326198"
           }
+        },
+        {
+          "candidate_name": "Thelma Nyarhi",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/thelma-nyarhi",
+          "soft_scores": [
+            {
+              "criteria_name": "ethnographic_methods_expertise",
+              "reasoning": "The candidate is a trained anthropologist with experience in both qualitative and quantitative research methods and has delivered lectures on cultural identity topics such as 'Digital technologies, cultures and identities'. However, there is no explicit mention of substantial ethnographic fieldwork or specific case study research focusing intensively on cultural, social, or economic systems. Experience seems more breadth-oriented rather than deep ethnographic immersion.",
+              "score": 6.0
+            },
+            {
+              "criteria_name": "academic_output_quality",
+              "reasoning": "The candidate has authored research papers, monthly op-eds, and contributed to webinars and research reports, demonstrating active academic engagement. However, no specific mention of peer-reviewed publications or conference presentations directly in anthropology or sociology is provided, which tempers the score.",
+              "score": 6.5
+            },
+            {
+              "criteria_name": "applied_anthropology_experience",
+              "reasoning": "Demonstrated experience applying anthropological theory to real-world contexts such as migration and sociopolitics through research roles, podcasting, and political commentary. The candidate integrates both conceptual thinking and practical application, especially in addressing sociopolitical issues and migration, fulfilling this criterion well.",
+              "score": 8.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "phd_in_relevant_field",
+              "reasoning": "Candidate holds a Doctorate from University of Cape Town in Social Anthropology, which is relevant and a distinguished program in the field.",
+              "passes": true
+            },
+            {
+              "criteria_name": "recent_phd_program",
+              "reasoning": "No information is provided about when the PhD program was started. Without any indication of starting within the last 3 years, this criterion cannot be confirmed as met.",
+              "passes": false
+            }
+          ],
+          "final_score": 0.0,
+          "raw_data": {
+            "_id": "6794a2fd0db3e79256710146",
+            "name": "Thelma Nyarhi",
+            "linkedinId": "thelma-nyarhi"
+          }
         }
       ]
     },
@@ -2697,11 +2697,11 @@
       "67961a4f7e0084c5fa7b4300",
       "679703cb3eff0c142a8cd06f",
       "6795b4a93e76d5b5872ac49a",
-      "67968f9f8a14699f161054a5",
       "6796a7a63e76d5b587336a07",
       "67953d338a14699f16049d9a",
       "6794f3d98a14699f1602322c",
-      "67955a840db3e7925677b428"
+      "6796b0bc8a14699f1611989c",
+      "6796f68f7e0084c5fa83c512"
     ],
     "top_names": [
       "Bryon A.",
@@ -2709,21 +2709,21 @@
       "Benjamin McKenna",
       "Tyler Skorczewski",
       "Lindsay Berry",
-      "Yves Thibaudeau",
       "Timothy Hanson",
       "Harry Crane",
       "Will Kleiber",
-      "Richard Groenewald"
+      "Ellie Anne Grano Essen",
+      "Tom VandenBoom"
     ],
     "evaluation": {
       "config_name": "mathematics_phd",
       "num_candidates": 10,
-      "average_final_score": 88.0,
+      "average_final_score": 87.5,
       "average_soft_scores": [
         {
           "criteria_name": "research_expertise_math",
           "reasoning": null,
-          "average_score": 8.9
+          "average_score": 8.8
         },
         {
           "criteria_name": "mathematical_modeling_proficiency",
@@ -2915,40 +2915,6 @@
           }
         },
         {
-          "candidate_name": "Yves Thibaudeau",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/yves-thibaudeau-33456917",
-          "soft_scores": [
-            {
-              "criteria_name": "research_expertise_math",
-              "reasoning": "Candidate has a PhD in Statistics from Carnegie Mellon University and works as a Principal Researcher and Mathematical Statistician at the U.S. Census Bureau, applying statistical sciences to solve uncertainty problems, indicating strong research expertise; although specific publications are not listed, the role implies publication and recognized expertise.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "mathematical_modeling_proficiency",
-              "reasoning": "Candidate provides expertise in decision theory, Bayesian statistics, mitigation of missing data, and record linkage, indicating a high level of proficiency in mathematical modeling and algorithmic problem-solving.",
-              "score": 8.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "undergraduate_location_math",
-              "reasoning": "Candidate completed undergraduate studies in Mathematics at McGill University in Canada, meeting the geographical requirement.",
-              "passes": true
-            },
-            {
-              "criteria_name": "phd_math_statistics",
-              "reasoning": "Candidate earned a PhD in Statistics from Carnegie Mellon University, which is recognized as a leading U.S. university.",
-              "passes": true
-            }
-          ],
-          "final_score": 80.0,
-          "raw_data": {
-            "_id": "67968f9f8a14699f161054a5",
-            "name": "Yves Thibaudeau",
-            "linkedinId": "yves-thibaudeau-33456917"
-          }
-        },
-        {
           "candidate_name": "Timothy Hanson",
           "candidate_linkedin_url": "https://www.linkedin.com/in/timothy-hanson-44a882149",
           "soft_scores": [
@@ -3051,37 +3017,71 @@
           }
         },
         {
-          "candidate_name": "Richard Groenewald",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/richard-groenewald-107b5691",
+          "candidate_name": "Ellie Anne Grano Essen",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/ellie-anne-grano-essen-13b6ab33",
           "soft_scores": [
             {
               "criteria_name": "research_expertise_math",
-              "reasoning": "The candidate is a PhD student specializing in statistics with research interests in stochastic differential equations, functional data analysis, and applied probability. The experience includes research assistant roles and publications related to statistical inference and applied probability, indicating solid research expertise.",
-              "score": 8.0
+              "reasoning": "The candidate has a PhD in Mathematics with research experience in planar algebras, a new area of quantum topology, and teaching various math courses. Evidence of peer-reviewed publications is not explicitly mentioned, but doctoral research at UC Santa Barbara implies some research output.",
+              "score": 7.0
             },
             {
               "criteria_name": "mathematical_modeling_proficiency",
-              "reasoning": "The candidate has experience applying spatiotemporal Gaussian processes to seismic data, indicating strong mathematical modeling skills. Their work involves proof and algorithmic problem-solving as evidenced by their advanced research.",
+              "reasoning": "The candidate has strong experience with algorithm design, predictive modeling, and complex problem solving, as well as teaching regression, probability, statistics, and calculus, indicating good proficiency in mathematical modeling and problem solving.",
               "score": 8.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "undergraduate_location_math",
-              "reasoning": "Candidate completed undergraduate studies at Simon Fraser University, which is located in Canada, meeting the location requirement.",
+              "reasoning": "The candidate completed their undergraduate degree at North Carolina State University, which is in the U.S.",
               "passes": true
             },
             {
               "criteria_name": "phd_math_statistics",
-              "reasoning": "Candidate is pursuing a PhD in Statistics at Columbia University, a top U.S. university, meeting the requirement.",
+              "reasoning": "The candidate earned a PhD in Mathematics from University of California, Santa Barbara, a top U.S. university.",
+              "passes": true
+            }
+          ],
+          "final_score": 75.0,
+          "raw_data": {
+            "_id": "6796b0bc8a14699f1611989c",
+            "name": "Ellie Anne Grano Essen",
+            "linkedinId": "ellie-anne-grano-essen-13b6ab33"
+          }
+        },
+        {
+          "candidate_name": "Tom VandenBoom",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/tom-vandenboom-7437b850",
+          "soft_scores": [
+            {
+              "criteria_name": "research_expertise_math",
+              "reasoning": "The candidate holds a PhD in Mathematics with a thesis in mathematical physics and has a decade of quantitative research experience including research assistant roles and an assistant professorship in mathematics. This indicates strong research expertise in applied mathematics and probability, although specific peer-reviewed publications are not listed in the summary.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "mathematical_modeling_proficiency",
+              "reasoning": "The candidate demonstrates proficiency in applied probability through multiple teaching and research positions and leadership roles in data science applying predictive analytics, indicating good mathematical modeling and problem-solving skills.",
+              "score": 8.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "undergraduate_location_math",
+              "reasoning": "The candidate completed their undergraduate studies in Mathematics and Statistics at the University of Minnesota, USA.",
+              "passes": true
+            },
+            {
+              "criteria_name": "phd_math_statistics",
+              "reasoning": "The candidate earned a PhD in Mathematics from Rice University, which is considered a top U.S. university.",
               "passes": true
             }
           ],
           "final_score": 80.0,
           "raw_data": {
-            "_id": "67955a840db3e7925677b428",
-            "name": "Richard Groenewald",
-            "linkedinId": "richard-groenewald-107b5691"
+            "_id": "6796f68f7e0084c5fa83c512",
+            "name": "Tom VandenBoom",
+            "linkedinId": "tom-vandenboom-7437b850"
           }
         }
       ]
@@ -3091,36 +3091,36 @@
   {
     "query_name": "Quantitative Finance",
     "config_path": "quantitative_finance.yml",
-    "num_retrieved": 647,
+    "num_retrieved": 646,
     "num_after_hard_filter": 101,
     "top_ids": [
       "6794fe243e76d5b587246594",
-      "6796ee7c3e76d5b58735b306",
       "6794ac83a1a09a48fea751a9",
       "67969ea9f9f986ea7fc4bc7e",
+      "679653c97e0084c5fa7d2eaa",
       "679685468d90554e60753261",
+      "679503713eff0c142a7b1bc6",
       "6795d3c78d90554e606ed28e",
       "679523cb0db3e7925675b621",
-      "679683b78d90554e6075262f",
-      "6794c4037e0084c5fa6edf1f",
-      "6794a9480db3e79256714348"
+      "679671448a14699f160f37fc",
+      "6794c5903e76d5b587225faa"
     ],
     "top_names": [
       "Hiren Parikh",
-      "Neeraj Bhatia",
       "Aniruddha Deshpande",
       "Anand Iyer",
+      "Rajarshi Ghosh Dastidar",
       "Muraari Vasudevan",
+      "Anirban Majumdar",
       "Michael Ho",
       "Irene Na",
-      "Le Yan",
-      "Christopher E.",
-      "Andrew D. Kominik"
+      "Yiwen Zhu",
+      "Vic Malla"
     ],
     "evaluation": {
       "config_name": "quantitative_finance",
       "num_candidates": 10,
-      "average_final_score": 84.66666666666667,
+      "average_final_score": 84.33333333333334,
       "average_soft_scores": [
         {
           "criteria_name": "financial_modeling_experience",
@@ -3130,12 +3130,12 @@
         {
           "criteria_name": "python_quantitative_proficiency",
           "reasoning": null,
-          "average_score": 7.4
+          "average_score": 7.2
         },
         {
           "criteria_name": "high_stakes_environment",
           "reasoning": null,
-          "average_score": 9.4
+          "average_score": 9.5
         }
       ],
       "average_hard_scores": [
@@ -3188,45 +3188,6 @@
             "_id": "6794fe243e76d5b587246594",
             "name": "Hiren Parikh",
             "linkedinId": "hiren-parikh-cfa-200b91"
-          }
-        },
-        {
-          "candidate_name": "Neeraj Bhatia",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/neeraj-bhatia-b521a27",
-          "soft_scores": [
-            {
-              "criteria_name": "financial_modeling_experience",
-              "reasoning": "Candidate has extensive experience in portfolio management, risk modeling, capital market research, asset allocation modeling, and expertise in alpha signal research, which are direct applications of financial modeling including portfolio optimization. Derivatives pricing is not explicitly mentioned but related expertise is implied.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "python_quantitative_proficiency",
-              "reasoning": "Candidate explicitly mentions strong quantitative skills including Python, machine learning, and analytics. Python is listed among keywords. Exposure to specific financial libraries like QuantLib is not detailed but general Python proficiency for quantitative work is evident.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "high_stakes_environment",
-              "reasoning": "Candidate has worked at major global investment firms (Vanguard, Allspring Global Investments) in senior portfolio management and quantitative research roles, demonstrating experience in high-stakes environments applying quantitative methods.",
-              "score": 9.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "m7_mba",
-              "reasoning": "Candidate holds an MBA in Finance from Columbia Business School, which is a member of the M7 group.",
-              "passes": true
-            },
-            {
-              "criteria_name": "three_plus_years_quant_finance",
-              "reasoning": "Candidate's roles in quantitative equity research, portfolio management, risk modeling, and algorithmic trading across multiple reputable firms clearly indicate over three years of experience in quantitative finance.",
-              "passes": true
-            }
-          ],
-          "final_score": 83.33333333333334,
-          "raw_data": {
-            "_id": "6796ee7c3e76d5b58735b306",
-            "name": "Neeraj Bhatia",
-            "linkedinId": "neeraj-bhatia-b521a27"
           }
         },
         {
@@ -3308,6 +3269,45 @@
           }
         },
         {
+          "candidate_name": "Rajarshi Ghosh Dastidar",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/rajarshi-ghosh-dastidar-0793a02a",
+          "soft_scores": [
+            {
+              "criteria_name": "financial_modeling_experience",
+              "reasoning": "Candidate has extensive experience in quantitative research and trading, including building trading models validated through simulation and backtesting, which implies practical use of financial modeling techniques. Experience includes working with derivatives and portfolio-related instruments like ETFs, futures, and options.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "python_quantitative_proficiency",
+              "reasoning": "Candidate explicitly states building the entire machine learning pipeline using Python, including data cleaning, feature generation, model generation, and hyper-parameter tuning. Although no specific mention of financial libraries like QuantLib, the breadth of Python use in quantitative finance is high.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "high_stakes_environment",
+              "reasoning": "Candidate worked in senior trading roles at Bank of America Merrill Lynch and other global trading firms, operating in live markets with direct P&L impact, demonstrating ability to perform in high-stakes, production quantitative settings.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "m7_mba",
+              "reasoning": "The candidate holds an MBA from The University of Chicago Booth School of Business, which is a member of the M7 group of prestigious U.S. business schools.",
+              "passes": true
+            },
+            {
+              "criteria_name": "three_plus_years_quant_finance",
+              "reasoning": "Candidate has over 10 years of experience in quantitative roles related to algorithmic trading and quantitative research at global investment firms, meeting and exceeding the 3+ years experience requirement.",
+              "passes": true
+            }
+          ],
+          "final_score": 83.33333333333334,
+          "raw_data": {
+            "_id": "679653c97e0084c5fa7d2eaa",
+            "name": "Rajarshi Ghosh Dastidar",
+            "linkedinId": "rajarshi-ghosh-dastidar-0793a02a"
+          }
+        },
+        {
           "candidate_name": "Muraari Vasudevan",
           "candidate_linkedin_url": "https://www.linkedin.com/in/muraari-vasudevan",
           "soft_scores": [
@@ -3344,6 +3344,45 @@
             "_id": "679685468d90554e60753261",
             "name": "Muraari Vasudevan",
             "linkedinId": "muraari-vasudevan"
+          }
+        },
+        {
+          "candidate_name": "Anirban Majumdar",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/anirbanmajumdarprofile",
+          "soft_scores": [
+            {
+              "criteria_name": "financial_modeling_experience",
+              "reasoning": "The candidate has extensive experience in financial modeling across various domains including equity, volatility, commodities, currency derivatives, credit risk modeling, portfolio risk management involving nine asset classes, option modeling, and quantitative equity research focused on alpha generation. These demonstrate strong applied financial modeling skills related to portfolio optimization and derivatives pricing.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "python_quantitative_proficiency",
+              "reasoning": "Though the summary does not explicitly mention Python, given the candidate's strong quantitative roles over two decades involving quantitative model development, volatility modeling, and extensive analytical finance experience, it is highly likely that Python or equivalent tools have been utilized. However, explicit mention is missing, so the score is slightly tempered.",
+              "score": 7.0
+            },
+            {
+              "criteria_name": "high_stakes_environment",
+              "reasoning": "The candidate has worked in senior quantitative roles at major global firms such as Charles Schwab, All State Investments, and Aegon Americas, leading risk management and quantitative equity research teams. This indicates proven ability to operate in high-stakes, production environments where quantitative methods directly impact investment and risk decisions.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "m7_mba",
+              "reasoning": "The candidate holds an MBA in Analytical Finance from the University of Chicago Booth School of Business, which is one of the M7 business schools.",
+              "passes": true
+            },
+            {
+              "criteria_name": "three_plus_years_quant_finance",
+              "reasoning": "The candidate has two decades of cumulative experience in quantitative finance roles including modeling, risk management, and quantitative research in recognized global investment firms, which clearly exceeds the three-year requirement.",
+              "passes": true
+            }
+          ],
+          "final_score": 83.33333333333334,
+          "raw_data": {
+            "_id": "679503713eff0c142a7b1bc6",
+            "name": "Anirban Majumdar",
+            "linkedinId": "anirbanmajumdarprofile"
           }
         },
         {
@@ -3425,120 +3464,81 @@
           }
         },
         {
-          "candidate_name": "Le Yan",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/le-yan-4385857",
+          "candidate_name": "Yiwen Zhu",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/yiwen-zhu-20320710",
           "soft_scores": [
             {
               "criteria_name": "financial_modeling_experience",
-              "reasoning": "Le Yan has extensive experience applying financial modeling techniques specifically in CMBS and RMBS structured product modeling, prepayment and default models, and has developed trading strategies based on quantitative signals and relative value metrics, which directly relate to portfolio optimization and derivatives pricing applications.",
-              "score": 8.0
-            },
-            {
-              "criteria_name": "python_quantitative_proficiency",
-              "reasoning": "While Python proficiency is not explicitly stated, Le Yan has built complex modeling frameworks, developed trading algorithms, and worked heavily with big data analytics in quantitative finance contexts. Such roles typically require Python and equivalent financial libraries. Given significant quantitative research and modeling work, a good level of Python proficiency is likely though not explicitly confirmed.",
-              "score": 7.0
-            },
-            {
-              "criteria_name": "high_stakes_environment",
-              "reasoning": "Le Yan has worked at global investment firms such as Citi and Davidson Kempner Capital Management in roles involving risk modeling, trading strategy development, and quantitative research, demonstrating experience in high-stakes, production quantitative finance environments.",
-              "score": 9.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "m7_mba",
-              "reasoning": "Le Yan holds an MBA from MIT Sloan School of Management, which is part of the M7 group of prestigious U.S. MBA programs.",
-              "passes": true
-            },
-            {
-              "criteria_name": "three_plus_years_quant_finance",
-              "reasoning": "Le Yan has multiple senior roles at prominent financial firms such as Citi, Davidson Kempner, and Thasos Group focused on quantitative finance, structured product modeling, quantitative research, and algorithmic trading strategy development, spanning well over three years.",
-              "passes": true
-            }
-          ],
-          "final_score": 80.0,
-          "raw_data": {
-            "_id": "679683b78d90554e6075262f",
-            "name": "Le Yan",
-            "linkedinId": "le-yan-4385857"
-          }
-        },
-        {
-          "candidate_name": "Christopher E.",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/christopheremba",
-          "soft_scores": [
-            {
-              "criteria_name": "financial_modeling_experience",
-              "reasoning": "Candidate has extensive experience in financial modeling, including portfolio management at PIMCO and risk management solutions at Mellon, indicating strong applied knowledge in portfolio optimization and derivatives pricing.",
+              "reasoning": "Candidate has extensive experience in financial modeling, including portfolio optimization, risk parity strategies, options overlay strategies, and cost analysis models for delta one exposures. Has built research and portfolio management infrastructure and developed simulation and modeling frameworks.",
               "score": 9.0
             },
             {
               "criteria_name": "python_quantitative_proficiency",
-              "reasoning": "While Python is not explicitly listed, candidate demonstrates proficiency in quantitative finance analytics with tools such as SQL, Tableau, and Alteryx. However, no specific mention of Python or related financial Python libraries reduces score to above average but not excellent.",
-              "score": 7.0
-            },
-            {
-              "criteria_name": "high_stakes_environment",
-              "reasoning": "Candidate has worked at top global investment firms like PIMCO, BlackRock, Mellon, and Morgan Stanley in roles involving trading and portfolio management, demonstrating strong experience in high-stakes quantitative finance environments.",
-              "score": 9.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "m7_mba",
-              "reasoning": "Candidate holds an MBA from Stanford University Graduate School of Business, which is an M7 program. PASS confirmed.",
-              "passes": true
-            },
-            {
-              "criteria_name": "three_plus_years_quant_finance",
-              "reasoning": "Candidate has multiple roles involving quantitative finance experience spanning several years at Mellon, PIMCO, BlackRock, and Morgan Stanley, including risk management, algorithmic/systematic trading, and portfolio management. PASS confirmed.",
-              "passes": true
-            }
-          ],
-          "final_score": 83.33333333333334,
-          "raw_data": {
-            "_id": "6794c4037e0084c5fa6edf1f",
-            "name": "Christopher E.",
-            "linkedinId": "christopheremba"
-          }
-        },
-        {
-          "candidate_name": "Andrew D. Kominik",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/andrewkominik",
-          "soft_scores": [
-            {
-              "criteria_name": "financial_modeling_experience",
-              "reasoning": "Candidate has extensive experience building and refining proprietary equity risk models, developing stock selection models, conducting portfolio construction research, and automating investment risk monitoring and optimization processes, which demonstrates strong financial modeling expertise.",
-              "score": 9.0
-            },
-            {
-              "criteria_name": "python_quantitative_proficiency",
-              "reasoning": "Candidate wrote Python packages for portfolio liquidity reports, stress testing, and interfacing with internal data, indicating proficient Python skills applied to quantitative finance. However, there is no explicit mention of using financial Python libraries like QuantLib.",
+              "reasoning": "Candidate uses Python extensively to build research and portfolio management infrastructure, manage data workflows, and implement quantitative strategies. While no explicit mention of financial libraries like QuantLib, strong Python proficiency in quantitative finance context is evident.",
               "score": 8.0
             },
             {
               "criteria_name": "high_stakes_environment",
-              "reasoning": "Worked at William Blair, a global investment firm managing over $60 billion in assets, leading risk management initiatives and supporting multiple portfolio managers, showing experience in high-stakes, production quantitative finance environments.",
+              "reasoning": "Candidate worked as Vice President at Goldman Sachs managing $75bn portfolios and leading development of live funds, demonstrating applied knowledge in a global investment firm environment. Also founded a quant equity hedge fund and manages sizable AUM at Sagewood Asset Management.",
+              "score": 10.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "m7_mba",
+              "reasoning": "Candidate holds an MBA from Columbia Business School, a member of the M7 group of prestigious U.S. MBA programs.",
+              "passes": true
+            },
+            {
+              "criteria_name": "three_plus_years_quant_finance",
+              "reasoning": "Candidate has multiple years of experience in quantitative finance roles, including research, portfolio management, and strategy development at Goldman Sachs, Sagewood Asset Management, and LORICA Asset Management, clearly exceeding 3 years.",
+              "passes": true
+            }
+          ],
+          "final_score": 90.0,
+          "raw_data": {
+            "_id": "679671448a14699f160f37fc",
+            "name": "Yiwen Zhu",
+            "linkedinId": "yiwen-zhu-20320710"
+          }
+        },
+        {
+          "candidate_name": "Vic Malla",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/vmalla",
+          "soft_scores": [
+            {
+              "criteria_name": "financial_modeling_experience",
+              "reasoning": "The candidate has extensive experience with portfolio construction, alternative risk premia, sovereign rates, credit risk, and FX modeling, which relates closely to financial modeling. Additionally, experience with ROI analysis, business valuation using Option Theory, and compensation design using Monte-Carlo simulation also indicates strong financial modeling skills relevant to portfolio optimization and derivatives pricing.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "python_quantitative_proficiency",
+              "reasoning": "The summary and experience do not explicitly mention Python proficiency or use of financial libraries such as QuantLib, so direct evidence is lacking. However, given roles in quantitative research and modeling, it is reasonable to infer some quantitative programming skills, but without explicit confirmation, a moderate score is assigned.",
+              "score": 5.0
+            },
+            {
+              "criteria_name": "high_stakes_environment",
+              "reasoning": "The candidate has worked at global investment firms such as PanAgora Asset Management, Standish Mellon Asset Management, and Fidelity Investments. These roles involved applying quantitative techniques in production settings and committee-level assessments, indicating experience in high-stakes environments.",
               "score": 9.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "m7_mba",
-              "reasoning": "Candidate earned an MBA from University of Chicago Booth School of Business, which is a prestigious M7 MBA program.",
+              "reasoning": "The candidate holds an MBA from MIT Sloan School of Management, which is a top-tier, M7 business school.",
               "passes": true
             },
             {
               "criteria_name": "three_plus_years_quant_finance",
-              "reasoning": "Candidate has multiple years at William Blair in quantitative roles involving risk model development, portfolio construction, and research, clearly exceeding 3 years of experience in quantitative finance.",
+              "reasoning": "The candidate has multiple years of experience in quantitative finance, holding relevant roles focused on valuation modeling, portfolio construction, and quantitative research at leading investment firms.",
               "passes": true
             }
           ],
-          "final_score": 86.66666666666667,
+          "final_score": 73.33333333333334,
           "raw_data": {
-            "_id": "6794a9480db3e79256714348",
-            "name": "Andrew D. Kominik",
-            "linkedinId": "andrewkominik"
+            "_id": "6794c5903e76d5b587225faa",
+            "name": "Vic Malla",
+            "linkedinId": "vmalla"
           }
         }
       ]
@@ -3548,36 +3548,36 @@
   {
     "query_name": "Bankers",
     "config_path": "bankers.yml",
-    "num_retrieved": 645,
-    "num_after_hard_filter": 609,
+    "num_retrieved": 646,
+    "num_after_hard_filter": 610,
     "top_ids": [
       "679680b33e76d5b58731f17e",
       "679506d9a1a09a48feaacd5b",
       "67949e237e0084c5fa6d3dc9",
       "67971a7df9f986ea7fc94c9e",
-      "679712323eff0c142a8d4798",
+      "679723f83e76d5b58737b049",
+      "679544f78d90554e606993e4",
       "679612fd7e0084c5fa7b013f",
+      "6795809aa1a09a48feaf7860",
       "679688fc3e76d5b587324363",
-      "6794cf78a1a09a48fea8a28b",
-      "6796555e8d90554e60736550",
-      "679723f83e76d5b58737b049"
+      "6794cf78a1a09a48fea8a28b"
     ],
     "top_names": [
       "Titus P.",
       "Chris Rogers",
       "Joshua Bleharski",
       "Jonathan Bluth",
-      "Frank G.",
+      "Michael Mandel",
+      "Bo Crowell",
       "Sameer Chugh",
+      "Vipul P.",
       "Kenneth Kulju",
-      "Anirudh Wable",
-      "Dmitri Aleevski",
-      "Michael Mandel"
+      "Anirudh Wable"
     ],
     "evaluation": {
       "config_name": "bankers",
       "num_candidates": 10,
-      "average_final_score": 89.33333333333334,
+      "average_final_score": 89.0,
       "average_soft_scores": [
         {
           "criteria_name": "healthcare_ma_transactions",
@@ -3592,7 +3592,7 @@
         {
           "criteria_name": "healthcare_metrics_knowledge",
           "reasoning": null,
-          "average_score": 8.1
+          "average_score": 8.0
         }
       ],
       "average_hard_scores": [
@@ -3765,42 +3765,81 @@
           }
         },
         {
-          "candidate_name": "Frank G.",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/frankgallinaro",
+          "candidate_name": "Michael Mandel",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/michael-mandel-0311175",
           "soft_scores": [
             {
               "criteria_name": "healthcare_investment_banking_experience",
-              "reasoning": "Frank has significant experience in healthcare-focused investment banking roles at RBC Capital Markets and H.C. Wainwright & Co., with roles such as Director and Vice President specifically in healthcare investment banking and equity capital markets. Additionally, his advanced degree focus on biotechnology adds depth in life sciences finance.",
-              "score": 9.0
+              "reasoning": "Michael has over 20 years of investment banking experience focused on healthcare, including leading roles at prominent healthcare investment banking teams and advisory in medical technology and life sciences sectors. This indicates highly specialized healthcare investment banking experience across sub-verticals.",
+              "score": 10.0
             },
             {
               "criteria_name": "healthcare_ma_transactions",
-              "reasoning": "His senior roles in healthcare investment banking imply involvement in M&A and capital markets transactions, though no explicit transaction details are provided. Given typical responsibilities for these roles, it is reasonable to assign a strong score.",
-              "score": 8.0
+              "reasoning": "Michael has led or been mandated in over 65 transactions with a focus on healthcare companies, including M&A and financial advisory, totaling over $17 billion in value. This denotes extensive direct experience in healthcare M&A deals.",
+              "score": 10.0
             },
             {
               "criteria_name": "healthcare_metrics_knowledge",
-              "reasoning": "Frank's education includes a Master's in Biotechnology Enterprise from Johns Hopkins, and his professional experience is heavily healthcare focused, indicating a solid understanding of healthcare-specific metrics and regulatory environments.",
-              "score": 8.0
+              "reasoning": "His advisory expertise includes corporate finance, financial modeling, valuation, and strategic advisory specifically within healthcare sub-sectors such as medical device and life sciences. This knowledge implies strong familiarity with healthcare-specific metrics, regulatory frameworks, and value creation strategies relevant to providers and payers.",
+              "score": 9.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "mba_us_university",
-              "reasoning": "Frank holds an MBA from Villanova University, which is a U.S. university.",
+              "reasoning": "Candidate holds an MBA in Finance from Columbia Business School, a well-known U.S. university.",
               "passes": true
             },
             {
               "criteria_name": "two_plus_years_banking",
-              "reasoning": "Frank has held multiple investment banking positions, including senior roles at RBC Capital Markets and H.C. Wainwright & Co., indicating well over two years of relevant experience.",
+              "reasoning": "Candidate has over 20 years of investment banking experience including at major firms, far exceeding the 2+ years requirement.",
               "passes": true
             }
           ],
-          "final_score": 83.33333333333334,
+          "final_score": 96.66666666666667,
           "raw_data": {
-            "_id": "679712323eff0c142a8d4798",
-            "name": "Frank G.",
-            "linkedinId": "frankgallinaro"
+            "_id": "679723f83e76d5b58737b049",
+            "name": "Michael Mandel",
+            "linkedinId": "michael-mandel-0311175"
+          }
+        },
+        {
+          "candidate_name": "Bo Crowell",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/bocrowell",
+          "soft_scores": [
+            {
+              "criteria_name": "healthcare_investment_banking_experience",
+              "reasoning": "The candidate has extensive specialized experience in healthcare investment banking across multiple top firms, covering healthcare services and technology, with comprehensive sector expertise including M&A advisory and capital markets.",
+              "score": 10.0
+            },
+            {
+              "criteria_name": "healthcare_ma_transactions",
+              "reasoning": "The candidate has originated and executed numerous strategic advisory and corporate finance transactions within healthcare services, including mergers, acquisitions, company sales, and leveraged buyouts, demonstrating strong M&A transaction experience.",
+              "score": 10.0
+            },
+            {
+              "criteria_name": "healthcare_metrics_knowledge",
+              "reasoning": "The candidate demonstrates deep knowledge of healthcare-specific financial models, valuation techniques, and transaction structures, indicating strong familiarity with healthcare metrics and value creation strategies.",
+              "score": 9.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "mba_us_university",
+              "reasoning": "The candidate holds an MBA from The Tuck School Of Business At Dartmouth, which is a U.S. university.",
+              "passes": true
+            },
+            {
+              "criteria_name": "two_plus_years_banking",
+              "reasoning": "The candidate has multiple years of experience in investment banking and healthcare-focused roles at Citi, UBS, Macquarie, Credit Suisse, and RBC Capital Markets, clearly exceeding two years.",
+              "passes": true
+            }
+          ],
+          "final_score": 96.66666666666667,
+          "raw_data": {
+            "_id": "679544f78d90554e606993e4",
+            "name": "Bo Crowell",
+            "linkedinId": "bocrowell"
           }
         },
         {
@@ -3840,6 +3879,45 @@
             "_id": "679612fd7e0084c5fa7b013f",
             "name": "Sameer Chugh",
             "linkedinId": "sameer-chugh"
+          }
+        },
+        {
+          "candidate_name": "Vipul P.",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/vipulbpatel77",
+          "soft_scores": [
+            {
+              "criteria_name": "healthcare_investment_banking_experience",
+              "reasoning": "Candidate has extensive experience in healthcare investment banking, including roles at Robert W. Baird & Co. and Deutsche Bank focused on healthcare subsectors such as life sciences, diagnostics, medical devices, and healthcare services.",
+              "score": 9.0
+            },
+            {
+              "criteria_name": "healthcare_ma_transactions",
+              "reasoning": "Candidate has led and contributed to multiple M&A advisory roles within healthcare, including comprehensive transaction origination and execution in investment banking and corporate law roles involving healthcare-focused deals.",
+              "score": 8.0
+            },
+            {
+              "criteria_name": "healthcare_metrics_knowledge",
+              "reasoning": "Candidate's experience in healthcare-focused M&A, insurance brokering with healthcare and life sciences expertise, and involvement in transaction diligence and strategy indicate solid familiarity with healthcare-specific metrics and regulatory frameworks.",
+              "score": 7.0
+            }
+          ],
+          "hard_scores": [
+            {
+              "criteria_name": "mba_us_university",
+              "reasoning": "Candidate holds an MBA in Finance from The University of Chicago Booth School Of Business, a U.S. university.",
+              "passes": true
+            },
+            {
+              "criteria_name": "two_plus_years_banking",
+              "reasoning": "Candidate has multiple years of investment banking experience in healthcare at Deutsche Bank and Robert W. Baird & Co., clearly exceeding two years.",
+              "passes": true
+            }
+          ],
+          "final_score": 80.00000000000001,
+          "raw_data": {
+            "_id": "6795809aa1a09a48feaf7860",
+            "name": "Vipul P.",
+            "linkedinId": "vipulbpatel77"
           }
         },
         {
@@ -3919,84 +3997,6 @@
             "name": "Anirudh Wable",
             "linkedinId": "anirudh-wable-1366b321"
           }
-        },
-        {
-          "candidate_name": "Dmitri Aleevski",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/dmitri-aleevski-28457788",
-          "soft_scores": [
-            {
-              "criteria_name": "healthcare_investment_banking_experience",
-              "reasoning": "The candidate has over 25 years of experience in international finance and investment banking with broad origination and execution experience in Healthcare sub-verticals including Pharma, Medtech, Life Sciences, and HealthTech. He also held senior healthcare investment banking roles at multiple firms.",
-              "score": 10.0
-            },
-            {
-              "criteria_name": "healthcare_ma_transactions",
-              "reasoning": "Candidate has executed over 150 transactions including M&A sell/buy-side, leveraged buyouts, minority buyouts, and has held senior roles heading M&A and corporate finance functions in healthcare and related sectors.",
-              "score": 10.0
-            },
-            {
-              "criteria_name": "healthcare_metrics_knowledge",
-              "reasoning": "Given the depth and breadth of healthcare experience including board roles and strategy advisories in Life Sciences and HealthTech, the candidate is likely well versed with healthcare-specific metrics, regulatory frameworks, and value creation strategies.",
-              "score": 9.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "mba_us_university",
-              "reasoning": "Candidate holds an MBA from University of Rochester - William E. Simon Graduate School of Business Administration, which is a U.S. university.",
-              "passes": true
-            },
-            {
-              "criteria_name": "two_plus_years_banking",
-              "reasoning": "Candidate has over 25 years of investment banking and corporate finance experience including multiple senior positions in investment banks, clearly exceeding 2 years.",
-              "passes": true
-            }
-          ],
-          "final_score": 96.66666666666667,
-          "raw_data": {
-            "_id": "6796555e8d90554e60736550",
-            "name": "Dmitri Aleevski",
-            "linkedinId": "dmitri-aleevski-28457788"
-          }
-        },
-        {
-          "candidate_name": "Michael Mandel",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/michael-mandel-0311175",
-          "soft_scores": [
-            {
-              "criteria_name": "healthcare_investment_banking_experience",
-              "reasoning": "Michael has over 20 years of investment banking experience focused on healthcare, including leading roles at prominent healthcare investment banking teams and advisory in medical technology and life sciences sectors. This indicates highly specialized healthcare investment banking experience across sub-verticals.",
-              "score": 10.0
-            },
-            {
-              "criteria_name": "healthcare_ma_transactions",
-              "reasoning": "Michael has led or been mandated in over 65 transactions with a focus on healthcare companies, including M&A and financial advisory, totaling over $17 billion in value. This denotes extensive direct experience in healthcare M&A deals.",
-              "score": 10.0
-            },
-            {
-              "criteria_name": "healthcare_metrics_knowledge",
-              "reasoning": "His advisory expertise includes corporate finance, financial modeling, valuation, and strategic advisory specifically within healthcare sub-sectors such as medical device and life sciences. This knowledge implies strong familiarity with healthcare-specific metrics, regulatory frameworks, and value creation strategies relevant to providers and payers.",
-              "score": 9.0
-            }
-          ],
-          "hard_scores": [
-            {
-              "criteria_name": "mba_us_university",
-              "reasoning": "Candidate holds an MBA in Finance from Columbia Business School, a well-known U.S. university.",
-              "passes": true
-            },
-            {
-              "criteria_name": "two_plus_years_banking",
-              "reasoning": "Candidate has over 20 years of investment banking experience including at major firms, far exceeding the 2+ years requirement.",
-              "passes": true
-            }
-          ],
-          "final_score": 96.66666666666667,
-          "raw_data": {
-            "_id": "679723f83e76d5b58737b049",
-            "name": "Michael Mandel",
-            "linkedinId": "michael-mandel-0311175"
-          }
         }
       ]
     },
@@ -4010,36 +4010,36 @@
     "top_ids": [
       "67967c8e3e76d5b58731cc4b",
       "67961666f9f986ea7fc00f04",
-      "679642528a14699f160d9be1",
+      "6794cc5b52a365d1167a7ea5",
       "67950bdf7e0084c5fa717ea4",
       "6796b588a1a09a48febafb2a",
       "6796f63c8d90554e60795c0e",
       "67952fb53eff0c142a7c9b14",
       "67963ed4f9f986ea7fc18075",
       "679512f28d90554e6067bece",
-      "6794aa6c3eff0c142a78a414"
+      "67972f648a14699f161607ba"
     ],
     "top_names": [
       "Rolf De Swardt",
       "Anton Meiris",
-      "Rui Paulo",
+      "Hamid Khakpour",
       "Mehrnaz Rouhi Youssefi",
       "Ran Zhou",
       "Younes Shabany",
       "Ali Hemmasizadeh",
       "Ankit Gupta",
       "E. Lemma",
-      "Amit Kumar Thawait"
+      "Siavash Sharifi"
     ],
     "evaluation": {
       "config_name": "mechanical_engineers",
       "num_candidates": 10,
-      "average_final_score": 85.33333333333334,
+      "average_final_score": 87.66666666666666,
       "average_soft_scores": [
         {
           "criteria_name": "cad_simulation_tools_experience",
           "reasoning": null,
-          "average_score": 8.5
+          "average_score": 8.7
         },
         {
           "criteria_name": "domain_specialization_mechanical",
@@ -4049,7 +4049,7 @@
         {
           "criteria_name": "product_lifecycle_involvement",
           "reasoning": null,
-          "average_score": 8.1
+          "average_score": 8.6
         }
       ],
       "average_hard_scores": [
@@ -4144,42 +4144,42 @@
           }
         },
         {
-          "candidate_name": "Rui Paulo",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/rui-paulo-8406a632",
+          "candidate_name": "Hamid Khakpour",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/hamidkhakpour",
           "soft_scores": [
             {
               "criteria_name": "cad_simulation_tools_experience",
-              "reasoning": "Candidate has experience with SolidWorks and other CAD tools like Catia and Inventor, as well as mechanical simulation tools including Abaqus, Femap, Patran/Nastran, Hyperworks, which are comparable to ANSYS.",
-              "score": 9.0
+              "reasoning": "Extensive experience with CAD tools such as SolidWorks, Catia, Inventor, and mechanical simulation tools including Ansys and Abaqus is demonstrated across multiple roles, including complex FEA, GD&T, and tolerance analysis.",
+              "score": 10.0
             },
             {
               "criteria_name": "product_lifecycle_involvement",
-              "reasoning": "Candidate has led development and design projects including conceptual and preliminary aircraft design, parametric modeling, and supported prototyping activities in R&D settings. Also involved in design and technical support roles, indicating good end-to-end product lifecycle involvement.",
-              "score": 8.0
+              "reasoning": "Candidate has demonstrated involvement in all stages of product lifecycle including initial concept design, prototyping, testing (e.g., wind tunnel testing, experimental work), and manufacturing supervision, as well as commercialization efforts and grant writing.",
+              "score": 10.0
             },
             {
               "criteria_name": "domain_specialization_mechanical",
-              "reasoning": "Strong specialization in structural analysis, computational mechanics, thermal system simulations (numerical heat transfer), and mechanical design in aerospace and industrial applications aligning well with thermal systems and structural analysis focus.",
+              "reasoning": "Strong domain specialization in structural analysis, thermal and aerodynamic systems (e.g., wind turbine blades), fatigue testing, tolerance analysis, electromechanical systems, control design and simulation, which covers key mechanical engineering domains requested.",
               "score": 9.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "higher_degree_mechanical",
-              "reasoning": "Candidate holds a Doctorate (PhD) in Mechanical Engineering from Universidade de Aveiro, an accredited university.",
+              "reasoning": "Candidate holds a Doctorate degree in Mechanical Engineering from University at Buffalo, an accredited university.",
               "passes": true
             },
             {
               "criteria_name": "three_plus_years_mechanical",
-              "reasoning": "Candidate has extensive professional experience spanning multiple years in mechanical design, product development, structural analysis, and R&D engineering roles, clearly surpassing three years.",
+              "reasoning": "Candidate has over 10 years of industrial experience in mechanical design and related fields, far exceeding the 3 years required.",
               "passes": true
             }
           ],
-          "final_score": 86.66666666666667,
+          "final_score": 96.66666666666667,
           "raw_data": {
-            "_id": "679642528a14699f160d9be1",
-            "name": "Rui Paulo",
-            "linkedinId": "rui-paulo-8406a632"
+            "_id": "6794cc5b52a365d1167a7ea5",
+            "name": "Hamid Khakpour",
+            "linkedinId": "hamidkhakpour"
           }
         },
         {
@@ -4417,42 +4417,42 @@
           }
         },
         {
-          "candidate_name": "Amit Kumar Thawait",
-          "candidate_linkedin_url": "https://www.linkedin.com/in/amit-kumar-thawait-079318192",
+          "candidate_name": "Siavash Sharifi",
+          "candidate_linkedin_url": "https://www.linkedin.com/in/siavash-sharifi",
           "soft_scores": [
             {
               "criteria_name": "cad_simulation_tools_experience",
-              "reasoning": "Candidate has extensive experience with ANSYS Mechanical and Fluent, MATLAB for FEM and simulations, but no explicit mention of CAD tools like SolidWorks or AutoCAD.",
-              "score": 7.0
+              "reasoning": "Candidate has experience with PTC Creo (a CAD tool), Ansys and COMSOL (mechanical simulation tools), meeting the criteria well.",
+              "score": 8.0
             },
             {
               "criteria_name": "product_lifecycle_involvement",
-              "reasoning": "Primary roles have been academic and research-focused (PhD, assistant professor, research assistant), with limited explicit evidence of involvement in end-to-end product lifecycle from concept to prototyping/manufacturing.",
-              "score": 4.0
+              "reasoning": "Candidate has supported prototyping and manufacturing roles, including rapid prototyping and manufacturing engineering, indicating good involvement across product lifecycle stages.",
+              "score": 7.0
             },
             {
               "criteria_name": "domain_specialization_mechanical",
-              "reasoning": "Strong specialization in fluid-structure interaction, fluid-thermal-structure interaction, and thermal systems analysis, which aligns well with domain specialization in thermal systems and fluid dynamics.",
+              "reasoning": "Candidate has expertise in Structural Design, Thermal and Multiphysics Simulation, and Robotics, showing strong domain specialization relevant to thermal systems and structural analysis.",
               "score": 9.0
             }
           ],
           "hard_scores": [
             {
               "criteria_name": "higher_degree_mechanical",
-              "reasoning": "Candidate holds a PhD in Mechanical Design from IIT Bombay, an accredited university.",
+              "reasoning": "Candidate holds a Ph.D. in Mechanical and Aerospace Engineering from an accredited university (Syracuse University).",
               "passes": true
             },
             {
               "criteria_name": "three_plus_years_mechanical",
-              "reasoning": "Candidate has multiple years of combined experience as assistant professor, research assistant, research scholar and R&D assistant manager which likely totals over three years relevant to mechanical design and product development.",
+              "reasoning": "Candidate is currently a Senior Mechanical Engineer with multiple prior roles related to mechanical design and product development, indicating well over three years of relevant experience.",
               "passes": true
             }
           ],
-          "final_score": 66.66666666666666,
+          "final_score": 80.0,
           "raw_data": {
-            "_id": "6794aa6c3eff0c142a78a414",
-            "name": "Amit Kumar Thawait",
-            "linkedinId": "amit-kumar-thawait-079318192"
+            "_id": "67972f648a14699f161607ba",
+            "name": "Siavash Sharifi",
+            "linkedinId": "siavash-sharifi"
           }
         }
       ]
